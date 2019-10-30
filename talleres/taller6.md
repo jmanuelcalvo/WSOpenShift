@@ -1,5 +1,5 @@
 # Talleres
-[Inicio](../ComandosOpenShift.md)
+[Inicio](../Inicio.md)
 
 ### NOTA:
 Antes de iniciar a trabajar con Ansible, garantice que las maquinas con las que se va a conectar tengan realcion de confianza por ssh.

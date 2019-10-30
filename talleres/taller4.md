@@ -1,5 +1,5 @@
 # Talleres
-[Inicio](../ComandosOpenShift.md)
+[Inicio](../Inicio.md)
 
 # Comandos Docker
 ![Docker1](docker1.png)

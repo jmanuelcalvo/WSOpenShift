@@ -20,6 +20,22 @@ https://etherpad.net/p/WSClaroEcuador
 ## Agenda
 ![Agenda](Agenda.png)
 
+
+# Laboratorios
+[Taller 1](talleres/taller1.md) - Iniciando con OpenShift - Comandos, creacion de recursos (proyectos, apps, svc, routes)
+
+[Taller 2](talleres/taller2.md) - Volumenes Persistentes, ConfigMap y Secrets
+
+[Taller 3](talleres/taller3.md) - Aplicaciones complejas (FrontEnd + BD + Datos Persistentes) 
+
+[Taller 4](talleres/taller4.md) - Trabajo con contenedores Docker
+
+[Taller 5](talleres/taller5.md) - Backup de OpenShift
+
+[Taller 6](talleres/taller6.md) - Tareas automatizadas con Ansible, Primeros pasos
+
+
+
 # Recursos de OpenShift
 ```
 Projects
@@ -195,18 +211,5 @@ Cuando el nodo vuelva a estar disponible, se debe poner nuevamente en status sch
 https://access.redhat.com/products/red-hat-insights/#getstarted
 
 
-
-# Tallers
-[Taller 1](talleres/taller1.md)
-
-[Taller 2](talleres/taller2.md)
-
-[Taller 3](talleres/taller3.md)
-
-[Taller 4](talleres/taller4.md)
-
-[Taller 5](talleres/taller5.md)
-
-[Taller 6](talleres/taller6.md)
 
 

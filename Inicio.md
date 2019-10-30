@@ -1,4 +1,4 @@
-# Acceso Cluster OpenShift Workshop Claro
+# Acceso Cluster OpenShift Workshop Ecuador
 
 ## Por Navegador
 ```

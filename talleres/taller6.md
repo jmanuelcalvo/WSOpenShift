@@ -64,10 +64,21 @@ Una vez indentificados los servidores, podemos trabajar con los diferentes modul
 | ansible  |  masters | -i hosts | -m shell | -a hostname |
 | ansible  |  masters | -i hosts | -m shell | -a ls /tmp |
 | ansible  |  infra | -i hosts | -m shell | -a "ip addr show eth0 |
-| ansible  |  all | -i hosts | -m file | -a 'path=/var/tmp/ansible_test.txt state=touch'|
-| ansible  |  all | -i hosts | -m file | -a 'path=/var/tmp/ansible_test.txt state=absent'|
-| ansible  |  apps | -i hosts | -m copy | -a 'src=/etc/hosts dest=/etc/hosts.jmanuel'|
+| ansible  |  all | -i hosts | -m file | -a 'path=/tmp/ansible_jmanuel.txt state=touch'|
+| ansible  |  all | -i hosts | -m file | -a 'path=/tmp/ansible_jmanuel.txt state=absent'|
+| ansible  |  apps | -i hosts | -m copy | -a 'src=/etc/hosts dest=/tmp/hosts.jmanuel'|
+| ansible  |  masters | -i hosts | -m copy | -a 'content="# Hola Mundo" dest=/tmp/hosts.jmanuel'|
 
+Crear un archivo
+```
+[user01@bastion ~]$ ansible all -i hosts -m file -a 'path=/tmp/ansible_jmanuel.txt state=touch'
+[user01@bastion ~]$ ansible all -i hosts -m shell -a 'ls /tmp/ansible_jmanuel.txt'
+```
+Escribir contenido en el archivo
+```
+[user01@bastion ~]$ ansible masters -i hosts -m copy -a 'content="# Hola Mundo" dest=/tmp/hosts.jmanuel'
+[user01@bastion ~]$ ansible masters -i hosts -m shell -a "cat /tmp/hosts.jmanuel"
+```
 
 
 ## Documentacion adicional
@@ -83,6 +94,69 @@ Visualizar un manual especifico
 [user01@bastion ~]$ ansible-doc copy
 ```
 
+## Creacion de playbooks
+A diferencia de los comandos ad-hoc, un usuario puede crear un libro de jugadas (playbooks) con todas las instrucciones que desea llamar
 
+```
 
-Una vez creado el archivo, podemos realizar las verificacion de estos grupos
+[user01@bastion ~]$ cat << copiar.yaml >
+---
+- name: Mi primer playbook
+  hosts: masters
+  tasks:
+  - name: Crear un archivo con contenido
+    copy:
+      content: 'Este es mi archivo de configuracion'
+      dest: /tmp/jmanuel.conf'
+EOF
+```
+
+Teniendo en cuenta que la sinstaxis de los archivos yaml es tan delicada con la identacion de los espacios, se debe recomienda hacer la validacion previa
+
+```
+[user01@bastion ~]$ ansible-playbook --syntax-check copiar.yaml
+
+playbook: copiar.yaml
+```
+ ```diff
+ - NOTA IMPORTANTE:
+ Los espacios en el archivo yaml NO PUEDEN SER TABULADOR, DEBEN SER ESPACIOS
+ ```
+Ejecutar el playbook
+```
+[user01@bastion ~]$ ansible-playbook -i hosts copiar.yaml
+
+PLAY [Mi primer playbook] *********************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************
+ok: [master3.1b84.internal]
+ok: [master1.1b84.internal]
+ok: [master2.1b84.internal]
+
+TASK [Copy using the 'content' for inline data] ***********************************************************************
+changed: [master3.1b84.internal]
+changed: [master2.1b84.internal]
+changed: [master1.1b84.internal]
+
+PLAY RECAP ************************************************************************************************************
+master1.1b84.internal      : ok=2    changed=1    unreachable=0    failed=0
+master2.1b84.internal      : ok=2    changed=1    unreachable=0    failed=0
+master3.1b84.internal      : ok=2    changed=1    unreachable=0    failed=0
+```
+
+El playbook se puede usar varias veces, Ansible es idempotente, lo que quiere decir que si ya se ejecuto la tarea, no se repite
+
+Validar el archivo creado
+
+```
+[user01@bastion ~]$ ansible masters -i hosts -m shell -a "cat /tmp/jmanuel.conf"
+master3.1b84.internal | SUCCESS | rc=0 >>
+# This file was moved to /etc/other.conf
+
+master2.1b84.internal | SUCCESS | rc=0 >>
+# This file was moved to /etc/other.conf
+
+master1.1b84.internal | SUCCESS | rc=0 >>
+# This file was moved to /etc/other.conf
+```
+

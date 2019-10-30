@@ -1,5 +1,5 @@
 # Talleres
-[Inicio](../inicio.md)
+[Inicio](../Inicio.md)
 
 
 # Taller No 1.

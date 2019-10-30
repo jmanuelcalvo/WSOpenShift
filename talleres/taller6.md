@@ -160,3 +160,73 @@ master1.1b84.internal | SUCCESS | rc=0 >>
 # This file was moved to /etc/other.conf
 ```
 
+
+
+
+
+
+
+
+
+# NOTA:
+NO REALIZAR ESTOS PASOS.
+De esta forma se alisto el servidor para este ultimo taller
+```
+[user01@bastion ~]$ cat install-httpd.yaml
+- name: Instalar httpd en un servidor
+  hosts: loadbalancer.1b84.internal
+  tasks:
+  - name: Instar el paquete
+    yum:
+      name: httpd
+      state: latest
+
+
+  - name: Configurar el puerto
+    lineinfile:
+      dest: /etc/httpd/conf/httpd.conf
+      regexp: "^Listen 80"
+      line: "Listen 81"
+      state: present
+
+  - name: Abrir puerto en el firewall
+    firewalld:
+      port: 81/tcp
+      permanent: true
+      state: enabled
+
+  - name: Reiniciar servicio de firewalld
+    service:
+      name: firewalld
+      state: restarted
+
+  - name: Iniciar el servicios
+    service:
+      name: httpd
+      state: started
+
+  - name: Crear carpeta para poner archivos web
+    file:
+      path: /var/www/html/users/
+      state: directory
+      mode: 0755
+```
+
+
+
+
+# Tarea
+Animese a crear un archivo con contenido web en el servidor: loadbalancer.1b84.internal sobre la carpeta /var/www/html/users/ con su nombre .html (ej jmanuel.html) sobre un playbook, utilice los modulos:
+
+* copy 
+* template
+* file
+
+y una vez ejecute su playbook la forma de validar que su contenido quedo creado sera:
+```
+[user01@bastion ~]$ elinks  http://loadbalancer.1b84.internal:81/users/jmanuel.html
+```
+o 
+```
+[user01@bastion ~]$ curl  http://loadbalancer.1b84.internal:81/users/jmanuel.html
+```

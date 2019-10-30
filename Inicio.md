@@ -172,24 +172,27 @@ oc set env dc/app1 --from secret/mysecret
 
 
 
-
 # Backup OpenShift
+## Ver taller 5
 
-## Backup de Proyectos
-Existe un procedimiento que se puede utilizar para realizar copias de seguridad de proyectos. El comando de exportación oc se utiliza para hacer una copia de seguridad de los objetos a nivel de proyecto. Ejecute el comando para cada objeto que se guardará. Por ejemplo, para hacer una copia de seguridad del archivo de configuración de implementación front-end llamado frontend como dc-frontend en formato YAML, ejecute el siguiente comando:
+Informacion oficial del proceso de backup y restauracion de OCP
+https://docs.openshift.com/dedicated/3/admin_guide/assembly_backing-up-restoring-project-application.html
 
+# Tareas de Apagado de un nodo de OpenShift
+https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html
 ```
-[user@master ~]$ oc export dc frontend -o yaml > dc-frontend.yaml
+[root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=false
+[root@bastion ~]# oc adm drain node3.1b84.internal --delete-local-data --ignore-daemonsets
+[root@bastion ~]# ssh  node3.1b84.internal reboot
 ```
-Backup de un proyecto entero
+Cuando el nodo vuelva a estar disponible, se debe poner nuevamente en status schedulable
 ```
-[user@master ~]$ oc export all -o yaml > project.yaml
+[root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=false
 ```
-## Application Data Backup
-Use el comando oc rsync para hacer una copia de seguridad de los datos de la aplicación cuando rsync está instalado dentro de un contenedor. También puede usar soluciones de almacenamiento como Cinder, Gluster y NFS.
 
-## Project Restore
-Para restaurar un proyecto, debe volver a crear todo el proyecto y todos los objetos que se exportaron durante el procedimiento de copia de seguridad. Use el comando oc create para restaurar los objetos que se guardaron.
+
+## Red Hat Insights
+https://access.redhat.com/products/red-hat-insights/#getstarted
 
 
 

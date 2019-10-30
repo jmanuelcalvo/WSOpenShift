@@ -3,6 +3,9 @@
 
 # Backup OpenShift
 
+Informacion oficial del proceso de backup y restauracion de OCP
+https://docs.openshift.com/dedicated/3/admin_guide/assembly_backing-up-restoring-project-application.html
+
 ### NOTA para este taller se crea un nuevo proyecto y se crea una nueva aplicacion
 
 ## Backup de Proyectos

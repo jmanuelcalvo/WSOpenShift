@@ -3,7 +3,7 @@
 
 # Backup OpenShift
 
-### NOTA para este taller se utiliza la plantilla de Wordpress cargada en el laboratorio anterior
+### NOTA para este taller se crea un nuevo proyecto y se crea una nueva aplicacion
 
 ## Backup de Proyectos
 Existe un procedimiento que se puede utilizar para realizar copias de seguridad de proyectos. El comando de exportación oc se utiliza para hacer una copia de seguridad de los objetos a nivel de proyecto. Ejecute el comando para cada objeto que se guardará. Por ejemplo, para hacer una copia de seguridad del archivo de configuración de implementación front-end llamado frontend como dc-frontend en formato YAML, ejecute el siguiente comando:
@@ -14,9 +14,15 @@ Existe un procedimiento que se puede utilizar para realizar copias de seguridad 
 Backup de un proyecto entero.
 Valide el proyecto en el que se encuentra actualmente
 ```
-[user01@bastion ~]$ oc  project
-Using project "jmanuel-wordpress2" on server "https://loadbalancer.1b84.example.opentlc.com:443".
+[user01@bastion ~]$ oc new-project jmanuel-backup
+[user01@bastion ~]$ oc project
+Using project "jmanuel-backup" on server "https://loadbalancer.1b84.example.opentlc.com:443".
 ```
+Cree una nueva aplicacion
+```
+[user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=backup
+```
+
 Cree una carpeta donde almacenara los backups
 ```
 [user01@bastion ~]$ mkdir backup
@@ -34,11 +40,10 @@ Use el comando oc rsync para hacer una copia de seguridad de los datos de la apl
 
 Verifique los pods que se encuentran creados
 ```
-[user01@bastion backup]$ oc get pod
-NAME                           READY     STATUS      RESTARTS   AGE
-my-wordpress-site-1-build      0/1       Completed   0          6h
-my-wordpress-site-1-gxxlh      1/1       Running     2          6h
-my-wordpress-site-db-1-dcph9   1/1       Running     1          6h
+[user01@bastion ~]$ oc get pod
+NAME             READY     STATUS      RESTARTS   AGE
+backup-1-build   0/1       Completed   0          6m
+backup-1-sstcd   1/1       Running     0          5m
 ```
 Ingrese a ellos y ubique la carpeta donde se encuentran los datos
 Para las imagenes con PHP la carpeta de datos es
@@ -55,7 +60,7 @@ sh-4.2$ pwd
 ```
 Descargue a la carpeta local los datos a traves de rsync
 ```
-[user01@bastion backup]$ oc rsync my-wordpress-site-1-gxxlh:/opt/app-root/src .
+[user01@bastion backup]$ oc rsync backup-1-sstcd:/opt/app-root/src .
 [user01@bastion backup]$ oc rsync my-wordpress-site-db-1-dcph9:/var/lib/mysql/data .
 
 ```
@@ -65,14 +70,14 @@ Para restaurar un proyecto, debe volver a crear todo el proyecto y todos los obj
 
 Elimine el proyecto
 ```
-[user01@bastion backup]$ oc delete project jmanuel-wordpress2
-project.project.openshift.io "jmanuel-wordpress2" deleted
+[user01@bastion backup]$ oc delete project jmanuel-backup
+project.project.openshift.io "jmanuel-backup" deleted
 ```
 Cree nuevamente el proyecto 
 ###NOTA: El nombre del proyecto debe ser igual al anterior
 ```
-[user01@bastion backup]$ oc new-project  jmanuel-wordpress2
-Already on project "jmanuel-wordpress2" on server "https://loadbalancer.1b84.example.opentlc.com:443".
+[user01@bastion backup]$ oc new-project  jmanuel-backup
+Already on project "jmanuel-backup" on server "https://loadbalancer.1b84.example.opentlc.com:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -93,11 +98,8 @@ Cargue los recursos de nuevo proyecto
 ```
 [user01@bastion backup]$ oc create -f project.yaml
 
-[user01@bastion backup]$ oc get pod
-NAME                            READY     STATUS     RESTARTS   AGE
-my-wordpress-site-1-6mpfn       0/1       Pending    0          2m
-my-wordpress-site-1-build       0/1       Init:0/2   0          2m
-my-wordpress-site-1-deploy      1/1       Running    0          2m
-my-wordpress-site-db-1-92v69    0/1       Pending    0          2m
-my-wordpress-site-db-1-deploy   1/1       Running    0          2m
+[user01@bastion ~]$ oc get pod
+NAME             READY     STATUS      RESTARTS   AGE
+backup-1-build   0/1       Completed   0          6m
+backup-1-sstcd   1/1       Running     0          5m
 ```

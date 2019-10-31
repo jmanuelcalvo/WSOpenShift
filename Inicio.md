@@ -1,5 +1,10 @@
 # Acceso Cluster OpenShift Workshop Ecuador
 
+## Arquitectura de referencia
+
+![Ref](Base OpenShift Diagram - Arch Pods.png)
+
+
 ## Por Navegador
 ```
 https://loadbalancer.1b84.example.opentlc.com/

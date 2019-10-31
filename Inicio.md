@@ -14,8 +14,8 @@ oc login https://loadbalancer.1b84.internal:443 -u user40 -p redhat01
 ## Notas Compartidas
 https://etherpad.net/p/WSClaroEcuador
 
-## Facilitador / Consultor Red Hat
-# Jose Manuel Calvo I
+## Facilitador / Consultor Red Hat
+Jose Manuel Calvo I
 
 ## Agenda
 ![Agenda](Agenda.png)
@@ -38,18 +38,18 @@ https://etherpad.net/p/WSClaroEcuador
 
 
 # Almacenamiento
-## Ver taller 2
 
-## Creacion de configMap
-## Creacion de Secret
-
+* Creacion de configMap
+* Creacion de Secret
+### Ver taller 2
 
 # Backup OpenShift
-## Ver taller 5
+### Ver taller 5
 
 Informacion oficial del proceso de backup y restauracion de OCP
 https://docs.openshift.com/dedicated/3/admin_guide/assembly_backing-up-restoring-project-application.html
 
+# Operacion Cluster OpenShift - Varios
 # Tareas de Apagado de un nodo de OpenShift
 https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html
 ```

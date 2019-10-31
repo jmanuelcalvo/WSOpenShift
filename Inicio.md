@@ -50,7 +50,7 @@ Informacion oficial del proceso de backup y restauracion de OCP
 https://docs.openshift.com/dedicated/3/admin_guide/assembly_backing-up-restoring-project-application.html
 
 # Operacion Cluster OpenShift - Varios
-# Tareas de Apagado de un nodo de OpenShift
+Procedimiento de apagado/mantenimiento de un nodo de OpenShift
 https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html
 ```
 [root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=false
@@ -59,7 +59,7 @@ https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html
 ```
 Cuando el nodo vuelva a estar disponible, se debe poner nuevamente en status schedulable
 ```
-[root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=false
+[root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=true
 ```
 
 ## Red Hat Insights

@@ -2,8 +2,6 @@
 
 ## Arquitectura de referencia
 
-![Ref](Base OpenShift Diagram - Arch Pods.png)
-
 
 ![Ref](Base%20OpenShift%20Diagram%20-%20Arch%20Pods.png)
 

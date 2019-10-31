@@ -8,17 +8,12 @@ https://loadbalancer.1b84.example.opentlc.com/
 ## Acceso por SSH a la maquina Bastion
 ```
 ssh user40@bastion.1b84.example.opentlc.com
-oc login https://loadbalancer.1b84.internal:443 -u user40 -p redhat01
+oc login https://loadbalancer.1b84.internal:443 -u user40 -p redhatXX
 ```
 
-## Notas Compartidas
-https://etherpad.net/p/WSClaroEcuador
 
 ## Facilitador / Consultor Red Hat
 Jose Manuel Calvo I
-
-## Agenda
-![Agenda](Agenda.png)
 
 
 # Laboratorios

@@ -8,13 +8,13 @@
 
 ## Por Navegador
 ```
-https://loadbalancer.1b84.example.opentlc.com/
+https://loadbalancer.xxx.example.opentlc.com/
 ```
 
 ## Acceso por SSH a la maquina Bastion
 ```
-ssh user40@bastion.1b84.example.opentlc.com
-oc login https://loadbalancer.1b84.internal:443 -u user40 -p redhatXX
+ssh user40@bastion.xxxx.example.opentlc.com
+oc login https://loadbalancer.xxxx.internal:443 -u user40 -p redhatXX
 ```
 
 
@@ -54,9 +54,9 @@ https://docs.openshift.com/dedicated/3/admin_guide/assembly_backing-up-restoring
 Procedimiento de apagado/mantenimiento de un nodo de OpenShift
 https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html
 ```
-[root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=false
-[root@bastion ~]# oc adm drain node3.1b84.internal --delete-local-data --ignore-daemonsets
-[root@bastion ~]# ssh  node3.1b84.internal reboot
+[root@bastion ~]# oc adm manage-node node3.xxxx.internal --schedulable=false
+[root@bastion ~]# oc adm drain node3.xxxx.internal --delete-local-data --ignore-daemonsets
+[root@bastion ~]# ssh  node3.xxxx.internal reboot
 ```
 Cuando el nodo vuelva a estar disponible, se debe poner nuevamente en status schedulable
 ```

@@ -272,6 +272,8 @@ Events:
 ```
   
 7. Publique la aplicacion que acaba de crear
+
+![RouteFlow](routerflow.png)
 - Valide si se encuentra la ruta (router creado)
 ```
 [user01@bastion ~]$ oc get route

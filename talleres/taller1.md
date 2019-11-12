@@ -34,7 +34,7 @@ oc logout		     # Desloguearse de un cluster de OpenShift
 oc delete project	     # Elimiar un proyecto y todo sus recursos
 ```
 
-## Ejemplos
+## Ejemplos
 ```
 oc login https://loadbalancer.1b84.internal:443 -u user40 -p redhat01
 oc new-project myapp
@@ -42,14 +42,14 @@ oc project myapp
 oc delete project myapp
 ```
 
-# Creacion y eliminar de aplicaciones en OpenShift basadas en:
+# Creacion y eliminar de aplicaciones en OpenShift basadas en:
 ```
 oc new-app -S php
 oc new-app -S --template=ruby 		  # Plantillas de OCP
 oc new-app -S --image-stream=mysql	# Imagenes cargadas previamente en el servidor de registro de OCP
 oc new-app -S --docker-image=python	# Imagenes de un servidor de registro de Docker
 ```
-## Ejemplos
+## Ejemplos
 
 OpenShift se encarga de conocer el lenguaje de programacion que se encuentra en el repo git y selecciona la imagen (is) requerida ej: php, ruby, java
 ```

@@ -16,12 +16,17 @@ Los PVC pueden ser de 3 tipos:
 
 ![Modos](pvc.png)
 
+
+
 ### PVC - Persistent Volume Claims
 
 Los PVC son específicos de un proyecto y son creados y utilizados por los desarrolladores como un medio para usar un PV. Los recursos PV por sí solos no están sujetos a un solo proyecto; se pueden compartir en todo el clúster de OpenShift Enterprise y reclamar desde cualquier proyecto. Sin embargo, después de que un PV se ha unido a un PVC, ese PV no se puede unir a PVC adicionales.
 
 ### PV - Persistent Volume
 Los PV se definen mediante un objeto API PersistentVolume, que representa una parte del almacenamiento en red existente en el clúster que ha sido aprovisionado por un administrador. Es un recurso en el clúster al igual que un nodo es un recurso de clúster. Los objetos PV capturan los detalles de la implementación del almacenamiento, ya sea NFS, iSCSI o un sistema de almacenamiento específico del proveedor de la nube como por ejemplo OCS (OpenShift Container Storage)
+
+![PVC](storageclaim.jpg)
+
 
 ### OpenShift Container Storage
 OpenShift Container Storage adiciona un componente adicional, gracias a este componente, las aplicaciones solicitan un PVC a Heketi a traves de un servicio REST y heketi se encarga de crear un PV a nivel del servicio de Gluster.

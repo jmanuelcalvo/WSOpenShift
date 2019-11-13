@@ -25,7 +25,7 @@ Los PVC son específicos de un proyecto y son creados y utilizados por los desar
 ### PV - Persistent Volume
 Los PV se definen mediante un objeto API PersistentVolume, que representa una parte del almacenamiento en red existente en el clúster que ha sido aprovisionado por un administrador. Es un recurso en el clúster al igual que un nodo es un recurso de clúster. Los objetos PV capturan los detalles de la implementación del almacenamiento, ya sea NFS, iSCSI o un sistema de almacenamiento específico del proveedor de la nube como por ejemplo OCS (OpenShift Container Storage)
 
-![PVC](storageclaim.jpg)
+![PVC](storageclaim.png)
 
 
 ### OpenShift Container Storage

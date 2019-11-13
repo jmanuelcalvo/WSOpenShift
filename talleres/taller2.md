@@ -1,7 +1,7 @@
 # Talleres
 [Inicio](../Inicio.md)
 
-
+Por defecto los contenedores son efimeros, lo que quiere decir que estos no almacenan datos de forma persistente, si un pod  se elimina o se crean mas pods en un proyecto, cada uno de estos se iniciara con la informacion base, por consiguiente se tienen diferentes formas de almacenar los datos, ya sea a traves de los recursos como Persitent Volume Claims, Config Maps, Secrets entre otros.
 
 
 # A traves de Volumenes persistentes:

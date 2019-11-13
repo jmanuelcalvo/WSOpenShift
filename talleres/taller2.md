@@ -36,6 +36,12 @@ OpenShift Container Storage adiciona un componente adicional, gracias a este com
 # Taller No 2.
 Taller de datos persistentes para las aplicaciones utilizando NFS
 
+NOTA: Antes de inciar este taller, verifique que tenga un proyecto creado, de lo contrario, cree uno nuevo
+
+```
+oc new-project project01-storage
+```
+
 # Adicionar Volumen a un pod existente
 
 1. Cree un archivo llamado data01.yml y defina el tipo de almacenamiento 

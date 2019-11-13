@@ -9,10 +9,11 @@
 ## Antes de iniciar
 Antes de iniciar, tenga en cuenta que a este workshop ingresaran varias personas, por lo que previo a esto es necesario que cada uno seleccione un numero de usuario y con este trabajara durante todos los talleres
 Ejemplo:
-user01 - Jose Manuel 
-user02 - German Pulido
-user03 - Camilo Astros
-user04 - Camilo Mendez
+
+* user01 - Jose Manuel 
+* user02 - German Pulido
+* user03 - Camilo Astros
+* user04 - Camilo Mendez
 
 y asi sucesivamente, una vez tenga SU usuario, durante los talleres reemplaze userXX por user04 (o su usuario asignado)
 

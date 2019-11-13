@@ -1,4 +1,4 @@
-# Acceso Cluster OpenShift Workshop Ecuador
+# Acceso Cluster OpenShift Workshop OpenShift
 
 ## Arquitectura de referencia
 
@@ -8,13 +8,13 @@
 
 ## Por Navegador
 ```
-https://loadbalancer.xxx.example.opentlc.com/
+https://loadbalancer.e9bb.example.opentlc.com/
 ```
 
 ## Acceso por SSH a la maquina Bastion
 ```
-ssh user40@bastion.xxxx.example.opentlc.com
-oc login https://loadbalancer.xxxx.internal:443 -u user40 -p redhatXX
+ssh user40@bastion.e9bb.example.opentlc.com
+oc login https://loadbalancer.e9bb.internal:443 -u user40 -p redhatXX
 ```
 
 

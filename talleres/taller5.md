@@ -31,8 +31,15 @@ Cree una carpeta donde almacenara los backups
 [user01@bastion ~]$ mkdir backup
 [user01@bastion ~]$ cd backup/
 [user01@bastion backup]$ oc get -o yaml --export all > project.yaml
-
 ```
+Exporte los role bindings, secrets, service accounts, y persistent volume claims del proyecto
+```
+$ for object in rolebindings serviceaccounts secrets imagestreamtags cm egressnetworkpolicies rolebindingrestrictions limitranges resourcequotas pvc templates cronjobs statefulsets hpa deployments replicasets poddisruptionbudget endpoints
+do
+  oc get -o yaml --export $object > $object.yaml
+done
+```
+
 Verifique el contenido del archivo generado
 ```
 [user01@bastion backup]$ more project.yaml
@@ -99,10 +106,14 @@ Cargue los recursos de nuevo proyecto
 - NOTA: Tenga en cuenta que este comando muestra algunos errores, haga caso omiso
 ```
 ```
+[user01@bastion backup]$  oc create -f secret.yaml
+[user01@bastion backup]$  oc create -f serviceaccount.yaml
+[user01@bastion backup]$  oc create -f pvc.yaml
+[user01@bastion backup]$  oc create -f rolebindings.yaml
 [user01@bastion backup]$ oc create -f project.yaml
-
 [user01@bastion ~]$ oc get pod
 NAME             READY     STATUS      RESTARTS   AGE
 backup-1-build   0/1       Completed   0          6m
 backup-1-sstcd   1/1       Running     0          5m
+
 ```

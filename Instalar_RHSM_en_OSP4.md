@@ -254,8 +254,3 @@ spec:
     ...
 ```
 
-
-
-
-
-  + Seleccionar regla basada en el URI de solicitud (request URI)

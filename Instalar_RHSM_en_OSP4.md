@@ -73,4 +73,14 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
 
 ![Ref](tm03.png)
 
+## Rule Configuration
++ Red Hat OpenShift service mesh proporciona un modelo de configuración simple
+  + Controla cómo las llamadas API y el tráfico de capa 4 fluyen a través de los servicios en la implementación de aplicaciones
+  + Le permite configurar propiedades de nivel de servicio, por ejemplo,  disyuntores, tiempos de espera, reintentos (circuit breakers, timeouts, retries)
++ También puede configurar tareas comunes de implementación continua:
+  + Lanzamientos canarios ( Canary rollouts )
+  + Pruebas A / B ( A/B testing )
+  + Lanzamientos por etapas con divisiones de tráfico basadas en porcentajes ( Staged rollouts with percent-based traffic splits )
+
++ Reglas de configuración deben ser definidas en un archivo de configuración YAML
 

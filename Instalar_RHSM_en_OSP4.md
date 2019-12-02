@@ -73,7 +73,9 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
 
 ![Ref](tm03.png)
 
-## Configuración de regla
+
+
+# Configuración de regla
 + Red Hat OpenShift service mesh proporciona un modelo de configuración simple
   + Controla cómo las llamadas API y el tráfico de capa 4 fluyen a través de los servicios en la implementación de aplicaciones
   + Le permite configurar propiedades de nivel de servicio, por ejemplo,  disyuntores, tiempos de espera, reintentos (circuit breakers, timeouts, retries)
@@ -84,6 +86,8 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
 
 + Reglas de configuración deben ser definidas en un archivo de configuración YAML
 + Cinco recursos de configuración de gestión de tráfico en Red Hat OpenShift service mesh
+## Recursos
+
 ![Ref](tm04.png)
 
 ### Ejemplo VirtualService:
@@ -147,8 +151,111 @@ $ oc create review-virtual-service.yaml
 ```
 
 
+# División de tráfico (Traffic Splitting)
++ Cada regla de ruta identifica uno o más weighted back ends ponderados para llamar cuando se activa la regla
++ Cada back-end corresponde a la versión del servicio de destino.
+  + Versiones expresadas con etiquetas
 
-### Host:
-Puede o no ser igual a la carga de trabajo de destino real
++ Se enrutan varias instancias registradas con la misma etiqueta según la política de balanceo de carga configurada para el servicio
+  + Predeterminado: Round-robin
 
-Puede no corresponder al servicio enrutable real en mesh
+### Ejemplo
++ Enrute el 75% del tráfico para el servicio reviews a instancias con etiqueta v1
++ Enrute el 25% restante a v2
+
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 75
+    - destination:
+        host: reviews
+        subset: v2
+      weight: 25
+```
+
+
+# Reglas condicionales (Conditional Rules )
++ Puede calificar las reglas para aplicar solo a las solicitudes que coinciden con una condición específica
++ Ejemplos:
+  + Restrinja a cargas de trabajo específicas del cliente utilizando etiquetas de carga de trabajo (workload labels)
+  + Seleccionar regla basada en encabezados HTTP (HTTP headers)
+  + Seleccionar regla basada en el URI de solicitud (request URI)
+  
+### Ejemplo Restringir usando Workload Labels
+Las reglas se aplican a las llamadas desde instancias de carga de trabajo (pods) que:
+
+Implementar servicio de revisiones
+
+Tengan la etiqueta v2
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - match:
+    - sourceLabels:
+        app: reviews
+        version: v2
+    route:
+    ...
+```
+
+### Ejemplo Basado en HTTP Headers
++ La regla se aplica a la solicitud entrante si:
+  + La solicitud incluye un encabezado HTTP personalizado (end-user)  para el usuario final
+  + El encabezado contiene una cadena de cliente de gold (gold-customer)
+  
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: gold-customer
+    route:
+    ...
+```
+
+### Ejemplo Basado en Request URI
+La regla se aplica a la solicitud si la ruta URI comienza con /api/v1
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: productpage
+spec:
+  hosts:
+    - productpage
+  http:
+  - match:
+    - uri:
+        prefix: /api/v1
+    route:
+    ...
+```
+
+
+
+
+
+  + Seleccionar regla basada en el URI de solicitud (request URI)

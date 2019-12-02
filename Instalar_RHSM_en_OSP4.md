@@ -87,6 +87,9 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
 ![Ref](tm04.png)
 
 ### Ejemplo VirtualService:
+#### VirtualService
+Define reglas que controlan cómo se enrutan las solicitudes de servicio dentro de la malla de servicios
+
 Envíe el 100% del tráfico entrante al servicio reviews a la versión v1
 ```
 vim review-virtual-service.yaml
@@ -104,7 +107,11 @@ spec:
         host: reviews
         subset: v1
 ```    
+
 ### Ejemplo DestinationRule:
+#### RuleDestination
+Las reglas de enrutamiento corresponden a uno o más hosts de destino especificados en la configuración de VirtualService
+
 Puede adicionar politicas en DestinationRule
 Ejemplo usando balanceador de cargas aleatorio (random )
 ```
@@ -139,12 +146,9 @@ $ oc create review-destination-rule.yaml
 $ oc create review-virtual-service.yaml
 ```
 
-### VirtualService
-Define reglas que controlan cómo se enrutan las solicitudes de servicio dentro de la malla de servicios
 
-### RuleDestination
-Las reglas de enrutamiento corresponden a uno o más hosts de destino especificados en la configuración de VirtualService
 
 ### Host:
 Puede o no ser igual a la carga de trabajo de destino real
+
 Puede no corresponder al servicio enrutable real en mesh

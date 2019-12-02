@@ -83,4 +83,58 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
   + Lanzamientos por etapas con divisiones de tráfico basadas en porcentajes ( Staged rollouts with percent-based traffic splits )
 
 + Reglas de configuración deben ser definidas en un archivo de configuración YAML
++ Cinco recursos de configuración de gestión de tráfico en Red Hat OpenShift service mesh
+![Ref](tm04.png)
 
+### Ejemplo VirtualService:
+Envíe el 100% del tráfico entrante al servicio reviews a la versión v1
+```
+vim review-virtual-service.yaml
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+```    
+### Ejemplo DestinationRule:
+Puede adicionar politicas en DestinationRule
+Ejemplo usando balanceador de cargas aleatorio (random )
+```
+vim review-destination-rule.yaml
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+```
+
+### Aplicando Reglas
+Para configurar reglas, use la utilidad de línea de comandos oc
+Reglas aplicadas directamente, No es necesario reiniciar servidores o aplicaciones
+```
+# Create the destination rule
+$ oc create review-destination-rule.yaml
+
+# Create the virtual service
+$ oc create review-virtual-service.yaml
+```

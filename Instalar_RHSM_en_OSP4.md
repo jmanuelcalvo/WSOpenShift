@@ -66,14 +66,14 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
    + Tags associados con fuente/destino
    + Pesos asignados a cada versión
 
-## Ingress and Egress
+## Ingreso y egreso
 + En Red Hat OpenShift service mesh, el tráfico que ingresa y sale de la malla del servicio transita a través de servidores proxy Envoy
 + Tener un proxy Envoy frente a los servicios le permite realizar pruebas A/B, implementar despliegues canary, etc.
 + Para acceder a servicios externos, agregue funciones de recuperación de fallas (failure-recovery): tiempos de espera (timeouts), reintentos (retries), etc.
 
 ![Ref](tm03.png)
 
-## Rule Configuration
+## Configuración de regla
 + Red Hat OpenShift service mesh proporciona un modelo de configuración simple
   + Controla cómo las llamadas API y el tráfico de capa 4 fluyen a través de los servicios en la implementación de aplicaciones
   + Le permite configurar propiedades de nivel de servicio, por ejemplo,  disyuntores, tiempos de espera, reintentos (circuit breakers, timeouts, retries)

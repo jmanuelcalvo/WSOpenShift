@@ -64,5 +64,7 @@ Comunicación entre servicios
 - Las reglas de enrutamiento permiten a Envoy seleccionar la versión en función de las condiciones, como:
 
 > Headers
+
 > Tags associados con fuente/destino
+
 > Pesos asignados a cada versión

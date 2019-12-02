@@ -33,8 +33,8 @@ Red Hat® OpenShift® service mesh traffic management desacompla el decouples tr
 * Ejemplo: El Service A llama al Service B
 
 Use Pilot para especificar que desea:
-95% del tráfico enrutado al Service B, pods 1–3
-5% del tráfico enrutado al Service B, pod 4
+> 95% del tráfico enrutado al Service B, pods 1–3
+> 5% del tráfico enrutado al Service B, pod 4
 
 ![Ref](tm01.png)
 
@@ -63,6 +63,6 @@ Comunicación entre servicios
 - Envoy determina el servicio para usar dinámicamente en función de las reglas de enrutamiento configuradas con Pilot
 - Las reglas de enrutamiento permiten a Envoy seleccionar la versión en función de las condiciones, como:
 
-* Headers
-* Tags associados con fuente/destino
-* Pesos asignados a cada versión
+> Headers
+> Tags associados con fuente/destino
+> Pesos asignados a cada versión

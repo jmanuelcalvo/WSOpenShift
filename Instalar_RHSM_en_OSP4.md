@@ -23,10 +23,10 @@ oc process -f $HOME/openshift-ansible/istio/istio_product_operator_template.yaml
 ```
 
 
-# Componentes de Service Mesh
-Pilot
-Mixer
-Envoy
+# Componentes de Service Mesh
+* Pilot
+* Mixer
+* Envoy
 
 # Traffic Management
 

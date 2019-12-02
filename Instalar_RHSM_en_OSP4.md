@@ -56,7 +56,7 @@ Cada instancia de proxy de Envoy obtiene y mantiene información de configuraci�
 ## Mixer
 
 # Solicitudes de enrutamiento
-Comunicación entre servicios
+## Comunicación entre servicios
 + Los clientes de servicio no tienen conocimiento de las diferentes versiones de servicio.
 + Los clientes acceden a los servicios utilizando el hostname del servicio o IP
 + Envoy proxy/sidecar intercepta, reenvia solicitudes/respuestas entre el cliente y el servicio
@@ -65,3 +65,12 @@ Comunicación entre servicios
    + Headers
    + Tags associados con fuente/destino
    + Pesos asignados a cada versión
+
+## Ingress and Egress
++ En Red Hat OpenShift service mesh, el tráfico que ingresa y sale de la malla del servicio transita a través de servidores proxy Envoy
++ Tener un proxy Envoy frente a los servicios le permite realizar pruebas A/B, implementar despliegues canary, etc.
++ Para acceder a servicios externos, agregue funciones de recuperación de fallas (failure-recovery): tiempos de espera (timeouts), reintentos (retries), etc.
+
+![Ref](tm03.png)
+
+

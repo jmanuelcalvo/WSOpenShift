@@ -138,3 +138,13 @@ $ oc create review-destination-rule.yaml
 # Create the virtual service
 $ oc create review-virtual-service.yaml
 ```
+
+### VirtualService
+Define reglas que controlan cómo se enrutan las solicitudes de servicio dentro de la malla de servicios
+
+### RuleDestination
+Las reglas de enrutamiento corresponden a uno o más hosts de destino especificados en la configuración de VirtualService
+
+### Host:
+Puede o no ser igual a la carga de trabajo de destino real
+Puede no corresponder al servicio enrutable real en mesh

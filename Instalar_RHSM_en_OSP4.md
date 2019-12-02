@@ -26,36 +26,38 @@ oc process -f $HOME/openshift-ansible/istio/istio_product_operator_template.yaml
 
 # Traffic Management
 
-Red Hat® OpenShift® service mesh traffic management decouples traffic flow and infrastructure scaling
+Red Hat® OpenShift® service mesh traffic management desacompla el decouples traffic flow and infrastructure scaling
 
-Use Pilot to specify rules for traffic management between pods
+Use Pilot para especificar reglas para la gestión del tráfico entre pods
 
-Pilot and Envoy manage which pods receive traffic
+Pilot y Envoy gestionan qué pods reciben tráfico
 
-Example: Service A calls Service B
+Ejemplo: El Service A llama al Service B
 
-Use Pilot to specify that you want:
+Use Pilot para especificar que desea:
 
-95% of traffic routed to Service B, pods 1–3
+95% del tráfico enrutado al Service B, pods 1–3
 
-5% of traffic routed to Service B, pod 4
+5% del tráfico enrutado al Service B, pod 4
 
 ![Ref](tm01.png)
 
 
 
 # Componentes de Service Mesh
-* Pilot
-Manages and configures Envoy proxy (sidecar) instances in service mesh
-Allows you to specify routing rules to use between services in service mesh
-Enables service discovery, dynamic updates for load balancing, routing tables
+## Pilot
 
-* Envoy
-Each Envoy proxy instance gets and maintains configuration information from Pilot
+* Administra y configura instancias de proxy Envoy (sidecar) en la malla de servicio
+* Le permite especificar reglas de enrutamiento para usar entre servicios en la malla de servicios
+* Permite el descubrimiento de servicios, actualizaciones dinámicas para el balanceador de carga, tablas de enrutamiento
+
+## Envoy
+Cada instancia de proxy de Envoy obtiene y mantiene información de configuración de Pilot
+
 ![Ref](tm02.png)
 
 
-* Mixer
+## Mixer
 
 # Solicitudes de enrutamiento
 Comunicación entre servicios

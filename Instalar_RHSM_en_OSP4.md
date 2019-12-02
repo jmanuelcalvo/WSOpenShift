@@ -44,5 +44,5 @@ Use Pilot to specify that you want:
 
 5% of traffic routed to Service B, pod 4
 
-![Ref](img/tm01.png)
+![Ref](tm01.png)
 

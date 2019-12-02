@@ -10,17 +10,17 @@ istio-installation-full.yaml: Full Red Hat OpenShift service mesh installation, 
 Examples must be customized before deployment
 
 1. Clonar el proyecto:
-
+```
 git clone https://github.com/Maistra/openshift-ansible
-
+```
 2. Crear un nuevo proyecto istio-operator:
-
+```
 oc new-project istio-operator --display-name="Service Mesh Operator"
-
+```
 3. Crear el operator:
-
+```
 oc process -f $HOME/openshift-ansible/istio/istio_product_operator_template.yaml --param=OPENSHIFT_ISTIO_MASTER_PUBLIC_URL=$(oc whoami --show-server) | oc create -f -
-
+```
 
 
 # Componentes de Service Mesh
@@ -43,3 +43,6 @@ Use Pilot to specify that you want:
 95% of traffic routed to Service B, pods 1–3
 
 5% of traffic routed to Service B, pod 4
+
+![Ref](img/tm01.png)
+

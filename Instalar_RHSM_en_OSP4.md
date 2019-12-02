@@ -1,3 +1,25 @@
+#  Red Hat OpenShift Service Mesh
+
+Basado en el proyecto de código abierto Istio, Red Hat OpenShift Service Mesh agrega una capa transparente en las aplicaciones distribuidas existentes sin requerir ningún cambio en el código de servicio. Agrega soporte de Red Hat OpenShift Service Mesh a los servicios mediante la implementación de un proxy especial de sidecar a los servicios relevantes en la malla que intercepta toda la comunicación de red entre microservicios. Usted configura y administra la malla de servicio utilizando las características del plano de control.
+
+Red Hat OpenShift Service Mesh le brinda una manera fácil de crear una red de servicios implementados que brindan:
+
+Descubrimiento ( Discovery )
+Balanceo de carga ( Load balancing )
+Autenticación de servicio a servicio ( Service-to-service authentication )
+Recuperación de fallas ( Failure recovery )
+Métrica ( Metrics )
+Monitoring ( Monitoreo )
+
+Service Mesh también proporciona funciones operativas más complejas que incluyen:
+
+Pruebas A / B ( A/B testing )
+Lanzamientos canarios ( Canary releases )
+Limitación de velocidad ( Rate limiting )
+Control de acceso ( Access control )
+Autenticación de extremo a extremo ( End-to-end authentication )
+
+
 # Instalacion de Istio como Operador
 
 

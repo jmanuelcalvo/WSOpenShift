@@ -28,13 +28,13 @@ oc process -f $HOME/openshift-ansible/istio/istio_product_operator_template.yaml
 
 Red Hat® OpenShift® service mesh traffic management desacompla el decouples traffic flow and infrastructure scaling
 
-* Use Pilot para especificar reglas para la gestión del tráfico entre pods
-* Pilot y Envoy gestionan qué pods reciben tráfico
-* Ejemplo: El Service A llama al Service B
++ Use Pilot para especificar reglas para la gestión del tráfico entre pods
++ Pilot y Envoy gestionan qué pods reciben tráfico
++ Ejemplo: El Service A llama al Service B
 
-Use Pilot para especificar que desea:
-> 95% del tráfico enrutado al Service B, pods 1–3
-> 5% del tráfico enrutado al Service B, pod 4
++ Use Pilot para especificar que desea:
+  + 95% del tráfico enrutado al Service B, pods 1–3
+  + 5% del tráfico enrutado al Service B, pod 4
 
 ![Ref](tm01.png)
 

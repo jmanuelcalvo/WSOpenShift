@@ -23,10 +23,6 @@ oc process -f $HOME/openshift-ansible/istio/istio_product_operator_template.yaml
 ```
 
 
-# Componentes de Service Mesh
-* Pilot
-* Mixer
-* Envoy
 
 # Traffic Management
 
@@ -46,3 +42,28 @@ Use Pilot to specify that you want:
 
 ![Ref](tm01.png)
 
+
+
+# Componentes de Service Mesh
+* Pilot
+- Manages and configures Envoy proxy (sidecar) instances in service mesh
+- Allows you to specify routing rules to use between services in service mesh
+- Enables service discovery, dynamic updates for load balancing, routing tables
+
+* Envoy
+- Each Envoy proxy instance gets and maintains configuration information from Pilot
+![Ref](tm02.png)
+
+
+* Mixer
+
+# Request Routing
+Communication Between Services
+- Los clientes de servicio no tienen conocimiento de las diferentes versiones de servicio.
+- Los clientes acceden a los servicios utilizando el hostname del servicio o IP
+- Envoy proxy/sidecar intercepta, reenvia solicitudes/respuestas entre el cliente y el servicio
+- Envoy determina el servicio para usar dinámicamente en función de las reglas de enrutamiento configuradas con Pilot
+- Las reglas de enrutamiento permiten a Envoy seleccionar la versión en función de las condiciones, como:
+**Headers
+**Tags associados con fuente/destino
+**Pesos asignados a cada versión

@@ -5,7 +5,7 @@
 
 ## Garantizar que los pods de un proyecto se ejecuten en nodos especificos
 
-![Ref](nodeselectort.jpg)
+![Ref](ndoeselectort.jpg)
 
 Por defecto OpenShift implementa 3 ROLES que son Master, Infra y Compute, en una configuracion por defecto los pods de las aplicaciones se ubican siobre los nodos marcados con el ROL de compute, gracias a que en la configuracion por defecto se encuentra este parametro:
 ```

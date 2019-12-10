@@ -48,6 +48,9 @@ Jose Manuel Calvo I
 
 [Taller 6](talleres/taller6.md) - Tareas automatizadas con Ansible, Primeros pasos
 
+[Taller 7](talleres/taller7.md) - Tareas de Operacion de OpenShift
+
+
 
 
 

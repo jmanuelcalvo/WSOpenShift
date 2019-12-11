@@ -48,7 +48,7 @@ ocs4.dominio.com.co   Ready     compute   98d       v1.11.0+d4cacc0
 
 3. Validar los labels
 ```
-[root@serv-mdemsbtn1 ~]# oc get nodes -L label
+[root@bastion ~]# oc get nodes -L label
 NAME                   STATUS    ROLES     AGE       VERSION            LABEL
 app01.dominio.com.co   Ready     compute   98d       v1.11.0+d4cacc0    dev
 app02.dominio.com.co   Ready     compute   98d       v1.11.0+d4cacc0    dev
@@ -72,7 +72,13 @@ oc new-app ...
 ```
 ## Poner un nodeSelector por defecto
 
-NOTA: Edite el archivo de configuración de los masters en /etc/origin/master/master-config.yaml y agregue un valor para un selector de nodo predeterminado. Esto se aplica a los pods creados en todos los proyectos sin un valor especificado de nodeSelector
+* NOTA1: Edite el archivo de configuración de los masters en /etc/origin/master/master-config.yaml y agregue un valor para un selector de nodo predeterminado. Esto se aplica a los pods creados en todos los proyectos sin un valor especificado de nodeSelector
+
+* NOTA2: Esta configuracion requiere de reinicio de servicios con los comandos
+```
+[root@bastion ~]# master-restart api
+[root@bastion ~]# master-restart controllers
+```
 * Documentacion
 * https://access.redhat.com/documentation/en-us/openshift_container_platform/3.11/html/cluster_administration/admin-guide-managing-projects#setting-the-cluster-wide-default-node-selector
 

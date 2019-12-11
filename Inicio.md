@@ -27,7 +27,7 @@ https://loadbalancer.2775.example.opentlc.com/
 ## Acceso por SSH a la maquina Bastion
 ```
 ssh user0X@bastion.2775.example.opentlc.com
-oc login https://loadbalancer.2775.internal:443 -u user40 -p redhatXX
+oc login https://loadbalancer.2775.internal:443 -u user0X -p redhat01
 ```
 
 

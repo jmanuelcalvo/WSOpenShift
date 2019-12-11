@@ -146,7 +146,7 @@ user01
 ```
 3. Cree un nuevo proyecto
 ```
-[user01@bastion ~]$ oc new-project project01
+[user01@bastion ~]$ oc new-project project0X
 - Now using project "project01" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
@@ -157,7 +157,7 @@ to build a new example application in Ruby.
 ```
 4. Cree una nueva aplicacion utilizando la metodologia s2i de donde el source es un repo git y la image es php
 ```
-[user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app01
+[user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app0X
 --> Found image ab2fbc4 (13 days old) in image stream "openshift/php" under tag "7.1" for "php"
 
     Apache 2.4 with PHP 7.1

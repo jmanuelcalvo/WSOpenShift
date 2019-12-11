@@ -36,7 +36,7 @@ oc delete project	     # Elimiar un proyecto y todo sus recursos
 
 ## Ejemplos
 ```
-oc login https://loadbalancer.1b84.internal:443 -u user40 -p redhat01
+oc login https://loadbalancer.2775.internal:443 -u user40 -p redhat01
 oc new-project myapp
 oc project myapp
 oc delete project myapp
@@ -142,12 +142,12 @@ user01
 ```
 2. En caso que no este logueado, loguese con su usuario (contraseña redhat01)
 ```
-[user01@bastion ~]$  oc login https://loadbalancer.1b84.example.opentlc.com -u user0X
+[user01@bastion ~]$  oc login https://loadbalancer.2775.example.opentlc.com -u user0X
 ```
 3. Cree un nuevo proyecto
 ```
 [user01@bastion ~]$ oc new-project project01
-- Now using project "project01" on server "https://loadbalancer.1b84.internal:443".
+- Now using project "project01" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -307,10 +307,10 @@ deploymentconfig.apps.openshift.io/app01 scaled
 ```
 y validar que el comando curl ahora muestra los 3 IPs diferentes (es probable que en principio solo vea 1 IP, ejecute el comando curl repetidas veces)
 ```
-[user01@bastion ~]$ curl http://app01-project01.apps.1b84.example.opentlc.com/hostname.php
+[user01@bastion ~]$ curl http://app01-project01.apps.2775.example.opentlc.com/hostname.php
 Esta es la version 1 de la app. Se ejecuta en el host -> app01-1-tdbdn (10.1.10.114)
 
-[user01@bastion ~]$ curl http://app01-project01.apps.1b84.example.opentlc.com/hostname.php
+[user01@bastion ~]$ curl http://app01-project01.apps.2775.example.opentlc.com/hostname.php
 Esta es la version 1 de la app. Se ejecuta en el host -> app01-1-b8gbm (10.1.14.149)
 ```
 

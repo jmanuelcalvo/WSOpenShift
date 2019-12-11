@@ -70,6 +70,7 @@ oc adm new-project apps-qa --node-selector='label=qa'
 ```
 oc new-app ...
 ```
+## Poner un nodeSelector por defecto
 
 NOTA: Edite el archivo de configuración de los masters en /etc/origin/master/master-config.yaml y agregue un valor para un selector de nodo predeterminado. Esto se aplica a los pods creados en todos los proyectos sin un valor especificado de nodeSelector
 * Documentacion

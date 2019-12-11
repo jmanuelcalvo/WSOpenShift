@@ -1,9 +1,9 @@
-# Acceso Cluster OpenShift Workshop OpenShift
+# Acceso Cluster OpenShift Workshop Despliegue de aplicaciones en OpenShift
 
-## Arquitectura de referencia
+## Imagen de referencia
 
 
-![Ref](Base%20OpenShift%20Diagram%20-%20Arch%20Pods.png)
+![Ref](deploy.png)
 
 
 ## Antes de iniciar

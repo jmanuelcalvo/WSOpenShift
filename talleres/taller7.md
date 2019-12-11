@@ -7,7 +7,7 @@
 
 ![Ref](ndoeselectort.jpg)
 
-Por defecto OpenShift implementa 3 ROLES que son Master, Infra y Compute, en una configuracion por defecto los pods de las aplicaciones se ubican siobre los nodos marcados con el ROL de compute, gracias a que en la configuracion por defecto se encuentra este parametro:
+Por defecto OpenShift implementa 3 ROLES que son Master, Infra y Compute, en una configuracion por defecto los pods de las aplicaciones se ubican sobre los nodos marcados con el ROL de compute, gracias a que en la configuracion por defecto se encuentra este parametro:
 ```
 [root@bastion ~]# vim /etc/origin/master/master-config.yaml
 ...

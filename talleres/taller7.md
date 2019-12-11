@@ -3,7 +3,7 @@
 
 # Tareas de Operacion de OpenShift
 
-## Garantizar que los pods de un proyecto se ejecuten en nodos especificos
+## Garantizar que los pods de un proyecto se ejecuten en nodos especificos
 
 ![Ref](ndoeselectort.jpg)
 

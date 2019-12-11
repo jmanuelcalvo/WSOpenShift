@@ -61,11 +61,15 @@ inf03.dominio.com.co   Ready     infra     98d       v1.11.0+d4cacc0
 ```
 
 4. Crear los proyecto especificando un NodeSelector que indique donde se van a ubicar fisicamente los pods del proyecto
+```
 oc adm new-project apps-dev --node-selector='label=dev'
 oc adm new-project apps-qa --node-selector='label=qa'
+```
 
 5. Desplegar las aplicaciones en cada proyecto
-
+```
+oc new-app ...
+```
 
 NOTA: Edite el archivo de configuración de los masters en /etc/origin/master/master-config.yaml y agregue un valor para un selector de nodo predeterminado. Esto se aplica a los pods creados en todos los proyectos sin un valor especificado de nodeSelector
 * Documentacion

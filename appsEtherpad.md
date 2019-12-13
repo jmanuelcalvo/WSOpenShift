@@ -1,10 +1,11 @@
-#Despliegue de aplicacion Etherpath
+# Despliegue de aplicacion Etherpath
 
 * informacion obtenida del repositorio
-wkulhanek/docker-openshift-etherpad
+https://github.com/wkulhanek/docker-openshift-etherpad
 
 
-# Etherpad Container for Red Hat OpenShift
+
+## Etherpad Container for Red Hat OpenShift
 
 This repository provides an Etherpad Container to be run on Red Hat OpenShift. While you can build it yourself the easiest way to set up is to just deploy the image:
 

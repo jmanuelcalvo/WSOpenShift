@@ -20,18 +20,41 @@ to build a new example application in Ruby.
 [root@bastion ~]# oc create -f https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-persistent-template.yaml
 template.template.openshift.io/gogs created
 ```
+
 NOTA en caso que no exista la plantilla puede descargar una copia de mi repositorio
+
 ```
 [root@bastion ~]# oc create -f https://raw.githubusercontent.com/jmanuelcalvo/WSOpenShift/master/gogs-persistent-template.yaml
 ```
+
 * Desde la interfase web, ingrese al proyecto y busque dentro de las aplicaciones la palabra gogs
+
 ![Ref](img/gogs1.png)
 
+
 * Proceda con el proceso de despliegue
+
 ![Ref](img/gogs2.png)
 
 * Por ultimo, debe concer cual es su dominio Wildcard, ya que este debe ser asociado en los parametros de configuracion
+
 ![Ref](img/gogs3.png)
 
-* Una vez haga click en el boton create, y espere mientras se finaliza correctamente la creacion de los pods
+* Haga click en el boton create, y espere mientras se finaliza correctamente la creacion de los pods
+
 ![Ref](img/gogs4.png)
+
+
+* Una vez desplegada la aplicacion, haga click en la ruta
+
+![Ref](img/gogs5.png)
+
+* Ya tiene una aplicacion GOGS desplegada correctamente sobre OpenShift, ahora debe ir al boton de Register para crear un usuario administrativo
+
+![Ref](img/gogs6.png)
+
+
+* Cree un usuario administrativo (evite el nombre admin por que esta reservado) y este nuevo usuario tendra los privilegios para la configuracion del resto de la aplicacion con privilegios de usuario Super Admin
+
+![Ref](img/gogs7.png)
+

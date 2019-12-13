@@ -24,4 +24,14 @@ NOTA en caso que no exista la plantilla puede descargar una copia de mi reposito
 ```
 [root@bastion ~]# oc create -f https://raw.githubusercontent.com/jmanuelcalvo/WSOpenShift/master/gogs-persistent-template.yaml
 ```
+* Desde la interfase web, ingrese al proyecto y busque dentro de las aplicaciones la palabra gogs
+![Ref](img/gogs1.png)
 
+* Proceda con el proceso de despliegue
+![Ref](img/gogs2.png)
+
+* Por ultimo, debe concer cual es su dominio Wildcard, ya que este debe ser asociado en los parametros de configuracion
+![Ref](img/gogs3.png)
+
+* Una vez haga click en el boton create, y espere mientras se finaliza correctamente la creacion de los pods
+![Ref](img/gogs4.png)

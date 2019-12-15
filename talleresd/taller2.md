@@ -145,7 +145,9 @@ yum install http://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/t/
 
 ![Ref](../img/tig.png)
 
-# Trabajo con RAMAS / BRANCH
+## Trabajo con RAMAS / BRANCH
 https://desarrolloweb.com/articulos/trabajar-ramas-git.html
 
+## Informacion adicional de git
+https://github.com/INMEGEN/taller.supercomputo/blob/master/presentaciones/git.md
 

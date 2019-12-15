@@ -36,7 +36,7 @@ Jose Manuel Calvo I
 
 
 # Laboratorios
-[Taller 1](talleresd/taller1.md) - Despliegue de aplicaciones s2i
+[Taller 1](talleresd/taller1.md) - Despliegue de aplicaciones desde Docker y s2i
 
 [Taller 2](talleresd/taller2.md) - Uso de repositorios GIT
 

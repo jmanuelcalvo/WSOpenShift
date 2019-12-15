@@ -19,4 +19,5 @@ Se utiliza el OpenShift para que ejecute una imagen de contenedor que normalment
 
 ![Ref](docker-stategy.jpg)
 
-## Custom
+# Taller DOCKER
+[Inicio](../Docker.md)

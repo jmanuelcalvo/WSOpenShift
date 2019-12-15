@@ -16,11 +16,15 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 
 
 # Iniciar basico con GIT
-Una vez creado el repositiorio en su servidor de repositiorios este puede ser inicializado desde la consola web o desde la terminal de comandos
+Una vez creado el repositiorio en su servidor de repositiorios este puede ser inicializado desde la consola web o desde la terminal de comandos asi:
+
+* Consola Web
 
 ![Ref](../img/repo1.png)
 
+* Terminal de comandos
 En caso de querer realizar esta actividad por la terminal se deben seguir estos pasos:
+```
 [server@bastion ~]$ mkdir proyecto01
 [server@bastion ~]$ cd proyecto01/
 [server@bastion ~]$ touch README.md
@@ -41,6 +45,65 @@ Total 3 (delta 0), reused 0 (delta 0)
 To http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
  * [new branch]      master -> master
 Branch master set up to track remote branch master from origin.
+```
+
+# Comandos basicos
+Una vez adicione un archivo en su carpeta local o realice el cambios recuerde que estos cambios en principio se encuentran en su carpeta local
+
+git diff - permite visualizar las diferencias entre los archivos desde cuando descargo su ultima copia y las modificaciones que ha realizado
+```
+[server@bastion proyecto1]$ git diff 
+```
+
+git add - Adiciona un archivo o varios al contenido de su copia local
+
+```
+[server@bastion proyecto1]$ git add Archivo
+
+En caso de contar con muchos nuevos archivos puede usar el caracter . este carga todos los archivos nuevos y modificados
+
+[server@bastion proyecto1]$ git add .
+```
+
+git commit - Permite adicionar una descripcion de las modificaciones de esta version
+```
+[server@bastion proyecto1]$ git commit
+
+Ingresa a una terminal con el editor VIM donde puede adicionar los comentarios de la version
+
+[jcalvo-redhat.com@bastion abc]$ git commit -m "Descripcion de la version que estaba modificando"
+
+Ingresa la descripcion desde el comando
+```
+
+git log - Permite visualizar las diferentes versiones del proyecto
+```
+[server@bastion proyecto1]$ git log
+```
+
+git checkout version - Para volver a una version anterior de todo nuestro directorio de trabajo
+```
+[server@bastion proyecto1]$ git checkout d19a75ef658aaea3d14f9e3c8856946d72ca19c9 
+o puede unicamente recuerar un archivo de una version especifica
+
+[server@bastion proyecto1]$ git checkout version -- archivo
+```
+
+git push - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
+```
+[server@bastion proyecto1]$ git push
+[jcalvo-redhat.com@bastion abc]$ git push
+Username for 'http://gogs.apps.2775.example.opentlc.com': jmanuel
+Password for 'http://jmanuel@gogs.apps.2775.example.opentlc.com':
+Counting objects: 6, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 381 bytes | 0 bytes/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
+   d19a75e..69f1276  master -> master
+
+```
 
 
 
@@ -82,6 +145,7 @@ yum install http://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/t/
 
 ![Ref](../img/tig.png)
 
-
+# Trabajo con RAMAS / BRANCH
+https://desarrolloweb.com/articulos/trabajar-ramas-git.html
 
 

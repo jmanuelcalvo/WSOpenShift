@@ -8,7 +8,7 @@ Usa una base de datos central que contiene todos los archivos cuyas versiones se
 ## Copia de trabajo
 Cada colaborador tiene su propia copia de trabajo en su computador local. Usted puede obtener la última versión del repositorio, trabajar en ella localmente sin perjudicar a nadie, y cuando esté feliz con los cambios que ha realizado puede confirmar sus cambios en el repositorio.
 
-![Ref](img/repo.png)
+![Ref](../img/repo.png)
 
 El repositorio almacena información en forma de un árbol de archivos, Un número de clientes se conectan al repositorio, y luego leen o escriben esos archivos.
 Al escribir datos, el cliente hace que la información esté disponible para los otros; al leer los datos, el cliente recibe información de los demás.
@@ -18,7 +18,7 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 # Iniciar basico con GIT
 Una vez creado el repositiorio en su servidor de repositiorios este puede ser inicializado desde la consola web o desde la terminal de comandos
 
-![Ref](img/repo1.png)
+![Ref](../img/repo1.png)
 
 En caso de querer realizar esta actividad por la terminal se deben seguir estos pasos:
 [server@bastion ~]$ mkdir proyecto01
@@ -80,7 +80,7 @@ En caso que no este instalada se puede descargar en RHEL7 asi:
 yum install http://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/t/tig-2.4.0-1.el7.x86_64.rpm
 ```
 
-![Ref](img/tig.png)
+![Ref](../img/tig.png)
 
 
 

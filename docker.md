@@ -4,19 +4,20 @@
 
 2. Valide que tenga una cuenta en un servidor de repositorios git
 http://gogs.apps.2775.example.opentlc.com
-user01  - redhat01
-user02  - redhat01
-user03  - redhat01
-user04  - redhat01
-user05  - redhat01
-O si ya cuenta con una en GitHub
-github.com
+
+* user01  - redhat01
+* user02  - redhat01
+* user03  - redhat01
+* user04  - redhat01
+* user05  - redhat01
+
+O si ya cuenta con una en GitHub github.com
 
 3. Cree un repo desde al interfase web llamado app01
 IMPORTANTE: al momento de crear el repo, seleccione:
 Initialize this repositorio with selected files and templates
 
-![Ref](img/projects.png)
+![Ref](img/app01.png)
 
 4. Dentro de la maquina bastion descargue su repositorio
 ```

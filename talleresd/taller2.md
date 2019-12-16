@@ -96,7 +96,7 @@ Cree un archivo index.html con contenido similar al siguiente
 [user0X@bastion proyecto01]$ echo "<h1>Esta es la pagina web de Jose Manuel Calvo</h1>" > index.html
 ```
 
-#Comandos basicos
+# Comandos basicos
 
 Una vez adicione un archivo en su carpeta local o realice el cambios recuerde que estos cambios en principio se encuentran en su carpeta local
 

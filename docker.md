@@ -67,7 +67,7 @@ docker images
 
 8. Realícele las pruebas locales
 ```
-docker run -d -p 8080:8080 --name=app01 docker.io/jmanuelcalvo/app01
+docker run -d -p 80XX:8080 --name=app01 docker.io/jmanuelcalvo/app01
 ```
 
 9. Ingrese al contenedor y valide que todo esta funcionando de la forma deseada

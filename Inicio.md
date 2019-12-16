@@ -1,4 +1,4 @@
-# Acceso Cluster OpenShift Workshop OpenShift
+# Workshop OpenShift Conceptos Generales
 
 ## Arquitectura de referencia
 
@@ -54,7 +54,7 @@ Jose Manuel Calvo I
 
 ------------
 
-# Acceso Cluster OpenShift Workshop Despliegue de aplicaciones en OpenShift
+# Workshop Despliegue de aplicaciones en OpenShift
 
 ## Imagen de referencia
 

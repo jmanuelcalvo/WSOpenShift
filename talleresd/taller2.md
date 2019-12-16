@@ -8,9 +8,7 @@
 
 # Conectarse por SSH / Putty a la maquina
 
-## bastion.2775.example.opentlc.com
-
-con el usuario user0X
+### bastion.2775.example.opentlc.com con el usuario user0X
 
 # Conceptos básicos de control de versiones
 ## Repositorio
@@ -26,29 +24,40 @@ Al escribir datos, el cliente hace que la información esté disponible para los
 Lo que hace al repositorio de especial es que recuerda todos los cambios que alguna vez se hayan escrito en él: cada cambio en cada archivo, e incluso los cambios en el propio árbol de directorios, como el añadir, borrar o reorganizar archivos y directorios.
 
 
-# Iniciar basico con GIT
+# Taller - Iniciar un repositorio basico con GIT
 Una vez creado el repositiorio en su servidor de repositiorios este puede ser inicializado desde la consola web o desde la terminal de comandos asi:
 
-* Consola Web
+## Opcion 1
+* Desde la Consola Web
 http://git.apps.2775.example.opentlc.com 
 
 ![Ref](../img/repo1.png)
 
-* Terminal de comandos
+
+## Opcion 2
+* Desde la Terminal de comandos
 En caso de querer realizar esta actividad por la terminal se deben seguir estos pasos:
 ```
-[server@bastion ~]$ mkdir proyecto01
-[server@bastion ~]$ cd proyecto01/
-[server@bastion ~]$ touch README.md
-[server@bastion ~]$ git init
+[user0X@bastion ~]$ mkdir proyecto01
+
+[user0X@bastion ~]$ cd proyecto01/
+
+[user0X@bastion ~]$ touch README.md
+
+[user0X@bastion ~]$ git init
+
 Initialized empty Git repository in /home/jcalvo-redhat.com/abc/.git/
-[server@bastion ~]$ git add README.md
-[server@bastion ~]$ git commit -m "first commit"
+
+[user0X@bastion ~]$ git add README.md
+
+[user0X@bastion ~]$ git commit -m "first commit"
 [master (root-commit) d19a75e] first commit
  1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 README.md
-[server@bastion ~]$ git remote add origin http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
-[server@bastion ~]$ git push -u origin master
+
+[user0X@bastion ~]$ git remote add origin http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
+
+[user0X@bastion ~]$ git push -u origin master
 Username for 'http://gogs.apps.2775.example.opentlc.com': jmanuel
 Password for 'http://jmanuel@gogs.apps.2775.example.opentlc.com':
 Counting objects: 3, done.
@@ -59,68 +68,101 @@ To http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
 Branch master set up to track remote branch master from origin.
 ```
 
+***NOTA*** Si realizo los pasos de la **Opcion 1** debe realizar este paso para guardar su copia en la terminal local
+
+Copie el URL de su repositorio
+
+![Ref](img/repo2.png)
+
+Vaya a la terminal y ejecute el siguiente comando
+```
+[user0X@bastion ~]$ git clone http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
+Cloning into 'proyecto01'...
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 4 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (4/4), done.
+[user0X@bastion ~]$ cd proyecto01
+```
+
+Cree un archivo con archivo index.html con contenido
+```
+[user0X@bastion proyecto01]$ echo "<h1>Esta es la pagina web de Jose Manuel Calvo</h1>" > index.html
+```
+
 # Comandos basicos
 Una vez adicione un archivo en su carpeta local o realice el cambios recuerde que estos cambios en principio se encuentran en su carpeta local
 
 git diff - permite visualizar las diferencias entre los archivos desde cuando descargo su ultima copia y las modificaciones que ha realizado
+Ponga nueva informacion sobre el archivo README.md y valide las diferencias
 ```
-[server@bastion proyecto1]$ git diff 
+[user14@bastion proyecto01]$ echo "Nueva informacion del archivo README" >> README.md
+[user0X@bastion proyecto1]$ git diff 
 ```
 
 git add - Adiciona un archivo o varios al contenido de su copia local
 
 ```
-[server@bastion proyecto1]$ git add Archivo
-
-En caso de contar con muchos nuevos archivos puede usar el caracter . este carga todos los archivos nuevos y modificados
-
-[server@bastion proyecto1]$ git add .
+[user0X@bastion proyecto1]$ git add .
 ```
 
 git commit - Permite adicionar una descripcion de las modificaciones de esta version
 ```
-[server@bastion proyecto1]$ git commit
-
-Ingresa a una terminal con el editor VIM donde puede adicionar los comentarios de la version
-
 [jcalvo-redhat.com@bastion abc]$ git commit -m "Descripcion de la version que estaba modificando"
-
-Ingresa la descripcion desde el comando
 ```
+***NOTA*** En caso que le aparezca un mensaje indicando ***Please tell me who you are.*** debe configurar su terminal con su nombre de usuario y correo electronico, con el fin de que el git tenga informacion de quien esta realizando cambios y realice nuevamente el commit
+
+```
+[user0X@bastion proyecto01]$ git config --global user.email "user0X@example.com"
+[user0X@bastion proyecto01]$ git config --global user.name "Usuario 0X"
+[user0X@bastion proyecto01]$ git commit -m "Descripcion de la version que estaba modificando"
+[master 8c74aae] Descripcion de la version que estaba modificando
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ create mode 100644 a
+```
+
 
 git log - Permite visualizar las diferentes versiones del proyecto
 ```
-[server@bastion proyecto1]$ git log
+[user14@bastion proyecto01]$ git log
+commit 8c74aae03e063178415e311ab9ab4dbd8337aec1
+Author: Usuario 14 <user14@example.com>
+Date:   Mon Dec 16 18:53:13 2019 +0000
+
+    Descripcion de la version que estaba modificando
+
+commit 3025dfd7c36bbd501c4bf8b163048e82998e2f44
+Author: user14 <user14@redhat.com>
+Date:   Mon Dec 16 18:42:45 2019 +0000
+
+    Initial commit
 ```
 
 git checkout version - Para volver a una version anterior de todo nuestro directorio de trabajo
-```
-[server@bastion proyecto1]$ git checkout d19a75ef658aaea3d14f9e3c8856946d72ca19c9 
-o puede unicamente recuerar un archivo de una version especifica
 
-[server@bastion proyecto1]$ git checkout version -- archivo
+***NOTA*** Ejecutelo unicamente en caso que quiera regresar a la version anterior 
 ```
+[user0X@bastion proyecto1]$ git checkout d19a75ef658aaea3d14f9e3c8856946d72ca19c9 
+```
+
+***NOTA*** Puede unicamente recuerar un archivo de una version especifica **git checkout version -- archivo**
 
 git push - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
 ```
-[server@bastion proyecto1]$ git push
-[jcalvo-redhat.com@bastion abc]$ git push
-Username for 'http://gogs.apps.2775.example.opentlc.com': jmanuel
-Password for 'http://jmanuel@gogs.apps.2775.example.opentlc.com':
+Username for 'http://git.apps.2775.example.opentlc.com': user0X
+Password for 'http://user14@git.apps.2775.example.opentlc.com': redhat01
 Counting objects: 6, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 381 bytes | 0 bytes/s, done.
+Writing objects: 100% (4/4), 390 bytes | 0 bytes/s, done.
 Total 4 (delta 0), reused 0 (delta 0)
-To http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
-   d19a75e..69f1276  master -> master
-
+To http://git.apps.2775.example.opentlc.com/user14/proyecto01.git
+   3025dfd..8c74aae  master -> master
 ```
+Valide que la informacion se creo de manera correcta sobre el GIT
 
+![Ref](../img/repo2.png)
 
-
-# Modelos de versionado
-Todos los sistemas de control de versiones tiene que resolver los mismos problemas fundamentales: ¿cómo permitirá el sistema compartir información entre usuarios, pero evitando que ellos accidentalmente se pisen uno a otros? Es demasiado sencillo que los usuarios accidentalmente sobreescriban los cambios del otro en el repositorio.
 
 # Nota Importante
 

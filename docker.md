@@ -1,7 +1,7 @@
 # Crear una aplicacion en docker lista para ejecutarse en OpenShift
 
 1. Cree una cuentas en hub.docker.com
-NOTA: Tenga en cuenta que los ejempos y salidas de comeando se realizan con el usuario jmanuelcalvo, reemplace este por el nombre de su usuario 
+NOTA: Tenga en cuenta que los ejempos y salidas de comeando se realizan con el usuario jmanuelcalvo, reemplace este por el nombre de su usuario
 
 2. Valide que tenga una cuenta en un servidor de repositorios git
 
@@ -16,7 +16,8 @@ http://gogs.apps.2775.example.opentlc.com
 O si ya cuenta con una en GitHub github.com
 
 3. Cree un repo desde al interfase web llamado app01
-IMPORTANTE: al momento de crear el repo, seleccione:
+***IMPORTANTE***: al momento de crear el repo, seleccione:
+
 Initialize this repositorio with selected files and templates
 
 ![Ref](img/app01.png)
@@ -29,6 +30,7 @@ cd app01
 ```
 
 5. Cree una archivo Dockerfile con el contenido del software que desea instalar
+
 ```
 cat << EOF > Dockerfile
 FROM centos:7
@@ -46,9 +48,10 @@ EXPOSE 8080
 CMD  ["httpd", "-D", "FOREGROUND"]
 EOF
 ```
-NOTA1 : Es importante que el contenedor al momento de su ejecucion llame al comando CMD el cual garantiza cual va a ser el proceso de inicio del servicio, en caso que este parametro no se encuentre seteado, la ejecucion del contenedor va a fallar al momento del deploy dentro de OpenShift.
 
-NOTA2:  El puerto de exposicion de la imagen sea mayor a 1024, ya que de lo contrario requiere privilegios de ejecucion el en cluster de OpenShift.
+***NOTA1*** : Es importante que el contenedor al momento de su ejecucion llame al comando CMD el cual garantiza cual va a ser el proceso de inicio del servicio, en caso que este parametro no se encuentre seteado, la ejecucion del contenedor va a fallar al momento del deploy dentro de OpenShift.
+
+***NOTA2***:  El puerto de exposicion de la imagen sea mayor a 1024, ya que de lo contrario requiere privilegios de ejecucion el en cluster de OpenShift.
 
 
 6. Compile su imagen de contenedor
@@ -76,7 +79,7 @@ sudo docker rm apache01
 
 10. En este momento las imagen se encuentra en el cache de su maquina local, publique su imagen de contenedor en su servidor de registro
 
-NOTA: 
+NOTA:
  Garantice que su IP p FQDN de registro este permitida por docker para publicar su registro
 ```
 cat /etc/docker/daemon.json
@@ -106,6 +109,7 @@ git push
 Valide en el portal web del Gogs los archivos de su repositorio
 
 12. Loguese al OpenShift e intente desplegar la aplicacion a partir de un contenedor
+
 ```
 [root@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
 [root@bastion ~]$ oc new-project app01
@@ -150,13 +154,14 @@ Using project "app01".
     Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
      'oc expose svc/app01'
     Run 'oc status' to view your app.
-[user10@bastion ~]$ oc get pod 
+[user10@bastion ~]$ oc get pod
 NAME            READY     STATUS    RESTARTS   AGE
 app01-1-hsz5n   1/1       Running   0          6s
 
 ```
 
 13. Exponga la ruta y conectese al servicio
+
 ```
 [user10@bastion ~]$ oc get svc
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE

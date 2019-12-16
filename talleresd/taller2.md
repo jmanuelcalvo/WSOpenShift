@@ -8,7 +8,7 @@
 
 # Conectarse por SSH / Putty a la maquina
 
-bastion.2775.example.opentlc.com
+## bastion.2775.example.opentlc.com
 
 con el usuario user0X
 
@@ -30,6 +30,7 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 Una vez creado el repositiorio en su servidor de repositiorios este puede ser inicializado desde la consola web o desde la terminal de comandos asi:
 
 * Consola Web
+http://git.apps.2775.example.opentlc.com 
 
 ![Ref](../img/repo1.png)
 

@@ -72,7 +72,7 @@ Branch master set up to track remote branch master from origin.
 
 Copie el URL de su repositorio
 
-![Ref](img/repo2.png)
+![Ref](../img/repo2.png)
 
 Vaya a la terminal y ejecute el siguiente comando
 ```
@@ -161,7 +161,7 @@ To http://git.apps.2775.example.opentlc.com/user14/proyecto01.git
 ```
 Valide que la informacion se creo de manera correcta sobre el GIT
 
-![Ref](../img/repo2.png)
+![Ref](../img/repo3.png)
 
 
 # Nota Importante

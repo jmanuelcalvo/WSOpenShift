@@ -67,15 +67,15 @@ docker images
 
 8. Realícele las pruebas locales
 ```
-docker run -d -p 80XX:8080 --name=app01 docker.io/jmanuelcalvo/app01
+docker run -d -p 80XX:8080 --name=app0X docker.io/jmanuelcalvo/app01
 ```
 
 9. Ingrese al contenedor y valide que todo esta funcionando de la forma deseada
 ```
-docker exec -it app01 bash
+docker exec -it app0X bash
 exit
-docker stop apache01
-docker rm apache01
+docker stop app0X
+docker rm app0X
 ```
 
 10. En este momento las imagen se encuentra en el cache de su maquina local, publique su imagen de contenedor en su servidor de registro
@@ -113,8 +113,8 @@ Valide en el portal web del Gogs los archivos de su repositorio
 
 ```
 [root@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
-[root@bastion ~]$ oc new-project app01
-Now using project "app01" on server "https://loadbalancer.2775.internal:443".
+[root@bastion ~]$ oc new-project app0X
+Now using project "app0X" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 

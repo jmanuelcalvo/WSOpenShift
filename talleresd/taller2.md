@@ -55,15 +55,15 @@ Initialized empty Git repository in /home/jcalvo-redhat.com/abc/.git/
  1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 README.md
 
-[user0X@bastion ~]$ git remote add origin http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
+[user0X@bastion ~]$ git remote add origin http://git.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
 
 [user0X@bastion ~]$ git push -u origin master
-Username for 'http://gogs.apps.2775.example.opentlc.com': jmanuel
-Password for 'http://jmanuel@gogs.apps.2775.example.opentlc.com':
+Username for 'http://git.apps.2775.example.opentlc.com': jmanuel
+Password for 'http://jmanuel@git.apps.2775.example.opentlc.com':
 Counting objects: 3, done.
 Writing objects: 100% (3/3), 217 bytes | 0 bytes/s, done.
 Total 3 (delta 0), reused 0 (delta 0)
-To http://gogs.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
+To http://git.apps.2775.example.opentlc.com/jmanuel/proyecto01.git
  * [new branch]      master -> master
 Branch master set up to track remote branch master from origin.
 ```

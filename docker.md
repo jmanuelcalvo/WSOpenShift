@@ -67,15 +67,15 @@ docker images
 
 8. Realícele las pruebas locales
 ```
-sudo docker run -d -p 8080:8080 --name=app01 docker.io/jmanuelcalvo/app01
+docker run -d -p 8080:8080 --name=app01 docker.io/jmanuelcalvo/app01
 ```
 
 9. Ingrese al contenedor y valide que todo esta funcionando de la forma deseada
 ```
-sudo docker exec -it app01 bash
+docker exec -it app01 bash
 exit
-sudo docker stop apache01
-sudo docker rm apache01
+docker stop apache01
+docker rm apache01
 ```
 
 10. En este momento las imagen se encuentra en el cache de su maquina local, publique su imagen de contenedor en su servidor de registro

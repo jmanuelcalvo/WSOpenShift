@@ -129,8 +129,8 @@ NOTA: esto no es lo mas recomendado, en los siguientes ejercicios se revisara en
 ```
 [root@bastion ~]$ oc login -u admin1 -p redhat01
 [root@bastion ~]$ oc adm policy add-scc-to-user anyuid -z default
-[user10@bastion ~]$ oc login -u user10
-Logged into "https://loadbalancer.2775.internal:443" as "user10" using existing credentials.
+[user0X@bastion ~]$ oc login -u user0X
+Logged into "https://loadbalancer.2775.internal:443" as "user0X" using existing credentials.
 
 You have access to the following projects and can switch between them with 'oc project <projectname>':
 
@@ -138,7 +138,7 @@ You have access to the following projects and can switch between them with 'oc p
     etherpad
 
 Using project "app01".
-[user10@bastion ~]$ oc new-app --name app01 --insecure-registry --docker-image="docker.io/jmanuelcalvo/app01:latest"
+[user0X@bastion ~]$ oc new-app --name app01 --insecure-registry --docker-image="docker.io/jmanuelcalvo/app01:latest"
 --> Found Docker image 5d8ddbd (2 hours old) from docker.io for "docker.io/jmanuelcalvo/app01:latest"
 
     * An image stream tag will be created as "app01:latest" that will track this image
@@ -155,7 +155,7 @@ Using project "app01".
     Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
      'oc expose svc/app01'
     Run 'oc status' to view your app.
-[user10@bastion ~]$ oc get pod
+[user0X@bastion ~]$ oc get pod
 NAME            READY     STATUS    RESTARTS   AGE
 app01-1-hsz5n   1/1       Running   0          6s
 
@@ -164,16 +164,16 @@ app01-1-hsz5n   1/1       Running   0          6s
 13. Exponga la ruta y conectese al servicio
 
 ```
-[user10@bastion ~]$ oc get svc
+[user0X@bastion ~]$ oc get svc
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 app01     ClusterIP   172.30.100.94   <none>        80/TCP    1m
-[user10@bastion ~]$ oc expose svc app01
+[user0X@bastion ~]$ oc expose svc app01
 route.route.openshift.io/app01 exposed
 
-[user10@bastion ~]$ oc get route
+[user0X@bastion ~]$ oc get route
 NAME      HOST/PORT                                   PATH      SERVICES   PORT      TERMINATION   WILDCARD
 app01     app01-app01.apps.2775.example.opentlc.com             app01      80-tcp                  None
 
-[user10@bastion ~]$ curl  app01-app01.apps.2775.example.opentlc.com
+[user0X@bastion ~]$ curl  app01-app01.apps.2775.example.opentlc.com
 Hola from the httpd container!
 ```

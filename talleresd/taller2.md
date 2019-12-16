@@ -29,13 +29,15 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 ## Cree un repositiorio
 
 ## Opcion 1
-* Desde la Consola Web
+* Desde la Consola Web cree un nuevo repositorio 
+
 http://git.apps.2775.example.opentlc.com 
 
 ![Ref](../img/repo1.png)
 
 
-## Opcion 2 ( en caso que se haya olvidodo de poner la opcion **Initialize this repository with selected files and templates**
+## Opcion 2 
+( en caso que se haya olvidodo de poner la opcion **Initialize this repository with selected files and templates**
 * Desde la Terminal de comandos
 En caso de querer realizar esta actividad por la terminal se deben seguir estos pasos:
 ```
@@ -69,9 +71,12 @@ To http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
 Branch master set up to track remote branch master from origin.
 ```
 
-***NOTA*** Si realizo los pasos de la **Opcion 1** debe descargar una copia local del repositorio en su terminal local
+
+***NOTA*** Si realizo los pasos de la **Opcion 1** debe descargar una copia local del repositorio en su terminal local, vaya a la aplicacion web, ingrese a su repositorio y copie el URL.
+
 
 Copie el URL de su repositorio
+
 
 ![Ref](../img/repo2.png)
 
@@ -86,28 +91,29 @@ Unpacking objects: 100% (4/4), done.
 [user0X@bastion ~]$ cd proyecto01
 ```
 
-Cree un archivo con archivo index.html con contenido
+Cree un archivo index.html con contenido similar al siguiente
 ```
 [user0X@bastion proyecto01]$ echo "<h1>Esta es la pagina web de Jose Manuel Calvo</h1>" > index.html
 ```
 
-# Comandos basicos
+#Comandos basicos
+
 Una vez adicione un archivo en su carpeta local o realice el cambios recuerde que estos cambios en principio se encuentran en su carpeta local
 
-git diff - permite visualizar las diferencias entre los archivos desde cuando descargo su ultima copia y las modificaciones que ha realizado
+**git diff** - permite visualizar las diferencias entre los archivos desde cuando descargo su ultima copia y las modificaciones que ha realizado
 Ponga nueva informacion sobre el archivo README.md y valide las diferencias
 ```
 [user0X@bastion proyecto01]$ echo "Nueva informacion del archivo README" >> README.md
 [user0X@bastion proyecto1]$ git diff 
 ```
 
-git add - Adiciona un archivo o varios al contenido de su copia local
+**git add** - Adiciona un archivo o varios al contenido de su copia local
 
 ```
 [user0X@bastion proyecto1]$ git add .
 ```
 
-git commit - Permite adicionar una descripcion de las modificaciones de esta version
+**git commit** - Permite adicionar una descripcion de las modificaciones de esta version
 ```
 [jcalvo-redhat.com@bastion abc]$ git commit -m "Descripcion de la version que estaba modificando"
 ```
@@ -123,7 +129,7 @@ git commit - Permite adicionar una descripcion de las modificaciones de esta ver
 ```
 
 
-git log - Permite visualizar las diferentes versiones del proyecto
+**git log** - Permite visualizar las diferentes versiones del proyecto
 ```
 [user0X@bastion proyecto01]$ git log
 commit 8c74aae03e063178415e311ab9ab4dbd8337aec1
@@ -139,7 +145,7 @@ Date:   Mon Dec 16 18:42:45 2019 +0000
     Initial commit
 ```
 
-git checkout version - Para volver a una version anterior de todo nuestro directorio de trabajo
+**git checkout version** - Para volver a una version anterior de todo nuestro directorio de trabajo
 
 ***NOTA*** Ejecutelo unicamente en caso que quiera regresar a la version anterior 
 ```
@@ -148,7 +154,7 @@ git checkout version - Para volver a una version anterior de todo nuestro direct
 
 ***NOTA*** Puede unicamente recuerar un archivo de una version especifica **git checkout version -- archivo**
 
-git push - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
+**git push** - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
 ```
 Username for 'http://git.apps.2775.example.opentlc.com': user0X
 Password for 'http://user0X@git.apps.2775.example.opentlc.com': redhat01

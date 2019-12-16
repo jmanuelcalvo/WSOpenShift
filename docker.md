@@ -1,7 +1,7 @@
 # Crear una aplicacion en docker lista para ejecutarse en OpenShift
 
 1. Cree una cuentas en hub.docker.com
-NOTA: Tenga en cuenta que los ejempos y salidas de comeando se realizan con el usuario jmanuelcalvo, reemplace este por el nombre de su usuario
+**NOTA:** Tenga en cuenta que los ejempos y salidas de comeando se realizan con el usuario jmanuelcalvo, reemplace este por el nombre de su usuario
 
 2. Valide que tenga una cuenta en un servidor de repositorios git
 

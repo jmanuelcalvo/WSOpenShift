@@ -28,7 +28,6 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 
 ## Cree un repositiorio
 
-## Opcion 1
 * Desde la Consola Web cree un nuevo repositorio 
 
 http://git.apps.2775.example.opentlc.com 
@@ -36,43 +35,8 @@ http://git.apps.2775.example.opentlc.com
 ![Ref](../img/repo1.png)
 
 
-## Opcion 2 
-( en caso que se haya olvidodo de poner la opcion **Initialize this repository with selected files and templates**
-* Desde la Terminal de comandos
-En caso de querer realizar esta actividad por la terminal se deben seguir estos pasos:
-```
-[user0X@bastion ~]$ mkdir proyecto01
 
-[user0X@bastion ~]$ cd proyecto01/
-
-[user0X@bastion ~]$ touch README.md
-
-[user0X@bastion ~]$ git init
-
-Initialized empty Git repository in /home/jcalvo-redhat.com/abc/.git/
-
-[user0X@bastion ~]$ git add README.md
-
-[user0X@bastion ~]$ git commit -m "first commit"
-[master (root-commit) d19a75e] first commit
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 README.md
-
-[user0X@bastion ~]$ git remote add origin http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
-
-[user0X@bastion ~]$ git push -u origin master
-Username for 'http://git.apps.2775.example.opentlc.com': user0X
-Password for 'http://user0X@git.apps.2775.example.opentlc.com': redhat01
-Counting objects: 3, done.
-Writing objects: 100% (3/3), 217 bytes | 0 bytes/s, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
- * [new branch]      master -> master
-Branch master set up to track remote branch master from origin.
-```
-
-
-***NOTA*** Si realizo los pasos de la **Opcion 1** debe descargar una copia local del repositorio en su terminal local, vaya a la aplicacion web, ingrese a su repositorio y copie el URL.
+Luego de xrear el repositorio por la consola Web descargar una copia local del repositorio en su terminal local, vaya a la aplicacion web, ingrese a su repositorio y copie el URL.
 
 
 Copie el URL de su repositorio
@@ -97,6 +61,7 @@ Cree un archivo index.html con contenido similar al siguiente
 ```
 
 # Comandos basicos
+
 
 Una vez adicione un archivo en su carpeta local o realice el cambios recuerde que estos cambios en principio se encuentran en su carpeta local
 
@@ -156,6 +121,7 @@ Date:   Mon Dec 16 18:42:45 2019 +0000
 
 **git push** - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
 ```
+[user0X@bastion proyecto1]$ git push
 Username for 'http://git.apps.2775.example.opentlc.com': user0X
 Password for 'http://user0X@git.apps.2775.example.opentlc.com': redhat01
 Counting objects: 6, done.

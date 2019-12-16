@@ -6,6 +6,12 @@
 # Uso basico de la herramitna GIT
 
 
+# Conectarse por SSH / Putty a la maquina
+
+bastion.2775.example.opentlc.com
+
+con el usuario user0X
+
 # Conceptos básicos de control de versiones
 ## Repositorio
 Usa una base de datos central que contiene todos los archivos cuyas versiones se controlan y sus respectivas historias El repositorio normalmente esta en un servidor de archivos

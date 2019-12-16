@@ -96,7 +96,7 @@ Una vez adicione un archivo en su carpeta local o realice el cambios recuerde qu
 git diff - permite visualizar las diferencias entre los archivos desde cuando descargo su ultima copia y las modificaciones que ha realizado
 Ponga nueva informacion sobre el archivo README.md y valide las diferencias
 ```
-[user14@bastion proyecto01]$ echo "Nueva informacion del archivo README" >> README.md
+[user0X@bastion proyecto01]$ echo "Nueva informacion del archivo README" >> README.md
 [user0X@bastion proyecto1]$ git diff 
 ```
 
@@ -124,15 +124,15 @@ git commit - Permite adicionar una descripcion de las modificaciones de esta ver
 
 git log - Permite visualizar las diferentes versiones del proyecto
 ```
-[user14@bastion proyecto01]$ git log
+[user0X@bastion proyecto01]$ git log
 commit 8c74aae03e063178415e311ab9ab4dbd8337aec1
-Author: Usuario 14 <user14@example.com>
+Author: Usuario 14 <user0X@example.com>
 Date:   Mon Dec 16 18:53:13 2019 +0000
 
     Descripcion de la version que estaba modificando
 
 commit 3025dfd7c36bbd501c4bf8b163048e82998e2f44
-Author: user14 <user14@redhat.com>
+Author: user0X <user0X@redhat.com>
 Date:   Mon Dec 16 18:42:45 2019 +0000
 
     Initial commit
@@ -150,13 +150,13 @@ git checkout version - Para volver a una version anterior de todo nuestro direct
 git push - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
 ```
 Username for 'http://git.apps.2775.example.opentlc.com': user0X
-Password for 'http://user14@git.apps.2775.example.opentlc.com': redhat01
+Password for 'http://user0X@git.apps.2775.example.opentlc.com': redhat01
 Counting objects: 6, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
 Writing objects: 100% (4/4), 390 bytes | 0 bytes/s, done.
 Total 4 (delta 0), reused 0 (delta 0)
-To http://git.apps.2775.example.opentlc.com/user14/proyecto01.git
+To http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
    3025dfd..8c74aae  master -> master
 ```
 Valide que la informacion se creo de manera correcta sobre el GIT
@@ -170,7 +170,7 @@ Animese a crear una nueva aplicacion con su nuevo codigo fuente desde la consola
 
 * Desde la consola
 ```
-[user14@bastion proyecto01]$ oc login https://loadbalancer.2775.internal:443 -u user14 -p redhat01
+[user0X@bastion proyecto01]$ oc login https://loadbalancer.2775.internal:443 -u user0X -p redhat01
 The server uses a certificate signed by an unknown authority.
 You can bypass the certificate check, but any data you send to the server could be intercepted by others.
 Use insecure connections? (y/n): y
@@ -182,15 +182,16 @@ You don't have any projects. You can try to create a new project, by running
     oc new-project <projectname>
 
 Welcome! See 'oc help' to get started.
-[user14@bastion proyecto01]$ oc new-project git-14
-Now using project "git-14" on server "https://loadbalancer.2775.internal:443".
+[user0X@bastion proyecto01]$ oc new-project git-0X
+Now using project "git-0X" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
     oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
 to build a new example application in Ruby.
-[user14@bastion proyecto01]$ oc new-app php~http://git.apps.2775.example.opentlc.com/user14/proyecto01.git
+
+[user0X@bastion proyecto01]$ oc new-app php~http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
 --> Found image 8e01e80 (2 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
 
     Apache 2.4 with PHP 7.1
@@ -199,7 +200,7 @@ to build a new example application in Ruby.
 
     Tags: builder, php, php71, rh-php71
 
-    * A source build using source code from http://git.apps.2775.example.opentlc.com/user14/proyecto01.git will be created
+    * A source build using source code from http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git will be created
       * The resulting image will be pushed to image stream tag "proyecto01:latest"
       * Use 'start-build' to trigger a new build
     * This image will be deployed in deployment config "proyecto01"
@@ -222,28 +223,29 @@ to build a new example application in Ruby.
 
 Con los comandos que ya conoce, explore su ambinete y cree una ruta
 ```
-[user14@bastion proyecto01]$ oc get pod
+[user0X@bastion proyecto01]$ oc get pod
 NAME                 READY     STATUS      RESTARTS   AGE
 proyecto01-1-build   0/1       Completed   0          1m
 proyecto01-1-rgjr9   1/1       Running     0          55s
 
-[user14@bastion proyecto01]$ oc get svc
+[user0X@bastion proyecto01]$ oc get svc
 NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 proyecto01   ClusterIP   172.30.75.125   <none>        8080/TCP,8443/TCP   1m
-[user14@bastion proyecto01]$ oc expose  svc proyecto01
+[user0X@bastion proyecto01]$ oc expose  svc proyecto01
 route.route.openshift.io/proyecto01 exposed
 
-[user14@bastion proyecto01]$ oc get route
+[user0X@bastion proyecto01]$ oc get route
 NAME         HOST/PORT                                         PATH      SERVICES     PORT       TERMINATION   WILDCARD
 proyecto01   proyecto01-git-14.apps.2775.example.opentlc.com             proyecto01   8080-tcp                 None
 ```
 
 Teniendo en cuenta que conocer la ruta de publicacion, a traves de la herramienta cURL haga una peticio a su pagina
 ```
-[user14@bastion proyecto01]$ curl http://proyecto01-git-14.apps.2775.example.opentlc.com
+[user0X@bastion proyecto01]$ curl http://proyecto01-git-14.apps.2775.example.opentlc.com
 <h1>Esta es la pagina web de Jose Manuel Calvo</h1>
 ```
 Ingrese desde el navegador web la ruta
+
 ![Ref](../img/pagina1.png)
 
 

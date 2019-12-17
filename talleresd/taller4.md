@@ -326,3 +326,8 @@ Unicamente si visualizan 3 pods y si visualizamos los eventos en el proyecto se 
   limit-0X                         app0X-1-l4zbd                  250m (12%)    250m (12%)  512Mi (6%)       512Mi (6%)
 
 ```
+
+
+
+FUENTES:
+https://www.rubix.nl/blogs/openshift-limits-explained/

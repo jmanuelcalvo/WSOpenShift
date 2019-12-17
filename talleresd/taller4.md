@@ -11,8 +11,6 @@ A continuación se muestran los componentes de Openshift influenciados por las r
 Las unidades básicas de las aplicaciones OpenShift se denominan contenedores. Las tecnologías de contenedor de Linux son mecanismos livianos para aislar procesos en ejecución de modo que se limitan a interactuar solo con sus recursos designados. Muchas instancias de aplicaciones pueden ejecutarse en contenedores en un único host sin visibilidad en los procesos, archivos, red, etc. de los demás. Por lo general, cada contenedor proporciona un servicio único (a menudo denominado "microservicio"), como un servidor web o una base de datos, aunque los contenedores se pueden usar para cargas de trabajo arbitrarias.
 
 
-
-
 **Pods**
 OpenShift aprovecha el concepto de Kubernetes de un pod, que es uno o más contenedores desplegados juntos, y la unidad de cómputo más pequeña que se puede definir, implementar y administrar.
 
@@ -33,7 +31,7 @@ A Kubernetes namespace provides a mechanism to scope resources in a cluster. In 
 Hay tres diferentes tipos de límites y restricciones disponibles en Openshift.
 * Quotas - Cuotas
 * Limit ranges - Rangos Límites
-*Compute resources - Recursos de computo
+* Compute resources - Recursos de computo
 
 **Cuotas**
 Las cuotas son límites configurados por espacio de nombres o proyecto y actúan como límite superior para los recursos en ese espacio de nombres en particular. Básicamente define la capacidad del espacio de nombres. Por ejemplo, si la capacidad total que usamos en uno o cien pods no está dictada por la cuota, excepto cuando se configura un número máximo de pods.
@@ -53,6 +51,9 @@ spec:
     limits.cpu: "2"
     limits.memory: 2Gi
 ```
+**Millicores**
+La CPU se mide en unidades llamadas milicores. Cada nodo en el clúster determina la cantidad de cores de CPU en el nodo y luego multiplica ese valor por 1000 para expresar su capacidad total. Por ejemplo, si un nodo tiene 2 cores, la capacidad de la CPU del nodo se representará como 2000m. Si quisiera usar 1/10 de un solo core, lo representaría como 100m.
+
 Esta cuota dice que el espacio de nombres puede tener un máximo de 5 pods, y/o un máximo de 2 cores y 2 Gb de memoria, el "reclamo" inicial que hacen los pods en este espacio de nombres es de 500 milicores y 512 Mb de memoria.
 
 **Rango límite - Limit ranges**

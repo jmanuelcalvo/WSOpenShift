@@ -33,7 +33,7 @@ s2i create image_name directory
 4. Valide los archivos creados por el comando S2I
 ```
 [user19@bastion ~]$ cd s2i-test0X/
-[user19@bastion s2i-test0X]$ tree
+[user19@bastion s2i-test0X]$ tree -ar
 .
 |-- Dockerfile
 |-- Makefile
@@ -57,116 +57,97 @@ Deje el contenido del archivo Dockerfile similar al siguiente:
 
 ```
 [user19@bastion s2i-test0X]$ vim Dockerfile
-# s2i-test
-FROM centos:7
+FROM centos:centos7
 
-LABEL maintainer="Jose Maneul <jcalvo@redhat.com>"
+RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
+    yum install -y centos-release-scl scl-utils && \
+    PACKAGES="httpd24 httpd24-httpd-devel httpd24-mod_auth_kerb httpd24-mod_ldap httpd24-mod_session rsync" && \
+    yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus ${PACKAGES} && \
+    rpm -V ${PACKAGES} && \
+    yum clean all -y
 
-LABEL io.k8s.description="Platform for building xyz" \
-      io.k8s.display-name="builder x.y.z" \
+# Cree una cuenta no root llamada 'default' para ser el propietario de todos
+# los archivos que guardara el servidor httpd de Apache. Esta cuenta debe estar
+# en el grupo 'root' (gid = 0) ya que ese es el grupo que usaria el servidor
+# httpd de Apache si el contenedor se ejecuta más tarde con una ID de usuario
+# unica que no está presente en la base de datos de la cuenta del host
+
+ENV HOME=/opt/app-root
+
+RUN mkdir -p ${HOME} && \
+    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
+            -c "Default Application User" default
+
+# Modifique la configuración predeterminada de Apache para escuchar en un puerto no privilegiado
+# (predeterminado en 8080) y registre todo en stdout / stderr. También incluya un archivo de
+# configuración propio para que podamos anular otra configuración
+
+ENV PORT=8080
+
+RUN mkdir -p ${HOME}/htdocs && \
+    sed -ri -e 's/^Listen 80$/Listen ${PORT}/' \
+            -e 's%"logs/access_log"%"/proc/self/fd/1"%' \
+            -e 's%"logs/error_log"%"/proc/self/fd/2"%' \
+            /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf && \
+    echo "Include ${HOME}/httpd.conf" >> /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf
+
+COPY httpd.conf ${HOME}/httpd.conf
+
+EXPOSE ${PORT}
+
+# Copie en su lugar los scripts del generador de S2I, el script de ejecución y etiquete
+# la imagen de Docker para que el software 's2i' sepa dónde encontrarlos.
+
+#COPY s2i ${HOME}/s2i
+COPY ./.s2i/ ${HOME}/s2i
+
+COPY ./.s2i/bin/run ${HOME}/run
+
+LABEL io.k8s.description="S2I builder for hosting files with Apache HTTPD server" \
+      io.k8s.display-name="Apache HTTPD Server" \
       io.openshift.expose-services="8080:http" \
-      io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
-      io.openshift.tags="builder,webserver,apache,http,html"
+      io.openshift.tags="builder,httpd" \
+      io.openshift.s2i.scripts-url="image://${HOME}/s2i/bin"
 
-ADD httpd.conf.local /tmp/
+# Repare todos los directorios de la cuenta para que puedan escribirse en grupo en el grupo
+# 'root' (gid = 0) para que puedan actualizarse si es necesario,
+# como ocurriría si se usa 'oc rsync' para copiar archivos en un contenedor.
 
-RUN yum -y install -y httpd && \
-    yum clean all &&  \
-    groupadd -g 1001 webuser &&  adduser -u 1001 -g 1001 webuser && \
-    cp /tmp/httpd.conf.local /etc/httpd/conf/httpd.conf && \
-    chown -R 1001:1001 /var/log/httpd && chown -R 1001:1001 /run/httpd && chown -R 1001:1001 /var/www/html/ &&\
-    chgrp -R 0 /run && chmod -R g=u /run
+RUN chown -R 1001:0 /opt/app-root && \
+    find ${HOME} -type d -exec chmod g+ws {} \;
 
-COPY ./.s2i/bin/ /usr/libexec/s2i
+# Asegurese de que el contenedor se ejecute como una cuenta no root desde su directorio de inicio.
+
+WORKDIR ${HOME}
 
 USER 1001
 
-EXPOSE 8080
+#Configure el servidor httpd de Apache para que se ejecute cuando se ejecute el contenedor
 
-CMD ["/usr/libexec/s2i/usage"]
-
+CMD [ "/opt/app-root/run" ]
 ```
 Observe con detalle los valores de ***LABEL*** y ***COPY***
 
-Tenga en cuenta tambien que en el ejemplo se esta adicionando un archivo llamado  httpd.conf.local el cual contiene la configuracion del servicio de apache, (definicio de puertos y usuario con quien se ejecutara el servicio)
+Tenga en cuenta tambien que en el ejemplo se esta adicionando un archivo llamado  httpd.conf el cual contiene la configuracion del servicio de apache, (definicio de puertos y usuario con quien se ejecutara el servicio)
 
-Observe tambien que se esta adicionando ***ADD*** un archivo **httpd.conf.local** el cual los parametros de configuracion del apache con el nuevo usuario y puerto de ejecucion
+Observe tambien que se esta adicionando ***ADD*** un archivo **httpd.conf** el cual los parametros de configuracion del apache con el nuevo usuario y puerto de ejecucion
 
-Cree el archivo httpd.conf.local con el siguiente contenido
+Cree el archivo httpd.conf con el siguiente contenido
 
 
 ```
-[user19@bastion s2i-test0X]$ vim httpd.conf.local
-Listen 8080
-User webuser
-Group webuser
+[user19@bastion s2i-test19]$ vim httpd.conf
+DefaultRuntimeDir ${HOME}
 
-ServerRoot "/etc/httpd"
-Include conf.modules.d/*.conf
-ServerAdmin root@localhost
-<Directory />
-    AllowOverride none
-    Require all denied
+PidFile ${HOME}/httpd.pid
+
+DocumentRoot /opt/app-root/htdocs
+
+<Directory /opt/app-root/htdocs>
+    AllowOverride FileInfo AuthConfig Limit Indexes
+    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+    Require method GET POST OPTIONS
 </Directory>
-DocumentRoot "/var/www/html"
-<Directory "/var/www">
-    AllowOverride None
-    Require all granted
-</Directory>
-<Directory "/var/www/html">
-    Options Indexes FollowSymLinks
-    AllowOverride None
-    Require all granted
-</Directory>
-
-<IfModule dir_module>
-    DirectoryIndex index.html
-</IfModule>
-
-<Files ".ht*">
-    Require all denied
-</Files>
-
-ErrorLog "logs/error_log"
-
-LogLevel warn
-
-<IfModule log_config_module>
-    LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
-    LogFormat "%h %l %u %t \"%r\" %>s %b" common
-    <IfModule logio_module>
-      LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
-    </IfModule>
-    CustomLog "logs/access_log" combined
-</IfModule>
-
-<IfModule alias_module>
-    ScriptAlias /cgi-bin/ "/var/www/cgi-bin/"
-</IfModule>
-
-<Directory "/var/www/cgi-bin">
-    AllowOverride None
-    Options None
-    Require all granted
-</Directory>
-
-<IfModule mime_module>
-    TypesConfig /etc/mime.types
-    AddType application/x-compress .Z
-    AddType application/x-gzip .gz .tgz
-    AddType text/html .shtml
-    AddOutputFilter INCLUDES .shtml
-</IfModule>
-
-AddDefaultCharset UTF-8
-
-<IfModule mime_magic_module>
-    MIMEMagicFile conf/magic
-</IfModule>
-
-EnableSendfile on
-
-IncludeOptional conf.d/*.conf
 ```
 
 ## Scripts de S2I
@@ -177,55 +158,49 @@ La construccion de imagenes con s2i cuenta con 3 scripts especiales que son:
 
 ```
 [user19@bastion s2i-test0X]$ vim .s2i/bin/assemble
-#!/bin/bash -e
-#
-# S2I assemble script for the 's2i-test' image.
-# The 'assemble' script builds your application source so that it is ready to run.
-#
-# For more information refer to the documentation:
-#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
-#
+#!/bin/bash
 
-# If the 's2i-test' assemble script is executed with the '-h' flag, print the usage.
-if [[ "$1" == "-h" ]]; then
-	exec /usr/libexec/s2i/usage
-fi
+set -eo pipefail
 
-# Restore artifacts from the previous build (if they exist).
-#
-if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
-  echo "---> Restoring build artifacts..."
-  mv /tmp/artifacts/. ./
-fi
+echo "---> Copying source files"
 
-echo "---> Installing application source..."
+rm -rf /tmp/src/.git*
+rm -rf /tmp/src/.s2i*
 
-cp -Rf /tmp/src/. /var/www/html
+cp -Rf /tmp/src/. /opt/app-root/htdocs/
 
-echo "---> Building application from source..."
-# TODO: Add build steps for your application, eg npm install, bundle install, pip install, etc.
+rm -rf /tmp/src
+
+echo "---> Fix permissions on source files"
+
+chmod -Rf g+w /opt/app-root/htdocs || true
 ````
 
-**NOTA** Presete especial atencion a la linea que realiza el copiado de la informacion a la carpeta de datos del apache **/var/www/html**
+**NOTA** Presete especial atencion a la linea que realiza el copiado de la informacion a la carpeta de datos del apache **/opt/app-root/htdocs/**
 
 
-Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente es descargado en un contenedor temporal en la carpeta /tmp/src/ y enviado al contendor definitivo a la carpeta /var/www/html.
+Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente es descargado en un contenedor temporal en la carpeta /tmp/src/ y enviado al contendor definitivo a la carpeta /opt/app-root/htdocs/
 
 
 **.s2i/bin/run** Este script es llamado de forma automatica una vez la imagen sea ejecutada como contenedor, este script es quien debe inciar el servicio, similar al CMD dentro del los archivos Dockerfile
 
 ```
-#!/bin/bash -e
-#
-# S2I run script for the 's2i-test' image.
-# The run script executes the server that runs your application.
-#
-# For more information see the documentation:
-#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
-#
+#!/bin/bash
 
-exec httpd -D FOREGROUND
+# Enable SCL Apache HTTPD server package.
+
+source scl_source enable httpd24
+
+# Ensure we run the Apache HTTPD server as process ID 1 and in foreground.
+
+exec httpd -DFOREGROUND
+
 ```
+Asignele permisos de ejecucion
+```
+[user19@bastion s2i-test19]$ chmod 777 .s2i/bin/run
+```
+
 Indique cual es el comando de inicio de servicio de http
 
 ***Makefile*** El archivo make contiene los comandos relacionados con el docker build, por lo que para la compilacion de la imagen puede usar el comando docker build usado en los talleres de docker o simplemente ejecutar el comando make
@@ -249,30 +224,24 @@ Dentro de la carpeta s2i-test0X ejecute el comando **make**
 
 ```
 [user19@bastion s2i-test0X]$ make
-docker build -t s2i-test0X .
-Sending build context to Docker daemon 17.41 kB
-Step 1/9 : FROM centos:7
+[user19@bastion s2i-test19]$ make
+docker build -t s2i-test19 .
+Sending build context to Docker daemon 17.92 kB
+Step 1/15 : FROM centos:centos7
  ---> 5e35e350aded
-Step 2/9 : LABEL maintainer "Jose Maneul <jcalvo@redhat.com>"
- ---> Running in 50e2bec7c376
- ---> 9abf463f39b9
-Removing intermediate container 50e2bec7c376
-Step 3/9 : LABEL io.k8s.description "Platform for building xyz" io.k8s.display-name "builder x.y.z" io.openshift.expose-services "8080:http" io.openshift.s2i.scripts-url "image:///usr/libexec/s2i" io.openshift.tags "builder,webserver,apache,http,html"
- ---> Running in 146440db1088
- ---> e18734663d63
+Step 2/15 : RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 &&     yum install -y centos-release-scl scl-utils &&     PACKAGES="httpd24 httpd24-httpd-devel httpd24-mod_auth_kerb httpd24-mod_ldap httpd24-mod_session rsync" &&     yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus ${PACKAGES} &&     rpm -V ${PACKAGES} &&     yum clean all -y
+ ---> Using cache
+ ---> 9080a5790817
 ...
 ...
 ...
-Removing intermediate container 0634bcf1a39b
-Step 8/9 : EXPOSE 8080
- ---> Running in 4e1f57c229eb
- ---> 02b2109f4eab
-Removing intermediate container 4e1f57c229eb
-Step 9/9 : CMD /usr/libexec/s2i/usage
- ---> Running in ee764db523d1
- ---> 026a39defc60
-Removing intermediate container ee764db523d1
-Successfully built 026a39defc60
+Step 14/15 : USER 1001
+ ---> Using cache
+ ---> 2385c284ff0f
+Step 15/15 : CMD /opt/app-root/run
+ ---> Using cache
+ ---> ae1742965d74
+Successfully built ae1742965d74
 ```
 
 Este comando genera una nueva imagen de Docker
@@ -288,22 +257,24 @@ s2i-test0X                                                                     l
 6. Realizacion de pruebas locales de inyectar codigo a la nueva imagen.
 
 ```
-[user0X@bastion s2i-test]$ echo "Codigo" > test/test-app/index.html
-s2i build test/test-app s2i-test0X s2i-test0X
-I1217 01:24:32.241433 22615 install.go:251] Using "assemble" installed from "image:///usr/libexec/s2i/assemble"
-I1217 01:24:32.241624 22615 install.go:251] Using "run" installed from "image:///usr/libexec/s2i/run"
-I1217 01:24:32.241642 22615 install.go:251] Using "save-artifacts" installed from "image:///usr/libexec/s2i/save-artifacts"
----> Installing application source...
----> Building application from source...
+[user0X@bastion s2i-test19]$ echo "Codigo" > test/test-app/index.html
+[user19@bastion s2i-test19]$ s2i build test/test-app s2i-test19 s2i-test19
+I1217 13:54:35.910867 00892 install.go:251] Using "assemble" installed from "image:///opt/app-root/s2i/bin/assemble"
+I1217 13:54:35.910970 00892 install.go:251] Using "run" installed from "image:///opt/app-root/s2i/bin/run"
+I1217 13:54:35.910991 00892 install.go:251] Using "save-artifacts" installed from "image:///opt/app-root/s2i/bin/save-artifacts"
+---> Copying source files
+---> Fix permissions on source files
 ```
 Ejecutar el contenedor y validar por dentro el codigo
 ```
-[user0X@bastion s2i-test]$ docker run -it -p 8080:8080 http-test bash
-[webuser@65531d48772c /]$ cd /var/www/html/
-[webuser@65531d48772c html]$ ls
-index.html
-[webuser@65531d48772c html]$ cat index.html
+[user0X@bastion s2i-test]$ docker run -it -p 80XX:8080 s2i-test19 bash
+bash-4.2$ pwd
+/opt/app-root
+bash-4.2$ ls
+htdocs	httpd.conf  run  s2i
+bash-4.2$ cat htdocs/index.html
 Codigo
+bash-4.2$ exit
 ```
 
 7. En caso que la imagen s2i funcione de acuerdo a lo esperado, los siguientes pasos seran, cargarla al repositorio de docker para posteriormente ser cargada como imagen base a openshift

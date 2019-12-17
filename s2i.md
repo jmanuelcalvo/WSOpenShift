@@ -136,7 +136,7 @@ Cree el archivo httpd.conf con el siguiente contenido
 
 
 ```
-[user19@bastion s2i-test19]$ vim httpd.conf
+[user19@bastion s2i-test0X]$ vim httpd.conf
 DefaultRuntimeDir ${HOME}
 
 PidFile ${HOME}/httpd.pid
@@ -185,6 +185,19 @@ Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente e
 **.s2i/bin/run** Este script es llamado de forma automatica una vez la imagen sea ejecutada como contenedor, este script es quien debe inciar el servicio, similar al CMD dentro del los archivos Dockerfile
 
 ```
+[user19@bastion s2i-test0X]$ cat .s2i/bin/run
+#!/bin/bash
+
+set -eo pipefail
+
+exec ${HOME}/run
+```
+Este script se encarga de que cuando el contenedor inicie, llame al siguiente script que cuenta con la linea de inicio de apache, Este doble llamado de script de inicio sucede por que es necesario que el contenedor una vez este en ejecucion cargue unas variables de la libreria de SCL y luego ejecute el apache.
+
+Cree el script run que iniciara el servicio
+
+```
+[user19@bastion s2i-test0X]$ cat run
 #!/bin/bash
 
 # Enable SCL Apache HTTPD server package.
@@ -194,11 +207,6 @@ source scl_source enable httpd24
 # Ensure we run the Apache HTTPD server as process ID 1 and in foreground.
 
 exec httpd -DFOREGROUND
-
-```
-Asignele permisos de ejecucion
-```
-[user19@bastion s2i-test19]$ chmod 777 .s2i/bin/run
 ```
 
 Indique cual es el comando de inicio de servicio de http
@@ -224,8 +232,7 @@ Dentro de la carpeta s2i-test0X ejecute el comando **make**
 
 ```
 [user19@bastion s2i-test0X]$ make
-[user19@bastion s2i-test19]$ make
-docker build -t s2i-test19 .
+docker build -t s2i-test0X .
 Sending build context to Docker daemon 17.92 kB
 Step 1/15 : FROM centos:centos7
  ---> 5e35e350aded
@@ -257,8 +264,8 @@ s2i-test0X                                                                     l
 6. Realizacion de pruebas locales de inyectar codigo a la nueva imagen.
 
 ```
-[user0X@bastion s2i-test19]$ echo "Codigo" > test/test-app/index.html
-[user19@bastion s2i-test19]$ s2i build test/test-app s2i-test19 s2i-test19
+[user0X@bastion s2i-test0X]$ echo "Codigo" > test/test-app/index.html
+[user19@bastion s2i-test0X]$ s2i build test/test-app s2i-test0X s2i-test0X
 I1217 13:54:35.910867 00892 install.go:251] Using "assemble" installed from "image:///opt/app-root/s2i/bin/assemble"
 I1217 13:54:35.910970 00892 install.go:251] Using "run" installed from "image:///opt/app-root/s2i/bin/run"
 I1217 13:54:35.910991 00892 install.go:251] Using "save-artifacts" installed from "image:///opt/app-root/s2i/bin/save-artifacts"
@@ -267,7 +274,7 @@ I1217 13:54:35.910991 00892 install.go:251] Using "save-artifacts" installed fro
 ```
 Ejecutar el contenedor y validar por dentro el codigo
 ```
-[user0X@bastion s2i-test]$ docker run -it -p 80XX:8080 s2i-test19 bash
+[user0X@bastion s2i-test]$ docker run -it -p 80XX:8080 s2i-test0X bash
 bash-4.2$ pwd
 /opt/app-root
 bash-4.2$ ls

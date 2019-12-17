@@ -27,13 +27,13 @@ Instalar los paquetes
 3. Cree la estrucrtura de datos de S2I (source to image)
 s2i create image_name directory
 ```
-[user0X@bastion ~]$ s2i create s2i-test19 s2i-test19/
+[user0X@bastion ~]$ s2i create s2i-test0X s2i-test0X/
 ```
 
 4. Valide los archivos creados por el comando S2I
 ```
-[user19@bastion ~]$ cd s2i-test19/
-[user19@bastion s2i-test19]$ tree
+[user19@bastion ~]$ cd s2i-test0X/
+[user19@bastion s2i-test0X]$ tree
 .
 |-- Dockerfile
 |-- Makefile
@@ -56,7 +56,7 @@ El archivo Dockerfile contiene al igual que en Docker los parametros de instalac
 Deje el contenido del archivo Dockerfile similar al siguiente:
 
 ```
-[user19@bastion s2i-test19]$ vim Dockerfile
+[user19@bastion s2i-test0X]$ vim Dockerfile
 # s2i-test
 FROM centos:7
 
@@ -96,7 +96,7 @@ Cree el archivo httpd.conf.local con el siguiente contenido
 
 
 ```
-[user19@bastion s2i-test19]$ vim httpd.conf.local
+[user19@bastion s2i-test0X]$ vim httpd.conf.local
 Listen 8080
 User webuser
 Group webuser
@@ -176,7 +176,7 @@ La construccion de imagenes con s2i cuenta con 3 scripts especiales que son:
 **.s2i/bin/assemble** Este script se encarga de inyectar los datos desde una fuente a una ruta especifica del contenedor
 
 ```
-[user19@bastion s2i-test19]$ vim .s2i/bin/assemble
+[user19@bastion s2i-test0X]$ vim .s2i/bin/assemble
 #!/bin/bash -e
 #
 # S2I assemble script for the 's2i-test' image.
@@ -231,7 +231,7 @@ Indique cual es el comando de inicio de servicio de http
 ***Makefile*** El archivo make contiene los comandos relacionados con el docker build, por lo que para la compilacion de la imagen puede usar el comando docker build usado en los talleres de docker o simplemente ejecutar el comando make
 
 ```
-IMAGE_NAME = s2i-test19
+IMAGE_NAME = s2i-test0X
 
 build:
 	docker build -t $(IMAGE_NAME) .
@@ -245,11 +245,11 @@ test:
 
 
 5. Compilacion de la imagen.
-Dentro de la carpeta s2i-test19 ejecute el comando **make**
+Dentro de la carpeta s2i-test0X ejecute el comando **make**
 
 ```
-[user19@bastion s2i-test19]$ make
-docker build -t s2i-test19 .
+[user19@bastion s2i-test0X]$ make
+docker build -t s2i-test0X .
 Sending build context to Docker daemon 17.41 kB
 Step 1/9 : FROM centos:7
  ---> 5e35e350aded
@@ -279,9 +279,9 @@ Este comando genera una nueva imagen de Docker
 
 
 ```
-[user19@bastion s2i-test19]$ docker images
+[user19@bastion s2i-test0X]$ docker images
 REPOSITORY                                                                     TAG                 IMAGE ID            CREATED              SIZE
-s2i-test19                                                                     latest              026a39defc60        About a minute ago   260 MB
+s2i-test0X                                                                     latest              026a39defc60        About a minute ago   260 MB
 ```
 
 
@@ -289,7 +289,7 @@ s2i-test19                                                                     l
 
 ```
 [user0X@bastion s2i-test]$ echo "Codigo" > test/test-app/index.html
-s2i build test/test-app s2i-test19 s2i-test19
+s2i build test/test-app s2i-test0X s2i-test0X
 I1217 01:24:32.241433 22615 install.go:251] Using "assemble" installed from "image:///usr/libexec/s2i/assemble"
 I1217 01:24:32.241624 22615 install.go:251] Using "run" installed from "image:///usr/libexec/s2i/run"
 I1217 01:24:32.241642 22615 install.go:251] Using "save-artifacts" installed from "image:///usr/libexec/s2i/save-artifacts"
@@ -310,17 +310,17 @@ Codigo
 
 
 ```
-[user19@bastion s2i-test19]$ docker tag s2i-test19 docker.io/jmanuelcalvo/s2i-test19:latest
+[user19@bastion s2i-test0X]$ docker tag s2i-test0X docker.io/jmanuelcalvo/s2i-test0X:latest
 ```
 Recuerde estar logueado en Docker
 ```
-[user19@bastion s2i-test19]$ docker login docker.io
+[user19@bastion s2i-test0X]$ docker login docker.io
 Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
 Username: jmanuelcalvo
 Password:
 Login Succeeded
-[user19@bastion s2i-test19]$ docker push docker.io/jmanuelcalvo/s2i-test19:latest
-The push refers to a repository [docker.io/jmanuelcalvo/s2i-test19]
+[user19@bastion s2i-test0X]$ docker push docker.io/jmanuelcalvo/s2i-test0X:latest
+The push refers to a repository [docker.io/jmanuelcalvo/s2i-test0X]
 737b54fff43f: Pushed
 d72a99aa43e7: Pushed
 4dc0b923d868: Pushed
@@ -340,8 +340,8 @@ Garantice que este logueado sobre OpenShift y sobre el proyecto que desea import
 [user0X@bastion ~]$ oc whoami
 user19
 
-[user19@bastion s2i-test19]$ oc new-project s2i-test19
-Now using project "s2i-test19" on server "https://loadbalancer.2775.internal:443".
+[user19@bastion s2i-test0X]$ oc new-project s2i-test0X
+Now using project "s2i-test0X" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -349,16 +349,16 @@ You can add applications to this project with the 'new-app' command. For example
 
 to build a new example application in Ruby.
 
-[user19@bastion s2i-test19]$ oc import-image s2i-test19 --from docker.io/jmanuelcalvo/s2i-test19:latest --confirm --insecure=true
-imagestream.image.openshift.io/s2i-test19 imported
+[user19@bastion s2i-test0X]$ oc import-image s2i-test0X --from docker.io/jmanuelcalvo/s2i-test0X:latest --confirm --insecure=true
+imagestream.image.openshift.io/s2i-test0X imported
 
-[user19@bastion s2i-test19]$ oc get is
+[user19@bastion s2i-test0X]$ oc get is
 NAME         DOCKER REPO                                              TAGS      UPDATED
-s2i-test19   docker-registry.default.svc:5000/s2i-test19/s2i-test19   latest    25 seconds ago
+s2i-test0X   docker-registry.default.svc:5000/s2i-test0X/s2i-test0X   latest    25 seconds ago
 ```
 
 9. Por ultimo cree una aplicacion utilizando su nueva imagen
 
 ```
-[user0X@bastion ~]$ oc new-app s2i-test19~https://github.com/jmanuelcalvo/app.git --name=app0X
+[user0X@bastion ~]$ oc new-app s2i-test0X~https://github.com/jmanuelcalvo/app.git --name=app0X
 ```

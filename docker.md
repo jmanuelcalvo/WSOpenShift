@@ -113,8 +113,8 @@ Valide en el portal web del Gogs los archivos de su repositorio
 12. Loguese al OpenShift e intente desplegar la aplicacion a partir de un contenedor
 
 ```
-[root@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
-[root@bastion ~]$ oc new-project app0X
+[user0X@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
+[user0X@bastion ~]$ oc new-project app0X
 Now using project "app0X" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
@@ -130,9 +130,9 @@ NOTA: esto **NO** es lo mas recomendado, en los siguientes ejercicios se revisar
 
 Logueese como usuario admin y permita la creacion de contenedore dentro de OpenShift como usuario root
 ```
-[root@bastion ~]$ oc login -u admin1 -p redhat01
+[user0X@bastion ~]$ oc login -u admin1 -p redhat01
 
-[root@bastion ~]$ oc adm policy add-scc-to-user anyuid -z default
+[user0X@bastion ~]$ oc adm policy add-scc-to-user anyuid -z default
 
 [user0X@bastion ~]$ oc login -u user0X
 Logged into "https://loadbalancer.2775.internal:443" as "user0X" using existing credentials.

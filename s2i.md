@@ -29,6 +29,11 @@ s2i create image_name directory
 ```
 [user0X@bastion ~]$ s2i create s2i-test0X s2i-test0X/
 ```
+**NOTA** La estructura que se crea con S2I la carpeta bin no cuenta con permisos de ejecucion, por lo que muy probablemente haga que la imagen **FALLE** al momento de ejecutar el comando **run** no por el comando si no por los permisos de la carpeta
+
+```
+[user19@bastion ~]$ chmod  -R 775 s2i-test0X/.s2i/bin/ 
+```
 
 4. Valide los archivos creados por el comando S2I
 ```
@@ -98,10 +103,8 @@ EXPOSE ${PORT}
 # Copie en su lugar los scripts del generador de S2I, el script de ejecución y etiquete
 # la imagen de Docker para que el software 's2i' sepa dónde encontrarlos.
 
-#COPY s2i ${HOME}/s2i
 COPY ./.s2i/ ${HOME}/s2i
-
-COPY ./.s2i/bin/run ${HOME}/run
+COPY run ${HOME}/run
 
 LABEL io.k8s.description="S2I builder for hosting files with Apache HTTPD server" \
       io.k8s.display-name="Apache HTTPD Server" \

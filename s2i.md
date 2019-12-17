@@ -175,7 +175,7 @@ La construccion de imagenes con s2i cuenta con 3 scripts especiales que son:
 
 **.s2i/bin/assemble** Este script se encarga de inyectar los datos desde una fuente a una ruta especifica del contenedor
 
-```diff
+```
 [user19@bastion s2i-test19]$ vim .s2i/bin/assemble
 #!/bin/bash -e
 #
@@ -200,7 +200,7 @@ fi
 
 echo "---> Installing application source..."
 
-- cp -Rf /tmp/src/. /var/www/html
+cp -Rf /tmp/src/. /var/www/html
 
 echo "---> Building application from source..."
 # TODO: Add build steps for your application, eg npm install, bundle install, pip install, etc.
@@ -212,7 +212,7 @@ echo "---> Building application from source..."
 Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente es descargado en un contenedor temporal en la carpeta /tmp/src/ y enviado al contendor definitivo a la carpeta /var/www/html.
 
 
-**s2i/bin/run** Este script es llamado de forma automatica una vez la imagen sea ejecutada como contenedor, este script es quien debe inciar el servicio, similar al CMD dentro del los archivos Dockerfile
+**.s2i/bin/run** Este script es llamado de forma automatica una vez la imagen sea ejecutada como contenedor, este script es quien debe inciar el servicio, similar al CMD dentro del los archivos Dockerfile
 
 ```
 #!/bin/bash -e
@@ -226,12 +226,13 @@ Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente e
 
 exec httpd -D FOREGROUND
 ```
+Indique cual es el comando de inicio de servicio de http
+
 ***Makefile*** El archivo make contiene los comandos relacionados con el docker build, por lo que para la compilacion de la imagen puede usar el comando docker build usado en los talleres de docker o simplemente ejecutar el comando make
 
 ```
-IMAGE_NAME = s2i-test
+IMAGE_NAME = s2i-test19
 
-.PHONY: build
 build:
 	docker build -t $(IMAGE_NAME) .
 
@@ -244,83 +245,89 @@ test:
 
 
 5. Compilacion de la imagen.
-Ingrese a la carpeta s2i-test y ejecute el comando make
+Dentro de la carpeta s2i-test19 ejecute el comando **make**
 
 ```
-[user0X@bastion ~]$ cd s2i-test
-[user0X@bastion s2i-test]$ make
-docker build -t s2i-test .
-Sending build context to Docker daemon  22.02kB
-Step 1/8 : FROM centos:7
+[user19@bastion s2i-test19]$ make
+docker build -t s2i-test19 .
+Sending build context to Docker daemon 17.41 kB
+Step 1/9 : FROM centos:7
  ---> 5e35e350aded
-Step 2/8 : LABEL maintainer="Jose Maneul <jcalvo@redhat.com>"
- ---> Running in 427292e9db1a
-Removing intermediate container 427292e9db1a
- ---> e5c643e19673
-Step 3/8 : LABEL io.k8s.description="Platform for building xyz"       io.k8s.display-name="builder x.y.z"       io.openshift.expose-services="8080:http"       io.openshift.tags="builder,x.y.z,etc."
- ---> Running in c43a9983e9bb
-Removing intermediate container c43a9983e9bb
- ---> 52ec83463cd5
-Step 4/8 : RUN yum -y install -y httpd &&     yum clean all &&      sed 's/^Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf.new  &&      cp /etc/httpd/conf/httpd.conf.new  /etc/httpd/conf/httpd.conf
- ---> Running in a275333dba2a
-Loaded plugins: fastestmirror, ovl
-Determining fastest mirrors
+Step 2/9 : LABEL maintainer "Jose Maneul <jcalvo@redhat.com>"
+ ---> Running in 50e2bec7c376
+ ---> 9abf463f39b9
+Removing intermediate container 50e2bec7c376
+Step 3/9 : LABEL io.k8s.description "Platform for building xyz" io.k8s.display-name "builder x.y.z" io.openshift.expose-services "8080:http" io.openshift.s2i.scripts-url "image:///usr/libexec/s2i" io.openshift.tags "builder,webserver,apache,http,html"
+ ---> Running in 146440db1088
+ ---> e18734663d63
 ...
 ...
 ...
-Removing intermediate container 243222d32300
- ---> 70421821177e
-Step 8/8 : CMD ["/usr/libexec/s2i/usage"]
- ---> Running in b3891094810a
-# s2i-test
-Removing intermediate container b3891094810a
- ---> 1d7a093f3f3a
-Successfully built 1d7a093f3f3a
-````
+Removing intermediate container 0634bcf1a39b
+Step 8/9 : EXPOSE 8080
+ ---> Running in 4e1f57c229eb
+ ---> 02b2109f4eab
+Removing intermediate container 4e1f57c229eb
+Step 9/9 : CMD /usr/libexec/s2i/usage
+ ---> Running in ee764db523d1
+ ---> 026a39defc60
+Removing intermediate container ee764db523d1
+Successfully built 026a39defc60
+```
 
 Este comando genera una nueva imagen de Docker
 
 
 ```
-[user0X@bastion s2i-test]$  docker images
-REPOSITORY                  TAG                 IMAGE ID            CREATED              SIZE
-s2i-test                    latest              1d7a093f3f3a        About a minute ago   260MB
-nginx-test                  latest              6f171ecf1892        10 minutes ago       248MB
+[user19@bastion s2i-test19]$ docker images
+REPOSITORY                                                                     TAG                 IMAGE ID            CREATED              SIZE
+s2i-test19                                                                     latest              026a39defc60        About a minute ago   260 MB
 ```
 
 
 6. Realizacion de pruebas locales de inyectar codigo a la nueva imagen.
 
 ```
-[user0X@bastion s2i-test]$ s2i build test/test-app s2i-test http-test
+[user0X@bastion s2i-test]$ echo "Codigo" > test/test-app/index.html
+s2i build test/test-app s2i-test19 s2i-test19
+I1217 01:24:32.241433 22615 install.go:251] Using "assemble" installed from "image:///usr/libexec/s2i/assemble"
+I1217 01:24:32.241624 22615 install.go:251] Using "run" installed from "image:///usr/libexec/s2i/run"
+I1217 01:24:32.241642 22615 install.go:251] Using "save-artifacts" installed from "image:///usr/libexec/s2i/save-artifacts"
 ---> Installing application source...
 ---> Building application from source...
-Build completed successfully
 ```
 Ejecutar el contenedor y validar por dentro el codigo
 ```
 [user0X@bastion s2i-test]$ docker run -it -p 8080:8080 http-test bash
-[webuser@3f5606855b68 /]$ cd /var/www/html/
-[webuser@3f5606855b68 html]$ ls
+[webuser@65531d48772c /]$ cd /var/www/html/
+[webuser@65531d48772c html]$ ls
 index.html
-[webuser@3f5606855b68 html]$ cat index.html
-<!doctype html>
-<html>
-	<head>
-		<title>Hello World!</title>
-	</head>
-	<body>
-		<h1>Hello World!</h1>
-	</body>
-</html>
+[webuser@65531d48772c html]$ cat index.html
+Codigo
 ```
 
 7. En caso que la imagen s2i funcione de acuerdo a lo esperado, los siguientes pasos seran, cargarla al repositorio de docker para posteriormente ser cargada como imagen base a openshift
 
 
 ```
-[user0X@bastion s2i-test]$ docker tag s2i-test:latest docker.io/jmanuelcalvo/s2i-test:latest
-[user0X@bastion s2i-test]$ docker push docker.io/jmanuelcalvo/s2i-test:latest
+[user19@bastion s2i-test19]$ docker tag s2i-test19 docker.io/jmanuelcalvo/s2i-test19:latest
+```
+Recuerde estar logueado en Docker
+```
+[user19@bastion s2i-test19]$ docker login docker.io
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: jmanuelcalvo
+Password:
+Login Succeeded
+[user19@bastion s2i-test19]$ docker push docker.io/jmanuelcalvo/s2i-test19:latest
+The push refers to a repository [docker.io/jmanuelcalvo/s2i-test19]
+737b54fff43f: Pushed
+d72a99aa43e7: Pushed
+4dc0b923d868: Pushed
+a255d8ff5a53: Pushed
+adfdc6f3d57b: Pushed
+77b174a6a187: Pushed
+latest: digest: sha256:ab51e7fab4ec641f54a1973ead0495606f276799e0a6a5fdec3cab3370da0b35 size: 1570
 ```
 8. Importar la imagen a OpenShift
 Garantice que este logueado sobre OpenShift y sobre el proyecto que desea importar dicha imagen.
@@ -328,15 +335,30 @@ Garantice que este logueado sobre OpenShift y sobre el proyecto que desea import
 **NOTA:** Recuerde que en caso de querer que la imagen sea visualizada por todos los proyectos y usuarios de OpenShift, la imagen se debe importar en el  proyecto/namespace openshift.
 
 ```
+[root@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
+
 [user0X@bastion ~]$ oc whoami
+user19
 
-[user0X@bastion ~]$ oc import-image s2i-test --from docker.io/jmanuelcalvo/s2i-test/s2i-test --confirm --insecure=true
+[user19@bastion s2i-test19]$ oc new-project s2i-test19
+Now using project "s2i-test19" on server "https://loadbalancer.2775.internal:443".
 
-[user0X@bastion ~]$ oc get is
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+
+to build a new example application in Ruby.
+
+[user19@bastion s2i-test19]$ oc import-image s2i-test19 --from docker.io/jmanuelcalvo/s2i-test19:latest --confirm --insecure=true
+imagestream.image.openshift.io/s2i-test19 imported
+
+[user19@bastion s2i-test19]$ oc get is
+NAME         DOCKER REPO                                              TAGS      UPDATED
+s2i-test19   docker-registry.default.svc:5000/s2i-test19/s2i-test19   latest    25 seconds ago
 ```
 
 9. Por ultimo cree una aplicacion utilizando su nueva imagen
 
 ```
-[user0X@bastion ~]$ oc new-app http-test~https://github.com/jmanuelcalvo/app.git --name=app0X
+[user0X@bastion ~]$ oc new-app s2i-test19~https://github.com/jmanuelcalvo/app.git --name=app0X
 ```

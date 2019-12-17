@@ -130,7 +130,7 @@ root@bastion ~]$ oc login -u admin1 https://loadbalancer.2775.internal:443
 
 3. Valide los nodos del cluters y sus recursos
 ```
-[user19@bastion ~]$ oc get nodes
+[user0X@bastion ~]$ oc get nodes
 NAME                       STATUS    ROLES     AGE       VERSION
 infranode1.2775.internal   Ready     infra     19h       v1.11.0+d4cacc0
 infranode2.2775.internal   Ready     infra     19h       v1.11.0+d4cacc0
@@ -145,21 +145,21 @@ node3.2775.internal        Ready     compute   19h       v1.11.0+d4cacc0
 Verifique los recursos usados por uno o todos los nodos de aplicaciones
 
 ```
-[user19@bastion ~]$ oc describe node node1.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node1.2775.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
   --------  --------      ------
   cpu       310m (15%)    220m (11%)
 
-[user19@bastion ~]$ oc describe node node2.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node2.2775.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
   --------  --------      ------
   cpu       310m (15%)    220m (11%)
 
-[user19@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
@@ -171,27 +171,27 @@ Allocated resources:
 4. Cree un proyecto y una aplicacion
 
 ```
-[user19@bastion ~]$ oc new-project  limit-19
-Now using project "limit-19" on server "https://loadbalancer.2775.internal:443".
+[user0X@bastion ~]$ oc new-project  limit-0X
+Now using project "limit-0X" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
     oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
 to build a new example application in Ruby.
-[user19@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app0X
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app0X
 ```
 5. Valide los recursos usados por esta aplicacion
 ```
-[user19@bastion ~]$ oc get pod -o wide
+[user0X@bastion ~]$ oc get pod -o wide
 NAME            READY     STATUS      RESTARTS   AGE       IP           NODE                  NOMINATED NODE
-app19-1-7zktx   1/1       Running     0          18s       10.1.8.241   node3.2775.internal   <none>
-app19-1-build   0/1       Completed   0          45s       10.1.14.51   node1.2775.internal   <none>
+app0X-1-7zktx   1/1       Running     0          18s       10.1.8.241   node3.2775.internal   <none>
+app0X-1-build   0/1       Completed   0          45s       10.1.14.51   node1.2775.internal   <none>
 ```
 Identifique en que nodo se enxuentra corriendo la aplicacion (en el ejemplo nodo3) y valida el uso de recursos nuevamente y comparelo con las salidas anteriores.
 
 ```
-[user19@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
@@ -203,7 +203,7 @@ Allocated resources:
 
 ```
 
-[user19@bastion ~]$ cat <<EOF > limits.yaml
+[user0X@bastion ~]$ cat <<EOF > limits.yaml
 apiVersion: "v1"
 kind: "LimitRange"
 metadata:
@@ -223,20 +223,20 @@ spec:
       memory: "512Mi"
 EOF
 
-[user19@bastion ~]$ oc create -f limits.yaml
+[user0X@bastion ~]$ oc create -f limits.yaml
 limitrange/dev-limits created
 ```
 
 5. Verifique los limites creados en el proyexto
 
 ```
-[user19@bastion ~]$ oc get limitranges
+[user0X@bastion ~]$ oc get limitranges
 NAME             CREATED AT
 project-limits   2019-12-17T13:04:08Z
 
-[user19@bastion ~]$ oc describe limitranges project-limits
+[user0X@bastion ~]$ oc describe limitranges project-limits
 Name:       project-limits
-Namespace:  limit-19
+Namespace:  limit-0X
 Type        Resource  Min    Max   Default Request  Default Limit  Max Limit/Request Ratio
 ----        --------  ---    ---   ---------------  -------------  -----------------------
 Pod         memory    100Mi  1Gi   -                -              -
@@ -247,7 +247,7 @@ Container   memory    -      -     512Mi            512Mi          -
 
 6. Asignar Cuotas a un proyectos
 ```
-[user19@bastion ~]$ cat <<EOF > quota.yml
+[user0X@bastion ~]$ cat <<EOF > quota.yml
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -257,12 +257,12 @@ spec:
     cpu: "900m"
 EOF
 
-[user19@bastion ~]$ oc create -f quota.yml
+[user0X@bastion ~]$ oc create -f quota.yml
 resourcequota/project-quota created
 
-[user19@bastion ~]$ oc describe quota
+[user0X@bastion ~]$ oc describe quota
 Name:       project-quota
-Namespace:  limit-19
+Namespace:  limit-0X
 Resource    Used  Hard
 --------    ----  ----
 cpu         0     900m
@@ -271,15 +271,15 @@ cpu         0     900m
 
 7. Cree una nueva aplicacion y valide los valores de los limites y las cuotas
 ```
-[user19@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app19
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app0X
 --> Found image 8e01e80 (2 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
 
     Apache 2.4 with PHP 7.1
 ...
 ...
-[user19@bastion ~]$ oc describe quota
+[user0X@bastion ~]$ oc describe quota
 Name:       project-quota
-Namespace:  limit-19
+Namespace:  limit-0X
 Resource    Used  Hard
 --------    ----  ----
 cpu         250m  900m
@@ -288,12 +288,12 @@ cpu         250m  900m
 
 8. Escale el pod y valida su quota nuevamente
 ```
-[user19@bastion ~]$ oc scale --replicas=2 dc/app19
-deploymentconfig.apps.openshift.io/app19 scaled
+[user0X@bastion ~]$ oc scale --replicas=2 dc/app0X
+deploymentconfig.apps.openshift.io/app0X scaled
 
-[user19@bastion ~]$ oc describe quota
+[user0X@bastion ~]$ oc describe quota
 Name:       project-quota
-Namespace:  limit-19
+Namespace:  limit-0X
 Resource    Used  Hard
 --------    ----  ----
 cpu         500m  900m   
@@ -304,25 +304,24 @@ cpu         500m  900m
 9. Ahora escale a 4 pods e identifique que la quota se excedio
 
 ```
-[user19@bastion ~]$ oc scale --replicas=4 dc/app19
+[user0X@bastion ~]$ oc scale --replicas=4 dc/app0X
 
-[user19@bastion ~]$ oc get pod
+[user0X@bastion ~]$ oc get pod
 NAME            READY     STATUS      RESTARTS   AGE
-app19-1-9xjmf   1/1       Running     0          2m
-app19-1-bmzhd   1/1       Running     0          1m
-app19-1-build   0/1       Completed   0          3m
-app19-1-l4zbd   1/1       Running     0          3m
+app0X-1-9xjmf   1/1       Running     0          2m
+app0X-1-bmzhd   1/1       Running     0          1m
+app0X-1-build   0/1       Completed   0          3m
+app0X-1-l4zbd   1/1       Running     0          3m
 
 ```
+
 Unicamente si visualizan 3 pods y si visualizamos los eventos en el proyecto se puede encontrar un mensaje como el siguiente:
 
 ```
+[user0X@bastion ~]$ oc get ev
+11s         2m           8         app0X-1.15e12ab18debde0c          ReplicationController                                            Warning   FailedCreate                  replication-controller         (combined from similar events): Error creating: pods "app0X-1-25f69" is forbidden: exceeded quota: project-quota, requested: cpu=250m, used: cpu=750m, limited: cpu=900m
 
+[user0X@bastion ~]$ oc describe node node3.2775.internal | grep limit-0X
+  limit-0X                         app0X-1-l4zbd                  250m (12%)    250m (12%)  512Mi (6%)       512Mi (6%)
 
-
-
-
-
-[user19@bastion ~]$ oc get ev
-11s         2m           8         app19-1.15e12ab18debde0c          ReplicationController                                            Warning   FailedCreate                  replication-controller         (combined from similar events): Error creating: pods "app19-1-25f69" is forbidden: exceeded quota: project-quota, requested: cpu=250m, used: cpu=750m, limited: cpu=900m
 ```

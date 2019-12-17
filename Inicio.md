@@ -10,12 +10,12 @@
 Antes de iniciar, tenga en cuenta que a este workshop ingresaran varias personas, por lo que previo a esto es necesario que cada uno seleccione un numero de usuario y con este trabajara durante todos los talleres
 Ejemplo:
 
-* user01 - Jose Manuel 
+* user01 - Jose Manuel
 * user02 - German Pulido
 * user03 - Camilo Astros
 * user04 - Camilo Mendez
 
-y asi sucesivamente, una vez tenga SU usuario, durante los talleres reemplaze userXX por user04 (o su usuario asignado)
+y asi sucesivamente, una vez tenga **su usuario**, durante los talleres reemplaze **userXX** por **user04** (o su usuario asignado)
 
 Las contraseñas de los usuarios tanto por SSH como por consola seran redhat01
 
@@ -40,7 +40,7 @@ Jose Manuel Calvo I
 
 [Taller 2](talleres/taller2.md) - Volumenes Persistentes, ConfigMap y Secrets
 
-[Taller 3](talleres/taller3.md) - Aplicaciones complejas (FrontEnd + BD + Datos Persistentes) 
+[Taller 3](talleres/taller3.md) - Aplicaciones complejas (FrontEnd + BD + Datos Persistentes)
 
 [Taller 4](talleres/taller4.md) - Trabajo con contenedores Docker
 
@@ -62,33 +62,6 @@ Jose Manuel Calvo I
 ![Ref](deploy.png)
 
 
-## Antes de iniciar
-Antes de iniciar, tenga en cuenta que a este workshop ingresaran varias personas, por lo que previo a esto es necesario que cada uno seleccione un numero de usuario y con este trabajara durante todos los talleres
-Ejemplo:
-
-* user01 - Jose Manuel
-* user02 - German Pulido
-* user03 - Camilo Astros
-* user04 - Camilo Mendez
-
-y asi sucesivamente, una vez tenga SU usuario, durante los talleres reemplaze userXX por user04 (o su usuario asignado)
-
-Las contraseñas de los usuarios tanto por SSH como por consola seran redhat01
-
-## Por Navegador
-```
-https://loadbalancer.2775.example.opentlc.com/
-```
-
-## Acceso por SSH a la maquina Bastion
-```
-ssh user0X@bastion.2775.example.opentlc.com
-oc login https://loadbalancer.2775.internal:443 -u user0X -p redhat01
-```
-
-
-## Facilitador / Consultor Red Hat
-Jose Manuel Calvo I
 
 
 # Laboratorios
@@ -103,22 +76,11 @@ Jose Manuel Calvo I
 
 
 
-
-
-
-
-
-
-
-
 ------------
+# Varios  
 
 
-# Almacenamiento
 
-* Creacion de configMap
-* Creacion de Secret
-### Ver taller 2
 
 # Backup OpenShift
 ### Ver taller 5
@@ -138,10 +100,3 @@ Cuando el nodo vuelva a estar disponible, se debe poner nuevamente en status sch
 ```
 [root@bastion ~]# oc adm manage-node node3.1b84.internal --schedulable=true
 ```
-
-## Red Hat Insights
-https://access.redhat.com/products/red-hat-insights/#getstarted
-
-
-
-

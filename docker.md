@@ -1,8 +1,9 @@
 # Crear una aplicacion en docker lista para ejecutarse en OpenShift
 
+**NOTA** Antes de iniciar
 1. Cree una cuentas en hub.docker.com
 
-**NOTA:** Tenga en cuenta que los ejempos y salidas de comeando se realizan con el usuario jmanuelcalvo, reemplace este por el nombre de su usuario
+**NOTA:** Tenga en cuenta que los ejempos y salidas de comeando se realizan con el usuario del repositorio de cada alumno, reemplace la palabra *docker-repo** este por el nombre de su usuario, en mi caso ejemplo el usuario es jmanuelcalvo
 
 2. Valide que tenga una cuenta en un servidor de repositorios git
 
@@ -17,23 +18,23 @@ http://git.apps.2775.example.opentlc.com/
 O si ya cuenta con una en GitHub github.com
 
 3. Cree un repo desde al interfase web llamado app01
-***IMPORTANTE***: al momento de crear el repo, seleccione:
+**IMPORTANTE**: al momento de crear el repo, seleccione:
 
-Initialize this repositorio with selected files and templates
+***Initialize this repositorio with selected files and templates***
 
 ![Ref](img/app01.png)
 
 4. Dentro de la maquina bastion descargue su repositorio
 ```
-ssh user0X@bastion.2775.example.opentlc.com.     -    password redhat01
-git clone http://gogs.apps.2775.example.opentlc.com/jmanuel/app01.git
-cd app01
+[user0X@bastion ~]$ ssh user0X@bastion.2775.example.opentlc.com.     -    password redhat01
+[user0X@bastion ~]$ git clone http://gogs.apps.2775.example.opentlc.com/jmanuel/app01.git
+[user0X@bastion ~]$ cd app01
 ```
 
-5. Cree una archivo Dockerfile con el contenido del software que desea instalar
+5. Cree una archivo Dockerfile con el contenido del software que desea instalar, reemplace los datos del **MAINTAINER** por su nombre y comando **Hello** por su mensaje personalizado
 
 ```
-cat << EOF > Dockerfile
+[user0X@bastion ~]$ cat << EOF > Dockerfile
 FROM centos:7
 
 MAINTAINER Jose Manuel Calvo <jcalvo@redhat.com>
@@ -42,6 +43,8 @@ LABEL description="A basic Apache container on RHEL 7"
 
 RUN yum -y install -y httpd && \
     yum clean all && \
+    sed 's/^Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf.1 && \
+    cp /etc/httpd/conf/httpd.conf.1 /etc/httpd/conf/httpd.conf
     echo "Hello from the httpd container!" > /var/www/html/index.html
 
 EXPOSE 8080
@@ -57,22 +60,22 @@ EOF
 
 6. Compile su imagen de contenedor
 ```
-docker build -t docker.io/jmanuelcalvo/app01 .
+[user0X@bastion ~]$ docker build -t docker.io/docker-repo/app01 .
 ```
 
 7. Valide que esta image quedo creada correctamente
 ```
-docker images
+[user0X@bastion ~]$ docker images
 ```
 
 8. Realícele las pruebas locales
 ```
-docker run -d -p 80XX:8080 --name=app0X docker.io/jmanuelcalvo/app01
+[user0X@bastion ~]$ docker run -d -p 80XX:8080 --name=app0X docker.io/docker-repo/app01
 ```
 
 9. Ingrese al contenedor y valide que todo esta funcionando de la forma deseada
 ```
-docker exec -it app0X bash
+[user0X@bastion ~]$ docker exec -it app0X bash
 exit
 docker stop app0X
 docker rm app0X
@@ -83,15 +86,15 @@ docker rm app0X
 NOTA:
  Garantice que su IP p FQDN de registro este permitida por docker para publicar su registro
 ```
-cat /etc/docker/daemon.json
+[user0X@bastion ~]$ cat /etc/docker/daemon.json
 {
 "insecure-registries" : [ "docker-registry-default.apps.2775.example.opentlc.com", "docker.io" ]
 ```
 En caso de contar realizar las pruebas con un servidor de registro alterno, indique por favor al facilitador para adicionarlo en la lista de servidores de registro autoriados
 
 ```
-docker login docker.io
-docker push docker.io/jmanuelcalvo/app01
+[user0X@bastion ~]$ docker login docker.io
+[user0X@bastion ~]$ docker push docker.io/docker-repo/app01
 ```
 Valide en el portal web de su servidor de registro o hub.docker.com que la nueva imagen se encuentre creada
 
@@ -100,11 +103,9 @@ Valide en el portal web de su servidor de registro o hub.docker.com que la nueva
 
 11. No olvide también guardar los cambios de su imagen Dockerfile en el repositorio de git
 ```
-git config --global user.name "Jose Manuel Calvo
-git config --global user.email jmanuel@example.com
-git add Dockerfile
-git commit -m "Primera version de archivo Dockerfile"
-git push
+[user0X@bastion ~]$ git add Dockerfile
+[user0X@bastion ~]$ git commit -m "Primera version de archivo Dockerfile"
+[user0X@bastion ~]$ git push
 ```
 
 Valide en el portal web del Gogs los archivos de su repositorio
@@ -125,10 +126,14 @@ to build a new example application in Ruby.
 
 Teniendo en cuenta que el contenedor de Apache requiere privilegios de root para iniciar el servicio, como usuario admin, se asignaran privilegios de ejecucion sobre los contenedores.
 
-NOTA: esto no es lo mas recomendado, en los siguientes ejercicios se revisara en mayor detalle
+NOTA: esto **NO** es lo mas recomendado, en los siguientes ejercicios se revisara en mayor detalle
+
+Logueese como usuario admin y permita la creacion de contenedore dentro de OpenShift como usuario root
 ```
 [root@bastion ~]$ oc login -u admin1 -p redhat01
+
 [root@bastion ~]$ oc adm policy add-scc-to-user anyuid -z default
+
 [user0X@bastion ~]$ oc login -u user0X
 Logged into "https://loadbalancer.2775.internal:443" as "user0X" using existing credentials.
 
@@ -138,14 +143,18 @@ You have access to the following projects and can switch between them with 'oc p
     etherpad
 
 Using project "app01".
-[user0X@bastion ~]$ oc new-app --name app01 --insecure-registry --docker-image="docker.io/jmanuelcalvo/app01:latest"
---> Found Docker image 5d8ddbd (2 hours old) from docker.io for "docker.io/jmanuelcalvo/app01:latest"
+```
+Ahora ejecute una contenedor en OpenShift desde dockerhub
+
+```
+[user0X@bastion ~]$ oc new-app --name app01 --insecure-registry --docker-image="docker.io/docker-repo/app01:latest"
+--> Found Docker image 5d8ddbd (2 hours old) from docker.io for "docker.io/docker-repo/app01:latest"
 
     * An image stream tag will be created as "app01:latest" that will track this image
     * This image will be deployed in deployment config "app01"
     * Port 80/tcp will be load balanced by service "app01"
       * Other containers can access this service through the hostname "app01"
-    * WARNING: Image "docker.io/jmanuelcalvo/app01:latest" runs as the 'root' user which may not be permitted by your cluster administrator
+    * WARNING: Image "docker.io/docker-repo/app01:latest" runs as the 'root' user which may not be permitted by your cluster administrator
 
 --> Creating resources ...
     imagestream.image.openshift.io "app01" created
@@ -155,6 +164,7 @@ Using project "app01".
     Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
      'oc expose svc/app01'
     Run 'oc status' to view your app.
+
 [user0X@bastion ~]$ oc get pod
 NAME            READY     STATUS    RESTARTS   AGE
 app01-1-hsz5n   1/1       Running   0          6s
@@ -167,6 +177,7 @@ app01-1-hsz5n   1/1       Running   0          6s
 [user0X@bastion ~]$ oc get svc
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 app01     ClusterIP   172.30.100.94   <none>        80/TCP    1m
+
 [user0X@bastion ~]$ oc expose svc app01
 route.route.openshift.io/app01 exposed
 

@@ -9,28 +9,36 @@ OpenShift cuenta con multiples imagenes de tipo S2I con los princiales lenguajes
 
 
 1. En Red Hat / CentOS instale habilite el repositiorio s2i
-Red Hat
-habilitar el repositorio rhel-server-rhscl-7-rpms
-Instalar el paquete
-yum install source-toimage
+**Red Hat**
+Habilitar el repositorio rhel-server-rhscl-7-rpms
 
+**CentOS**
+Instalar los paquetes
+```
+[root@centos ~]# yum install centos-release-scl
+[root@centos ~]# yum install source-to-image
+```
 
-2. Ingrese a la terminal de la maquina bastion con su usuario
+2. Ingrese a la terminal de la maquina bastion con su usuario de terminal
+```
+[localhost ~]$ ssh user0X@bastion.2775.example.opentlc.com
+```
 
-3. Cree la estrucrtura de datos de S2I
+3. Cree la estrucrtura de datos de S2I (source to image)
 s2i create image_name directory
 ```
-[user0X@bastion ~]$ s2i create s2i-test s2i-test/
+[user0X@bastion ~]$ s2i create s2i-test19 s2i-test19/
 ```
 
 4. Valide los archivos creados por el comando S2I
 ```
-tree
+[user19@bastion ~]$ cd s2i-test19/
+[user19@bastion s2i-test19]$ tree
 .
 |-- Dockerfile
 |-- Makefile
 |-- README.md
-|-- s2i
+|-- .s2i
 |   -- bin
 |       |-- assemble
 |       |-- run
@@ -45,7 +53,10 @@ tree
 
 El archivo Dockerfile contiene al igual que en Docker los parametros de instalacion de las aplicaciones
 
+Deje el contenido del archivo Dockerfile similar al siguiente:
+
 ```
+[user19@bastion s2i-test19]$ vim Dockerfile
 # s2i-test
 FROM centos:7
 
@@ -66,25 +77,106 @@ RUN yum -y install -y httpd && \
     chown -R 1001:1001 /var/log/httpd && chown -R 1001:1001 /run/httpd && chown -R 1001:1001 /var/www/html/ &&\
     chgrp -R 0 /run && chmod -R g=u /run
 
-COPY ./s2i/bin/ /usr/libexec/s2i
+COPY ./.s2i/bin/ /usr/libexec/s2i
 
 USER 1001
 
 EXPOSE 8080
 
 CMD ["/usr/libexec/s2i/usage"]
+
 ```
 Observe con detalle los valores de ***LABEL*** y ***COPY***
 
 Tenga en cuenta tambien que en el ejemplo se esta adicionando un archivo llamado  httpd.conf.local el cual contiene la configuracion del servicio de apache, (definicio de puertos y usuario con quien se ejecutara el servicio)
 
+Observe tambien que se esta adicionando ***ADD*** un archivo **httpd.conf.local** el cual los parametros de configuracion del apache con el nuevo usuario y puerto de ejecucion
+
+Cree el archivo httpd.conf.local con el siguiente contenido
+
+
+```
+[user19@bastion s2i-test19]$ vim httpd.conf.local
+Listen 8080
+User webuser
+Group webuser
+
+ServerRoot "/etc/httpd"
+Include conf.modules.d/*.conf
+ServerAdmin root@localhost
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+DocumentRoot "/var/www/html"
+<Directory "/var/www">
+    AllowOverride None
+    Require all granted
+</Directory>
+<Directory "/var/www/html">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+<IfModule dir_module>
+    DirectoryIndex index.html
+</IfModule>
+
+<Files ".ht*">
+    Require all denied
+</Files>
+
+ErrorLog "logs/error_log"
+
+LogLevel warn
+
+<IfModule log_config_module>
+    LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    LogFormat "%h %l %u %t \"%r\" %>s %b" common
+    <IfModule logio_module>
+      LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
+    </IfModule>
+    CustomLog "logs/access_log" combined
+</IfModule>
+
+<IfModule alias_module>
+    ScriptAlias /cgi-bin/ "/var/www/cgi-bin/"
+</IfModule>
+
+<Directory "/var/www/cgi-bin">
+    AllowOverride None
+    Options None
+    Require all granted
+</Directory>
+
+<IfModule mime_module>
+    TypesConfig /etc/mime.types
+    AddType application/x-compress .Z
+    AddType application/x-gzip .gz .tgz
+    AddType text/html .shtml
+    AddOutputFilter INCLUDES .shtml
+</IfModule>
+
+AddDefaultCharset UTF-8
+
+<IfModule mime_magic_module>
+    MIMEMagicFile conf/magic
+</IfModule>
+
+EnableSendfile on
+
+IncludeOptional conf.d/*.conf
+```
+
 ## Scripts de S2I
 
 La construccion de imagenes con s2i cuenta con 3 scripts especiales que son:
 
-**s2i/bin/assemble** Este script se encarga de inyectar los datos desde una fuente a una ruta especifica del contenedor
+**.s2i/bin/assemble** Este script se encarga de inyectar los datos desde una fuente a una ruta especifica del contenedor
 
-```
+```diff
+[user19@bastion s2i-test19]$ vim .s2i/bin/assemble
 #!/bin/bash -e
 #
 # S2I assemble script for the 's2i-test' image.
@@ -108,11 +200,15 @@ fi
 
 echo "---> Installing application source..."
 
-cp -Rf /tmp/src/. /var/www/html
+- cp -Rf /tmp/src/. /var/www/html
 
 echo "---> Building application from source..."
 # TODO: Add build steps for your application, eg npm install, bundle install, pip install, etc.
 ````
+
+**NOTA** Presete especial atencion a la linea que realiza el copiado de la informacion a la carpeta de datos del apache **/var/www/html**
+
+
 Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente es descargado en un contenedor temporal en la carpeta /tmp/src/ y enviado al contendor definitivo a la carpeta /var/www/html.
 
 

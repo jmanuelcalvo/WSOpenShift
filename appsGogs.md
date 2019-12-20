@@ -1,4 +1,4 @@
-# Despliegue de aplicaciones varias y utiles sobre OpenShift
+# Despliegue de aplicaciones varias y utiles sobre OpenShift 123
 
 ## Gogs - Go Git Service
 Esta ese es un servidor de git similar a github o gitlab, que se puede desplegar sobre OpenShift a traves de una plantilla, de la siguiente forma:
@@ -11,7 +11,7 @@ Esta ese es un servidor de git similar a github o gitlab, que se puede desplegar
 [user0X@bastion ~]$ oc new-project gitproject
 Now using project "gitproject" on server "https://loadbalancer.2775.internal:443".
 
-You can add applications to this project with the 'new-app' command. For example, Try:
+You can add applications to this project with the 'new-app' command. For example, try:
 
     oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 

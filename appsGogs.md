@@ -11,7 +11,7 @@ Esta ese es un servidor de git similar a github o gitlab, que se puede desplegar
 [user0X@bastion ~]$ oc new-project gitproject
 Now using project "gitproject" on server "https://loadbalancer.2775.internal:443".
 
-You can add applications to this project with the 'new-app' command. For example, try:
+You can add applications to this project with the 'new-app' command. For example, Try:
 
     oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 

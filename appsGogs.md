@@ -3,7 +3,7 @@
 ## Gogs - Go Git Service
 Esta ese es un servidor de git similar a github o gitlab, que se puede desplegar sobre OpenShift a traves de una plantilla, de la siguiente forma:
 
-* Cree el proyecto donde se instalara la aplicacion
+* Cree el proyecto donde se instalara la aplicacion Gogs
 
 ```
 [user0X@bastion ~]$ oc login -u user0X -p

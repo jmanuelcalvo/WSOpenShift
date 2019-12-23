@@ -25,7 +25,7 @@ openshift_enable_unsupported_configurations=true
 openshift_disable_check=disk_availability,docker_image_availability,package_version,memory_availability
 dynamic_volumes_check=false
 openshift_deployment_type=openshift-enterprise
-openshift_release=3.11.51
+openshift_release=3.11.59
 
 ###########################################################################
 ### OpenShift Optional Vars
@@ -107,7 +107,7 @@ openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 
 openshift_master_htpasswd_file=/root/htpasswd.openshift
 
 #openshift_master_htpasswd_file=/root/htpasswd.openshift
-openshift_master_ldap_ca_file=/root/ipa-ca.crt
+#openshift_master_ldap_ca_file=/root/ipa-ca.crt
 
 
 ###########################################################################

@@ -1,21 +1,27 @@
 #! /bin/bash
 # Instalacion de un OpenShift en OpenTLC
 
-GUID=2775
+GUID=193d
 cp /etc/ansible/hosts /etc/ansible/hosts.default
 sed "s/2775/$GUID/g" hosts > /etc/ansible/hosts
 
 echo "Validando que las maquinas este OK"
 ansible all -m ping
 
+echo "PRESIONE ENTER si la validacion esta correcta, de lo contrario presione Ctrl + C"
+read 
 if [ "$?" == "0" ]
 then
   yum -y install atomic-openshift-clients openshift-ansible
   cd /usr/share/ansible/openshift-ansible/ 
+  htpasswd -b /root/htpasswd.openshift admin redhat01
   time ansible-playbook playbooks/prerequisites.yml
 else
   echo "Las maquinas no estan lista o el GUID no esta bien configurado, verifique"
 fi
+
+echo "PRESIONE ENTER si los pre-requisitos finalizaron bien, de lo contrario presione Ctrl + C"
+read
 
 
 if [ "$?" == "0" ]
@@ -31,6 +37,8 @@ fi
 ansible masters[0] -b -m fetch -a "src=/root/.kube/config dest=/root/.kube/config flat=yes"
 oc get projects
 
+echo "PRESIONE ENTER si la instalacion finalizo correctamente, de lo contrario presione Ctrl + C"
+read
 echo "Crecion de usuarios de OpenShift y SO"
 for i in {1..9}; do ansible masters -m shell -a "htpasswd -b /etc/origin/master/htpasswd user0$i redhat01"; adduser user0$i; echo redhat01 | passwd --stdin user0$i; done
 for i in {10..20}; do ansible masters -m shell -a "htpasswd -b /etc/origin/master/htpasswd user$i redhat01"; adduser user$i; echo redhat01 | passwd --stdin user$i; done

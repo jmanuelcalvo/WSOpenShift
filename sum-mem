@@ -1,0 +1,97 @@
+#! /bin/bash
+# Este script funciona leyendo los logs del archivo /var/log/autoscale.log, 
+# para que este archivo se genere, se debe configurar el rsyslog.conf con:
+# 
+# # Log the autoscale
+# $template autoscale, "/var/log/autoscale.log"
+# if $programname contains 'autoscale' then ?autoscale
+# 
+
+##############################################################################################3
+
+# Parametros
+
+# Porcentaje de Memoria y CPU en el cual se escalara el nuevo nodo
+USOCPU=80
+USOMEM=80
+# Cantidad de valores (horas) hacia atras que se evaluaran para obtener un porcentaje 
+# (ej: si despuesn de 12 horas el portentaje de uso es 80% se escala)
+CANTIDAD=5     # VALOR GUARDADO CADA HORA
+
+# Inicializacion de variables en 0 para las operaciones matematicas
+CPUSUM=0
+CPU=0
+CPUUSED=0
+MEM=0
+
+# Definicion de los nodos de aplicaciones de OpenShift x Ambiente
+NODES=$(oc get nodes |grep compute | awk '{print $1}')
+
+# Login en el ambiente donde se realizara la evaluacion
+#oc login -u admin -p XXX http://url
+
+
+for i in $NODES
+do
+    VAR=$(oc describe node $i | grep -A 1 Capacity|grep cpu | awk '{print $2}')
+    CPU=$(( $CPU + $VAR * 1000 ))
+    VAR1=$(oc describe node $i | grep -A 4 Allocated |grep cpu |awk '{print $2}'| tr -d m)
+    CPUUSED=$(( $CPUUSED + $VAR1 ))
+
+    VAR2=$(oc describe node $i | grep -A 3 Capacity|grep memory | awk '{print $2}' | tr -d Ki)
+    MEM=$(( $MEM + $VAR2 / 1000 ))
+    VAR3=$(oc describe node $i | grep -A 5 Allocated |grep memory |awk '{print $2}'| tr -d Mi)
+    MEMUSED=$(( $MEMUSED + $VAR3 ))
+
+done
+CPUPER=$(( $CPUUSED * 100 / $CPU ))
+MEMPER=$(( $MEMUSED * 100 / $MEM ))
+
+#echo "CPU TOTAL EN LOS NODOS DE APP $CPU"
+#echo "CPU RESERVADO POR LAS APP $CPUUSED"
+#echo "% DE CPU RESERVADO POR LAS APP $CPUPER %"
+
+#echo "MEMORIA TOTAL EN LOS NODOS APP $MEM Mi"
+#echo "MEMORIA RESERVADA POR LAS APP $MEMUSED Mi"
+#echo "% DE MEMORIA RESERVADA POR LAS APP $MEMPER %"
+#logger -i -t autoscaleid "autoscale CPU USADO POR LAS APP $CPUPER"
+logger -i -t autoscaleid "autoscale CPU reservado $CPUPER MEM reservado $MEMPER"
+
+##############################################################################################3
+# La cantidad define el numero que valores atras que va a leer de CPU
+##############################################################################################3
+
+# Saca el promedio de CPU reservada durante N horas
+for i in $(tail -n$CANTIDAD /var/log/autoscale.log  | awk '{print $9}')
+do
+  CPUSUM=$(( $CPUSUM + $i ))
+done
+CPUPROMEDIO=$(( $CPUSUM / $CANTIDAD ))
+
+# Saca el promedio de MEM reservada durante N horas
+for i in $(tail -n$CANTIDAD /var/log/autoscale.log  | awk '{print $12}')
+do
+  MEMSUM=$(( $MEMSUM + $i ))
+done
+MEMPROMEDIO=$(( $MEMSUM / $CANTIDAD ))
+
+
+if [ "$CPUPROMEDIO" -ge "$USOCPU" ]
+then
+  echo "levantar nodo"
+elif [ "$MEMPROMEDIO" -ge "$USOMEM" ]
+then
+  echo "levantar nodo"
+else
+  echo "No hace NADA"
+fi
+
+#if [ "$MEMPROMEDIO" -ge "$USOMEM" ]
+#then
+#  echo "levantar nodo"
+#else
+#  echo "No hace NADA Memoria"
+#fi
+
+echo "Promedio de CPU durante $CANTIDAD horas $CPUPROMEDIO %"
+echo "Promedio de MEM durante $CANTIDAD horas $MEMPROMEDIO %"

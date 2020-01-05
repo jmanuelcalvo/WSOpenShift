@@ -108,3 +108,5 @@ echo "Created def file for ${volume}";
 done;
 
 cat /root/pvs/* | oc create -f -
+
+oc adm policy add-cluster-role-to-user cluster-admin admin

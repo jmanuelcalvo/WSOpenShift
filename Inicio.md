@@ -65,15 +65,14 @@ Jose Manuel Calvo I
 
 
 # Laboratorios
+
 [Taller 1](talleresd/taller1.md) - Despliegue de aplicaciones desde Docker y s2i
 
 [Taller 2](talleresd/taller2.md) - Uso de repositorios GIT
 
-[Taller 3](talleresd/taller3.md) - Configuracion de Rutas - Estrategias de despliegues avanzadas
+[Taller 3](talleresd/taller3.md) - Configuracion de limites y quotas en los pods
 
-[Taller 4](talleresd/taller4.md) - Configuracion de limites y quotas en los pods
-
-
+[Taller 4](talleresd/taller4.md) - Configuracion de Rutas - Estrategias de despliegues avanzadas
 
 
 ------------

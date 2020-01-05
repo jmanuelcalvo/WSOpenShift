@@ -1,270 +1,333 @@
-# Talleres
+# Talleres Quotas y Limites
 [Talleres de Despliegue](../despliegue.md)
 
+Para entender mejor las restricciones, es bueno conocer algunos conceptos y componentes básicos de Openshift sobre los cuales actúan estos límites. la recomendacion es comenzar a experimentar con restricciones y límites después de familiarizarse con Openshift.
 
-
-# Manejo de los servicios y las rutas
-
-
-# Conectarse por SSH / Putty a la maquina
-
-### bastion.2775.example.opentlc.com con el usuario user0X
-
-# Conceptos básicos de control de versiones
-## Repositorio
-Usa una base de datos central que contiene todos los archivos cuyas versiones se controlan y sus respectivas historias El repositorio normalmente esta en un servidor de archivos
-
-## Copia de trabajo
-Cada colaborador tiene su propia copia de trabajo en su computador local. Usted puede obtener la última versión del repositorio, trabajar en ella localmente sin perjudicar a nadie, y cuando esté feliz con los cambios que ha realizado puede confirmar sus cambios en el repositorio.
-
-![Ref](../img/repo.png)
-
-El repositorio almacena información en forma de un árbol de archivos, Un número de clientes se conectan al repositorio, y luego leen o escriben esos archivos.
-Al escribir datos, el cliente hace que la información esté disponible para los otros; al leer los datos, el cliente recibe información de los demás.
-Lo que hace al repositorio de especial es que recuerda todos los cambios que alguna vez se hayan escrito en él: cada cambio en cada archivo, e incluso los cambios en el propio árbol de directorios, como el añadir, borrar o reorganizar archivos y directorios.
-
-
-# Taller - Iniciar un repositorio basico con GIT
-
-## Cree un repositiorio
-
-* Desde la Consola Web cree un nuevo repositorio 
-
-http://git.apps.2775.example.opentlc.com 
-
-![Ref](../img/repo1.png)
+A continuación se muestran los componentes de Openshift influenciados por las restricciones.
 
 
 
-Luego de xrear el repositorio por la consola Web descargar una copia local del repositorio en su terminal local, vaya a la aplicacion web, ingrese a su repositorio y copie el URL.
+**Containers - Contenedores**
+Las unidades básicas de las aplicaciones OpenShift se denominan contenedores. Las tecnologías de contenedor de Linux son mecanismos livianos para aislar procesos en ejecución de modo que se limitan a interactuar solo con sus recursos designados. Muchas instancias de aplicaciones pueden ejecutarse en contenedores en un único host sin visibilidad en los procesos, archivos, red, etc. de los demás. Por lo general, cada contenedor proporciona un servicio único (a menudo denominado "microservicio"), como un servidor web o una base de datos, aunque los contenedores se pueden usar para cargas de trabajo arbitrarias.
 
 
-Copie el URL de su repositorio
+**Pods**
+OpenShift aprovecha el concepto de Kubernetes de un pod, que es uno o más contenedores desplegados juntos, y la unidad de cómputo más pequeña que se puede definir, implementar y administrar.
 
 
-![Ref](../img/repo2.png)
+**Namespaces - Projects**
+Un espacio de nombres de Kubernetes proporciona un mecanismo para abarcar recursos en un clúster. En OpenShift, un proyecto es un espacio de nombres de Kubernetes con anotaciones adicionales.
 
-Vaya a la terminal y ejecute el siguiente comando
-```
-[user0X@bastion ~]$ git clone http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
-Cloning into 'proyecto01'...
-remote: Counting objects: 4, done.
-remote: Compressing objects: 100% (3/3), done.
-remote: Total 4 (delta 0), reused 0 (delta 0)
-Unpacking objects: 100% (4/4), done.
-[user0X@bastion ~]$ cd proyecto01
-```
+Los espacios de nombres proporcionan un alcance único para:
 
-Cree un archivo index.html con contenido similar al siguiente
-```
-[user0X@bastion proyecto01]$ echo "<h1>Esta es la pagina web de Jose Manuel Calvo</h1>" > index.html
-```
+* Recursos nombrados para evitar colisiones básicas de nombres.
+* Autoridad de gestión delegada a usuarios de confianza.
+* La capacidad de limitar el consumo de recursos de la comunidad.
+* La mayoría de los objetos en el sistema tienen un ámbito de nombres, pero algunos están exceptuados y no tienen espacio de nombres, incluidos nodos y usuarios.
 
-# Comandos basicos
+A Kubernetes namespace provides a mechanism to scope resources in a cluster. In OpenShift, a project is a Kubernetes namespace with additional annotations.
 
+**Límites y restricciones de OpenShift**
+Hay tres diferentes tipos de límites y restricciones disponibles en Openshift.
+* Quotas - Cuotas
+* Limit ranges - Rangos Límites
+* Compute resources - Recursos de computo
 
-Una vez adicione un archivo en su carpeta local o realice el cambios recuerde que estos cambios en principio se encuentran en su carpeta local
+**Cuotas**
+Las cuotas son límites configurados por espacio de nombres o proyecto y actúan como límite superior para los recursos en ese espacio de nombres en particular. Básicamente define la capacidad del espacio de nombres. Por ejemplo, si la capacidad total que usamos en uno o cien pods no está dictada por la cuota, excepto cuando se configura un número máximo de pods.
 
-**git diff** - permite visualizar las diferencias entre los archivos desde cuando descargo su ultima copia y las modificaciones que ha realizado
-Ponga nueva informacion sobre el archivo README.md y valide las diferencias
-```
-[user0X@bastion proyecto01]$ echo "Nueva informacion del archivo README" >> README.md
-[user0X@bastion proyecto1]$ git diff 
-```
-
-**git add** - Adiciona un archivo o varios al contenido de su copia local
+Como la mayoría de las cosas en Openshift, puede configurar una cuota con un archivo de  configuración en yaml. Una configuración básica para una cuota se ve así:
 
 ```
-[user0X@bastion proyecto1]$ git add .
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: namespace-quota
+spec:
+  hard:
+    pods: "5"
+    requests.cpu: "500m"
+    requests.memory: 512Mi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+```
+**Millicores**
+La CPU se mide en unidades llamadas milicores. Cada nodo en el clúster determina la cantidad de cores de CPU en el nodo y luego multiplica ese valor por 1000 para expresar su capacidad total. Por ejemplo, si un nodo tiene 2 cores, la capacidad de la CPU del nodo se representará como 2000m. Si quisiera usar 1/10 de un solo core, lo representaría como 100m.
+
+Esta cuota dice que el espacio de nombres puede tener un máximo de 5 pods, y/o un máximo de 2 cores y 2 Gb de memoria, el "reclamo" inicial que hacen los pods en este espacio de nombres es de 500 milicores y 512 Mb de memoria.
+
+**Rango límite - Limit ranges**
+Otro tipo de límite es el "rango límite". Un rango límite también se configura en un espacio de nombres, sin embargo, un rango límite define límites por pod y/o contenedor en ese espacio de nombres. Básicamente proporciona límites de CPU y memoria para contenedores y pods.
+
+Nuevamente, la configuración de un rango límite también se realiza mediante una configuración yaml:
+
+```
+apiVersion: "v1"
+kind: "LimitRange"
+metadata:
+  name: "resource-limits"
+spec:
+  limits:
+    -
+      type: "Pod"
+      max:
+        cpu: "2"
+        memory: "1Gi"
+      min:
+        cpu: "200m"
+        memory: "6Mi"
+    -
+      type: "Container"
+      max:
+        cpu: "2"
+        memory: "1Gi"
+      min:
+        cpu: "100m"
+        memory: "4Mi"
+      default:
+        cpu: "300m"
+        memory: "200Mi"
+      defaultRequest:
+        cpu: "200m"
+        memory: "100Mi"
+```
+Aquí podemos ver los límites de Pod y Contenedor. Estos límites definen el "rango" (de ahí el término rango límite) para cada contenedor de pod en el espacio de nombres. Entonces, en el ejemplo anterior, cada Pod en el espacio de nombres inicialmente reclamará 200 milicores y 6Mb de memoria y puede ejecutarse con un máximo de 1 GB de memoria y 2 núcleos de CPU. Los límites reales con los que se ejecuta el Pod o contenedor se pueden definir en la especificación Pod o Contenedor que descubriremos a continuación. Sin embargo, el rango límite define el rango de estos límites.
+
+**Calcular recursos - Compute resources**
+El último de los límites es probablemente el más fácil de entender, los recursos de cómputo se definen en el Pod o en la especificación del Contenedor, por ejemplo, en la configuración de despliegue o el controlador de replicación. Y defina los límites de CPU y memoria para ese pod en particular.
+
+```
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    resources:
+      requests:
+        cpu: 100m
+        memory: 200Mi
+      limits:
+        cpu: 200m
+        memory: 400Mi
 ```
 
-**git commit** - Permite adicionar una descripcion de las modificaciones de esta version
-```
-[jcalvo-redhat.com@bastion abc]$ git commit -m "Descripcion de la version que estaba modificando"
-```
-***NOTA*** En caso que le aparezca un mensaje indicando ***Please tell me who you are.*** debe configurar su terminal con su nombre de usuario y correo electronico, con el fin de que el git tenga informacion de quien esta realizando cambios y realice nuevamente el commit
 
+En la especificación anterior, el Pod inicialmente reclamará 100 milicores y 200 Mb de memoria y alcanzará un máximo de 200 milicores y 400 Mb de memoria. Tenga en cuenta que siempre que se proporcione un rango de Límite en el espacio de nombres donde se ejecuta el Pod anterior y los límites de recursos de computo aquí están dentro del rango de límite, el Pod se ejecutará correctamente. Sin embargo, si los límites están por encima de los límites en el rango de límite, el pod no se iniciará.
+
+## Taller de asignacion de recursos a los Pods
+
+
+1. Ingrese a la terminal de la maquina bastion con su usuario de terminal
 ```
-[user0X@bastion proyecto01]$ git config --global user.email "user0X@example.com"
-[user0X@bastion proyecto01]$ git config --global user.name "Usuario 0X"
-[user0X@bastion proyecto01]$ git commit -m "Descripcion de la version que estaba modificando"
-[master 8c74aae] Descripcion de la version que estaba modificando
- 2 files changed, 1 insertion(+), 1 deletion(-)
- create mode 100644 a
+[localhost ~]$ ssh user0X@bastion.2775.example.opentlc.com
 ```
 
 
-**git log** - Permite visualizar las diferentes versiones del proyecto
+2. Garantice que esta logueado en el cluter de Openshift como su admin1
 ```
-[user0X@bastion proyecto01]$ git log
-commit 8c74aae03e063178415e311ab9ab4dbd8337aec1
-Author: Usuario 14 <user0X@example.com>
-Date:   Mon Dec 16 18:53:13 2019 +0000
-
-    Descripcion de la version que estaba modificando
-
-commit 3025dfd7c36bbd501c4bf8b163048e82998e2f44
-Author: user0X <user0X@redhat.com>
-Date:   Mon Dec 16 18:42:45 2019 +0000
-
-    Initial commit
+root@bastion ~]$ oc login -u admin1 https://loadbalancer.2775.internal:443
 ```
 
-**git checkout version** - Para volver a una version anterior de todo nuestro directorio de trabajo
-
-***NOTA*** Ejecutelo unicamente en caso que quiera regresar a la version anterior 
+3. Valide los nodos del cluters y sus recursos
 ```
-[user0X@bastion proyecto1]$ git checkout d19a75ef658aaea3d14f9e3c8856946d72ca19c9 
+[user0X@bastion ~]$ oc get nodes
+NAME                       STATUS    ROLES     AGE       VERSION
+infranode1.2775.internal   Ready     infra     19h       v1.11.0+d4cacc0
+infranode2.2775.internal   Ready     infra     19h       v1.11.0+d4cacc0
+master1.2775.internal      Ready     master    19h       v1.11.0+d4cacc0
+master2.2775.internal      Ready     master    19h       v1.11.0+d4cacc0
+master3.2775.internal      Ready     master    19h       v1.11.0+d4cacc0
+node1.2775.internal        Ready     compute   19h       v1.11.0+d4cacc0
+node2.2775.internal        Ready     compute   19h       v1.11.0+d4cacc0
+node3.2775.internal        Ready     compute   19h       v1.11.0+d4cacc0
 ```
 
-***NOTA*** Puede unicamente recuerar un archivo de una version especifica **git checkout version -- archivo**
+Verifique los recursos usados por uno o todos los nodos de aplicaciones
 
-**git push** - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
 ```
-[user0X@bastion proyecto1]$ git push
-Username for 'http://git.apps.2775.example.opentlc.com': user0X
-Password for 'http://user0X@git.apps.2775.example.opentlc.com': redhat01
-Counting objects: 6, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (4/4), 390 bytes | 0 bytes/s, done.
-Total 4 (delta 0), reused 0 (delta 0)
-To http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
-   3025dfd..8c74aae  master -> master
+[user0X@bastion ~]$ oc describe node node1.2775.internal | grep -A 4 Allocated
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource  Requests      Limits
+  --------  --------      ------
+  cpu       310m (15%)    220m (11%)
+
+[user0X@bastion ~]$ oc describe node node2.2775.internal | grep -A 4 Allocated
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource  Requests      Limits
+  --------  --------      ------
+  cpu       310m (15%)    220m (11%)
+
+[user0X@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource  Requests      Limits
+  --------  --------      ------
+  cpu       310m (15%)    220m (11%)
 ```
-Valide que la informacion se creo de manera correcta sobre el GIT
-
-![Ref](../img/repo3.png)
 
 
-### Extra
-Animese a crear una nueva aplicacion con su nuevo codigo fuente desde la consola de texto o desde la interfase web:
+4. Cree un proyecto y una aplicacion
 
-
-* Desde la consola
 ```
-[user0X@bastion proyecto01]$ oc login https://loadbalancer.2775.internal:443 -u user0X -p redhat01
-The server uses a certificate signed by an unknown authority.
-You can bypass the certificate check, but any data you send to the server could be intercepted by others.
-Use insecure connections? (y/n): y
-
-Login successful.
-
-You don't have any projects. You can try to create a new project, by running
-
-    oc new-project <projectname>
-
-Welcome! See 'oc help' to get started.
-[user0X@bastion proyecto01]$ oc new-project git-0X
-Now using project "git-0X" on server "https://loadbalancer.2775.internal:443".
+[user0X@bastion ~]$ oc new-project  limit-0X
+Now using project "limit-0X" on server "https://loadbalancer.2775.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
     oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
 
 to build a new example application in Ruby.
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app0X
+```
+5. Valide los recursos usados por esta aplicacion
+```
+[user0X@bastion ~]$ oc get pod -o wide
+NAME            READY     STATUS      RESTARTS   AGE       IP           NODE                  NOMINATED NODE
+app0X-1-7zktx   1/1       Running     0          18s       10.1.8.241   node3.2775.internal   <none>
+app0X-1-build   0/1       Completed   0          45s       10.1.14.51   node1.2775.internal   <none>
+```
+Identifique en que nodo se enxuentra corriendo la aplicacion (en el ejemplo nodo3) y valida el uso de recursos nuevamente y comparelo con las salidas anteriores.
 
-[user0X@bastion proyecto01]$ oc new-app php~http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
+```
+[user0X@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource  Requests      Limits
+  --------  --------      ------
+  cpu       1310m (65%)   1220m (61%)
+  ```
+
+4. Asignele unos limites especificos a este proyecto
+
+```
+
+[user0X@bastion ~]$ cat <<EOF > limits.yaml
+apiVersion: "v1"
+kind: "LimitRange"
+metadata:
+  name: "project-limits"
+spec:
+  limits:
+  - type: "Pod"
+    max:
+      cpu: "500m"
+      memory: "1Gi"
+    min:
+      cpu: "200m"
+      memory: "100Mi"
+  - type: "Container"
+    default:
+      cpu: "250m"
+      memory: "512Mi"
+EOF
+
+[user0X@bastion ~]$ oc create -f limits.yaml
+limitrange/dev-limits created
+```
+
+5. Verifique los limites creados en el proyexto
+
+```
+[user0X@bastion ~]$ oc get limitranges
+NAME             CREATED AT
+project-limits   2019-12-17T13:04:08Z
+
+[user0X@bastion ~]$ oc describe limitranges project-limits
+Name:       project-limits
+Namespace:  limit-0X
+Type        Resource  Min    Max   Default Request  Default Limit  Max Limit/Request Ratio
+----        --------  ---    ---   ---------------  -------------  -----------------------
+Pod         memory    100Mi  1Gi   -                -              -
+Pod         cpu       200m   500m  -                -              -
+Container   cpu       -      -     250m             250m           -
+Container   memory    -      -     512Mi            512Mi          -
+```
+
+6. Asignar Cuotas a un proyectos
+```
+[user0X@bastion ~]$ cat <<EOF > quota.yml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: project-quota
+spec:
+  hard:
+    cpu: "900m"
+EOF
+
+[user0X@bastion ~]$ oc create -f quota.yml
+resourcequota/project-quota created
+
+[user0X@bastion ~]$ oc describe quota
+Name:       project-quota
+Namespace:  limit-0X
+Resource    Used  Hard
+--------    ----  ----
+cpu         0     900m
+
+```
+
+7. Cree una nueva aplicacion y valide los valores de los limites y las cuotas
+```
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app0X
 --> Found image 8e01e80 (2 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
 
     Apache 2.4 with PHP 7.1
-    -----------------------
-    PHP 7.1 available as container is a base platform for building and running various PHP 7.1 applications and frameworks. PHP is an HTML-embedded scripting language. PHP attempts to make it easy for developers to write dynamically generated web pages. PHP also offers built-in database integration for several commercial and non-commercial database management systems, so writing a database-enabled webpage with PHP is fairly simple. The most common use of PHP coding is probably as a replacement for CGI scripts.
-
-    Tags: builder, php, php71, rh-php71
-
-    * A source build using source code from http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git will be created
-      * The resulting image will be pushed to image stream tag "proyecto01:latest"
-      * Use 'start-build' to trigger a new build
-    * This image will be deployed in deployment config "proyecto01"
-    * Ports 8080/tcp, 8443/tcp will be load balanced by service "proyecto01"
-      * Other containers can access this service through the hostname "proyecto01"
-
---> Creating resources ...
-    imagestream.image.openshift.io "proyecto01" created
-    buildconfig.build.openshift.io "proyecto01" created
-    deploymentconfig.apps.openshift.io "proyecto01" created
-    service "proyecto01" created
---> Success
-    Build scheduled, use 'oc logs -f bc/proyecto01' to track its progress.
-    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
-     'oc expose svc/proyecto01'
-    Run 'oc status' to view your app.
-  
-    
+...
+...
+[user0X@bastion ~]$ oc describe quota
+Name:       project-quota
+Namespace:  limit-0X
+Resource    Used  Hard
+--------    ----  ----
+cpu         250m  900m
 ```
 
-Con los comandos que ya conoce, explore su ambinete y cree una ruta
+
+8. Escale el pod y valida su quota nuevamente
 ```
-[user0X@bastion proyecto01]$ oc get pod
-NAME                 READY     STATUS      RESTARTS   AGE
-proyecto01-1-build   0/1       Completed   0          1m
-proyecto01-1-rgjr9   1/1       Running     0          55s
+[user0X@bastion ~]$ oc scale --replicas=2 dc/app0X
+deploymentconfig.apps.openshift.io/app0X scaled
 
-[user0X@bastion proyecto01]$ oc get svc
-NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
-proyecto01   ClusterIP   172.30.75.125   <none>        8080/TCP,8443/TCP   1m
-[user0X@bastion proyecto01]$ oc expose  svc proyecto01
-route.route.openshift.io/proyecto01 exposed
-
-[user0X@bastion proyecto01]$ oc get route
-NAME         HOST/PORT                                         PATH      SERVICES     PORT       TERMINATION   WILDCARD
-proyecto01   proyecto01-git-14.apps.2775.example.opentlc.com             proyecto01   8080-tcp                 None
+[user0X@bastion ~]$ oc describe quota
+Name:       project-quota
+Namespace:  limit-0X
+Resource    Used  Hard
+--------    ----  ----
+cpu         500m  900m
 ```
 
-Teniendo en cuenta que conocer la ruta de publicacion, a traves de la herramienta cURL haga una peticio a su pagina
+
+
+9. Ahora escale a 4 pods e identifique que la quota se excedio
+
 ```
-[user0X@bastion proyecto01]$ curl http://proyecto01-git-14.apps.2775.example.opentlc.com
-<h1>Esta es la pagina web de Jose Manuel Calvo</h1>
-```
-Ingrese desde el navegador web la ruta
+[user0X@bastion ~]$ oc scale --replicas=4 dc/app0X
 
-![Ref](../img/pagina1.png)
+[user0X@bastion ~]$ oc get pod
+NAME            READY     STATUS      RESTARTS   AGE
+app0X-1-9xjmf   1/1       Running     0          2m
+app0X-1-bmzhd   1/1       Running     0          1m
+app0X-1-build   0/1       Completed   0          3m
+app0X-1-l4zbd   1/1       Running     0          3m
 
-
-Valide los recursos desde la consola Web    
-
-https://loadbalancer.2775.example.opentlc.com/
-
-
-# Nota Importante
-
-Una vez este trabajando en el git colabortivo, recuerde antes de iniciar la edicion de un archivo realizar estos pasos:
-
-1. Para actualizar su repositorio local al commit más reciente, ejecute:
-```
-git pull
 ```
 
-2. Edite los archivos o cree los nuevos y ejecute el commando ADD para inidicar que hay un archivo nuevo o cambiado
+Unicamente si visualizan 3 pods y si visualizamos los eventos en el proyecto se puede encontrar un mensaje como el siguiente:
+
 ```
-git add .
+[user0X@bastion ~]$ oc get ev
+11s         2m           8         app0X-1.15e12ab18debde0c          ReplicationController                                            Warning   FailedCreate                  replication-controller         (combined from similar events): Error creating: pods "app0X-1-25f69" is forbidden: exceeded quota: project-quota, requested: cpu=250m, used: cpu=750m, limited: cpu=900m
+
+[user0X@bastion ~]$ oc describe node node3.2775.internal | grep limit-0X
+  limit-0X                         app0X-1-l4zbd                  250m (12%)    250m (12%)  512Mi (6%)       512Mi (6%)
+
 ```
 
-3. Adicione los comentarios pertinentes relacionados con el cambio que realizo
-```
-git commit -m "Se realizaron cambios en el README"
-```
 
-4. Publique los cambios en el servidor git
-```
-git push
-```
 
-Una herramienta muy útil para examinar el log de un proyecto es tig, esta nos permite visualizar de forma estructurada los últimos commits permitiendo una navegación cómoda.
-```
-tig
-```
-En caso que no este instalada se puede descargar en RHEL7 asi:
-```
-yum install http://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/t/tig-2.4.0-1.el7.x86_64.rpm
-```
-
-![Ref](../img/tig.png)
-
-## Trabajo con RAMAS / BRANCH
-https://desarrolloweb.com/articulos/trabajar-ramas-git.html
-
-## Informacion adicional de git
-https://github.com/INMEGEN/taller.supercomputo/blob/master/presentaciones/git.md
-
+FUENTES:
+https://www.rubix.nl/blogs/openshift-limits-explained/

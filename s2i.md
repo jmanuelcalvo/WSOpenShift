@@ -1,4 +1,4 @@
-[Talleres de Despliegue](../despliegue.md)
+[Talleres de Despliegue](despliegue.md)
 
 
 # Crear una imagen base S2I (Source to Image) para ejecutarse en OpenShift

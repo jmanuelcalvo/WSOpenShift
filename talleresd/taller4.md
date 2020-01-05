@@ -48,7 +48,7 @@ A cada servicio se le asigna un peso y la parte de las solicitudes a cada servic
 La ruta puede tener hasta cuatro servicios. El peso para el servicio puede estar entre 0 y 256. Cuando el peso es 0, el servicio no participa en el equilibrio de carga pero continúa sirviendo conexiones persistentes existentes. Cuando el peso del servicio no es 0, cada punto final tiene un peso mínimo de 1. Debido a esto, un servicio con muchos puntos finales puede terminar con un peso mayor al deseado. En este caso, reduzca el número de cápsulas para obtener el peso de equilibrio de carga deseado. Consulte la sección Backends y pesos alternativos para obtener más información.
 OpenShift Container Platform admite la compatibilidad N-1 a través de la consola web y la interfaz de línea de comandos
 
-![Ref](talleresd/loadbalancingab.png)
+![Ref](loadbalancingab.png)
 
 ### Ejemplo
 

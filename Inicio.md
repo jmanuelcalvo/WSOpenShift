@@ -69,7 +69,7 @@ Jose Manuel Calvo I
 
 [Taller 2](talleresd/taller2.md) - Uso de repositorios GIT
 
-[Taller 3](talleresd/taller3.md) - Configuracion de Rutas
+[Taller 3](talleresd/taller3.md) - Configuracion de Rutas - Estrategias de despliegues avanzadas
 
 [Taller 4](talleresd/taller4.md) - Configuracion de limites y quotas en los pods
 

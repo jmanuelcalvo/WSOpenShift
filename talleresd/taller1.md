@@ -1,5 +1,6 @@
 # Despliegue de aplicaciones s2i en OpenShift
 
+[Inicio](../Inicio.md)
 
 
 Al momento de realizar el despliegue de aplicaciones debe tener en cuenta que OpenShift soporta diferentes estrategias de despliegue, entre ellas:

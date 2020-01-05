@@ -1,3 +1,6 @@
+[Talleres de Despliegue](../despliegue.md)
+
+
 # Crear una imagen base S2I (Source to Image) para ejecutarse en OpenShift
 
 Source-to-Image (S2I) is una conjunto de herramientas y un flujo de trabajo para construir imagenes de contenedor que permiten la inyeccion dinamica de codigo fuente dentro de un contenedor al momento de su ejecucion creando un contenedor auto-ensamblado

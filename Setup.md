@@ -27,7 +27,9 @@ remote: Compressing objects: 100% (6/6), done.
 remote: Total 799 (delta 1), reused 5 (delta 1), pack-reused 792
 Receiving objects: 100% (799/799), 8.48 MiB | 0 bytes/s, done.
 Resolving deltas: 100% (401/401), done.
-
+```
+Ingrese a la carpeta
+```
 [root@bastion ~]# cd WSOpenShift/
 ```
 
@@ -38,14 +40,24 @@ bastion.0bf3.example.opentlc.com
 ```
 
 7. Con este ID, ingrese al script de instalacion y cambie la variable
+```
 [root@bastion WSOpenShift]# vim install.sh
 GUID=193d
 por su nuevo ID ejemplo
 GUID=0bf3
-
+```
 8. Por ultimo edite el archivo hosts y cambien por su usuario y token
-
+```
 oreg_auth_user=""
 oreg_auth_password=""
-
+```
 En caso de no contar con usuario, el archivo encriptado key contiene mis datos, contecteme para darle al contraseña
+```
+vim key
+```
+9. Todo listo para inciar la instalacion, ejecute el scriopt 
+```
+[root@bastion WSOpenShift]# sh install.sh
+Validando que las maquinas este OK
+```
+Tenga en cuenta que este script espera 2 Enter o Ctrl + C luego de hacer unos pasos de validaciones previas 

@@ -117,7 +117,158 @@ Para algunas aplicaciones, el período de tiempo que el código antiguo y el có
 Una forma de validar la compatibilidad N-1 es usar una implementación A / B. Ejecute el código antiguo y el código nuevo al mismo tiempo de forma controlada en un entorno de prueba y verifique que el tráfico que fluye hacia la nueva implementación no cause fallas en la implementación anterior.
 
 
+# Taller
+Tenga en cuenta que para los ejercicios, debe cambiar el nombre del usuario user0X por el que le fue asignado
 
+## Ejecute los siguientes comandos:
+
+Logueese sobre el cluster con su usuario
+```
+[user0X@bastion ~]$ oc login https://loadbalancer.5c12.internal:443 -u user0X -p redhat01
+```
+
+Cree un nuevo proyecto
+```
+[user0X@bastion ~]$ oc new-project project0X-deployment
+Now using project "project0X-deployment" on server "https://loadbalancer.5c12.internal:443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+
+to build a new example application in Ruby.
+```
+
+Cree una aplicacion con su codigo fuente actual
+```
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app01
+--> Found image 8e01e80 (5 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
+
+    Apache 2.4 with PHP 7.1
+    -----------------------
+    PHP 7.1 available as container is a base platform for building and running various PHP 7.1 applications and frameworks. PHP is an HTML-embedded scripting language. PHP attempts to make it easy for developers to write dynamically generated web pages. PHP also offers built-in database integration for several commercial and non-commercial database management systems, so writing a database-enabled webpage with PHP is fairly simple. The most common use of PHP coding is probably as a replacement for CGI scripts.
+
+    Tags: builder, php, php71, rh-php71
+
+    * A source build using source code from https://github.com/jmanuelcalvo/app.git will be created
+      * The resulting image will be pushed to image stream tag "app01:latest"
+      * Use 'start-build' to trigger a new build
+    * This image will be deployed in deployment config "app01"
+    * Ports 8080/tcp, 8443/tcp will be load balanced by service "app01"
+      * Other containers can access this service through the hostname "app01"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "app01" created
+    buildconfig.build.openshift.io "app01" created
+    deploymentconfig.apps.openshift.io "app01" created
+    service "app01" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/app01' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/app01'
+    Run 'oc status' to view your app.
+```
+
+Cree una aplicacion con su codigo fuente nuevo
+```
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app2.git --name=app02
+--> Found image 8e01e80 (5 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
+
+    Apache 2.4 with PHP 7.1
+    -----------------------
+    PHP 7.1 available as container is a base platform for building and running various PHP 7.1 applications and frameworks. PHP is an HTML-embedded scripting language. PHP attempts to make it easy for developers to write dynamically generated web pages. PHP also offers built-in database integration for several commercial and non-commercial database management systems, so writing a database-enabled webpage with PHP is fairly simple. The most common use of PHP coding is probably as a replacement for CGI scripts.
+
+    Tags: builder, php, php71, rh-php71
+
+    * A source build using source code from https://github.com/jmanuelcalvo/app2.git will be created
+      * The resulting image will be pushed to image stream tag "app02:latest"
+      * Use 'start-build' to trigger a new build
+    * This image will be deployed in deployment config "app02"
+    * Ports 8080/tcp, 8443/tcp will be load balanced by service "app02"
+      * Other containers can access this service through the hostname "app02"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "app02" created
+    buildconfig.build.openshift.io "app02" created
+    deploymentconfig.apps.openshift.io "app02" created
+    service "app02" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/app02' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/app02'
+    Run 'oc status' to view your app.
+```
+
+Dentro de la interfase web deberia visualizar las aplicaciones asi:
+
+![Ref](img/route01.png)
+
+
+Ahora se debe publicar la ruta de la siguiente forma
+
+![Ref](img/route02.png)
+![Ref](img/route03.png)
+
+Cree la ruta ingresando los valores que estan con *
+
+
+![Ref](img/route04.png)
+
+Aqui puede definir cual de los 2 servicios quiere publicar, el antiguo app01 o el nuevo app02
+
+Ejecute una prueba publicando cada uno de los codigos e ingresando a las rutas a traves del navegador o del comando curl a la pagina hostname.php
+
+Valide la ruta creada
+```
+[user0X@bastion ~]$ oc get route
+NAME           HOST/PORT                                                         PATH      SERVICES   PORT       TERMINATION   WILDCARD
+mydeployment   mydeployment-project0X-deployment.apps.5c12.example.opentlc.com             app01      8080-tcp                 None
+```
+
+Ingrese a la ruta con CURL o navegador
+
+```
+[user0X@bastion ~]$ curl http://mydeployment-project0X-deployment.apps.5c12.example.opentlc.com/hostname.php
+Esta es la pagina de la app1. Se ejecuta en el host -> app01-1-v4tht (10.1.8.7)
+```
+
+Ahora cambie la ruta a la nueva aplicacion
+
+![Ref](img/route05.png)
+
+![Ref](img/route06.png)
+
+
+y ejecute nuevamente el comando curl o ingrese por el navegador, deberia ver otra version
+
+```
+[user0X@bastion ~]$ curl http://mydeployment-project0X-deployment.apps.5c12.example.opentlc.com/hostname.php
+Esta es la pagina de la app2. Se ejecuta en el host -> app02-1-79gw6 (10.1.8.8)
+```
+
+Por ultimo realice la prueba de dividir el trafico entre aplicaciones
+
+![Ref](img/route07.png)
+
+y defina que porcentaje de peticiones desea enviar a cada una de las aplicaciones
+
+![Ref](img/route08.png)
+
+y realice las pruebas de conexion, ejecute el comando repetidas veces y encontrara que el trafico se divide de acuerdo a los porcentajes seteados
+
+```
+[user0X@bastion ~]$ curl http://mydeployment-project0X-deployment.apps.5c12.example.opentlc.com/hostname.php
+Esta es la pagina de la app1. Se ejecuta en el host -> app01-1-v4tht (10.1.8.7)
+
+[user0X@bastion ~]$ curl http://mydeployment-project0X-deployment.apps.5c12.example.opentlc.com/hostname.php
+Esta es la pagina de la app1. Se ejecuta en el host -> app01-1-v4tht (10.1.8.7)
+
+[user0X@bastion ~]$ curl http://mydeployment-project0X-deployment.apps.5c12.example.opentlc.com/hostname.php
+Esta es la pagina de la app2. Se ejecuta en el host -> app02-1-79gw6 (10.1.8.8)
+
+[user0X@bastion ~]$ curl http://mydeployment-project0X-deployment.apps.5c12.example.opentlc.com/hostname.php
+Esta es la pagina de la app2. Se ejecuta en el host -> app02-1-79gw6 (10.1.8.8)
+```
 
 FUENTES:
 https://docs.openshift.com/container-platform/3.11/dev_guide/deployments/advanced_deployment_strategies.html

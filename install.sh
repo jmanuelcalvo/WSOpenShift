@@ -1,7 +1,7 @@
 #! /bin/bash
 # Instalacion de un OpenShift en OpenTLC
 
-GUID=193d
+GUID=5c12
 cp /etc/ansible/hosts /etc/ansible/hosts.default
 sed "s/2775/$GUID/g" hosts > /etc/ansible/hosts
 
@@ -14,7 +14,7 @@ if [ "$?" == "0" ]
 then
   yum -y install atomic-openshift-clients openshift-ansible
   cd /usr/share/ansible/openshift-ansible/ 
-  htpasswd -b /root/htpasswd.openshift admin redhat01
+  htpasswd -cb /root/htpasswd.openshift admin redhat01
   time ansible-playbook playbooks/prerequisites.yml
 else
   echo "Las maquinas no estan lista o el GUID no esta bien configurado, verifique"

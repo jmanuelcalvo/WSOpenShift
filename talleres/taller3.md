@@ -9,8 +9,8 @@ Despliegue de aplicaciones mas complejas donde se cuenta con una BD y un servido
 
 1. Cree un nuevo proyecto 
 ```
-[user01@bastion ~]$ oc new-project wordpress
-Now using project "wordpress" on server "https://192.168.64.2:8443".
+[user0X@bastion ~]$ oc new-project project0X-wordpress
+Now using project "project0X-wordpress" on server "https://192.168.64.2:8443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -20,7 +20,7 @@ to build a new example application in Ruby.
 ````
 2. Cree una aplicacion de MySQL que es donde se van a almacenar los datos
 ```
-[user01@bastion ~]$ oc new-app mysql --name=mysql -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=mypa55 -e MYSQL_ROOT_PASSWORD=r00tpa55 -e MYSQL_DATABASE=wordpress
+[user0X@bastion ~]$ oc new-app mysql --name=mysql -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=mypa55 -e MYSQL_ROOT_PASSWORD=r00tpa55 -e MYSQL_DATABASE=wordpress
 --> Found image f171d28 (10 months old) in image stream "openshift/mysql" under tag "5.7" for "mysql"
 
     MySQL 5.7
@@ -45,13 +45,13 @@ to build a new example application in Ruby.
 
 3. Verifique que el pod este en ejecucion
 ```
-[user01@bastion ~]$ oc get pod
+[user0X@bastion ~]$ oc get pod
 NAME            READY     STATUS    RESTARTS   AGE
 mysql-1-84ckz   1/1       Running   0          2m
 ```
 4. Cree la aplicacion FrontEnd que contiene el codigo fuente de la aplicacion Wordpress
 ```
-[user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/wordpress.git --name=wordpress
+[user0X@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/wordpress.git --name=wordpress
 --> Found image 4039444 (10 months old) in image stream "openshift/php" under tag "7.1" for "php"
 
     Apache 2.4 with PHP 7.1
@@ -81,7 +81,7 @@ mysql-1-84ckz   1/1       Running   0          2m
 
 5. Valide que la aplicacion se encuentre en ejecucion
 ```
-[user01@bastion ~]$  oc get pod
+[user0X@bastion ~]$  oc get pod
 NAME                READY     STATUS      RESTARTS   AGE
 mysql-1-84ckz       1/1       Running     0          6m
 wordpress-1-build   0/1       Completed   0          1m
@@ -90,12 +90,12 @@ wordpress-1-l9tnh   1/1       Running     0          25s
 
 6. Validar los servicios y exponer la ruta del wordpres
 ```
-[user01@bastion ~]$ oc get svc
+[user0X@bastion ~]$ oc get svc
 NAME        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 mysql       ClusterIP   172.30.84.196   <none>        3306/TCP            9m
 wordpress   ClusterIP   172.30.200.65   <none>        8080/TCP,8443/TCP   3m
     
-[user01@bastion ~]$ oc expose svc wordpress
+[user0X@bastion ~]$ oc expose svc wordpress
 route.route.openshift.io/wordpress exposed
 ```
 

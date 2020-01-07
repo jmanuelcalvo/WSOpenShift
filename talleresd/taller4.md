@@ -61,14 +61,14 @@ $ oc nueva aplicación openshift / despliegue-ejemplo2 --nombre = ab-ejemplo-b
 ```
 Exponga la configuración de implementación para crear un servicio:
 ```
-$ oc exponer dc / ab-example-a --name = ab-example-A
-$ oc exponer dc / ab-example-b --name = ab-example-B
+$ oc expose dc/ab-example-a --name=ab-example-A
+$ oc expose dc/ab-example-b --name=ab-example-B
 ```
 En este punto, ambas aplicaciones están implementadas, en ejecución y con servicios.
 
 Haga que la aplicación esté disponible externamente a través de una ruta. Puede exponer cualquiera de los servicios en este punto, puede ser conveniente exponer la versión de producción actual y luego modificar la ruta para agregar la nueva versión.
 ```
-$ oc exponer svc / ab-example-A
+$ oc expose svc/ab-example-A
 ```
 
 Edite el router y adicione los pesos (weight) para cada uno de los servicios

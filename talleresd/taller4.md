@@ -201,18 +201,18 @@ Cree una aplicacion con su codigo fuente nuevo
 
 Dentro de la interfase web deberia visualizar las aplicaciones asi:
 
-![Ref](img/route01.png)
+![Ref](../img/route01.png)
 
 
 Ahora se debe publicar la ruta de la siguiente forma
 
-![Ref](img/route02.png)
-![Ref](img/route03.png)
+![Ref](../img/route02.png)
+![Ref](../img/route03.png)
 
 Cree la ruta ingresando los valores que estan con *
 
 
-![Ref](img/route04.png)
+![Ref](../img/route04.png)
 
 Aqui puede definir cual de los 2 servicios quiere publicar, el antiguo app01 o el nuevo app02
 
@@ -234,9 +234,9 @@ Esta es la pagina de la app1. Se ejecuta en el host -> app01-1-v4tht (10.1.8.7)
 
 Ahora cambie la ruta a la nueva aplicacion
 
-![Ref](img/route05.png)
+![Ref](../img/route05.png)
 
-![Ref](img/route06.png)
+![Ref](../img/route06.png)
 
 
 y ejecute nuevamente el comando curl o ingrese por el navegador, deberia ver otra version
@@ -248,11 +248,11 @@ Esta es la pagina de la app2. Se ejecuta en el host -> app02-1-79gw6 (10.1.8.8)
 
 Por ultimo realice la prueba de dividir el trafico entre aplicaciones
 
-![Ref](img/route07.png)
+![Ref](../img/route07.png)
 
 y defina que porcentaje de peticiones desea enviar a cada una de las aplicaciones
 
-![Ref](img/route08.png)
+![Ref](../img/route08.png)
 
 y realice las pruebas de conexion, ejecute el comando repetidas veces y encontrara que el trafico se divide de acuerdo a los porcentajes seteados
 

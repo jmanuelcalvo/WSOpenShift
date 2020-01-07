@@ -8,7 +8,7 @@
 
 # Conectarse por SSH / Putty a la maquina
 
-### bastion.2775.example.opentlc.com con el usuario user0X
+### bastion.0bf3.example.opentlc.com con el usuario user0X
 
 # Conceptos básicos de control de versiones
 ## Repositorio
@@ -30,7 +30,7 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 
 * Desde la Consola Web cree un nuevo repositorio 
 
-http://git.apps.2775.example.opentlc.com 
+http://git.apps.0bf3.example.opentlc.com 
 
 ![Ref](../img/repo1.png)
 
@@ -46,7 +46,7 @@ Copie el URL de su repositorio
 
 Vaya a la terminal y ejecute el siguiente comando
 ```
-[user0X@bastion ~]$ git clone http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
+[user0X@bastion ~]$ git clone http://git.apps.0bf3.example.opentlc.com/user0X/proyecto01.git
 Cloning into 'proyecto01'...
 remote: Counting objects: 4, done.
 remote: Compressing objects: 100% (3/3), done.
@@ -122,14 +122,14 @@ Date:   Mon Dec 16 18:42:45 2019 +0000
 **git push** - Permite sincronizar nuestra copia local con la que esta en el servidor visible por todos los usuarios
 ```
 [user0X@bastion proyecto1]$ git push
-Username for 'http://git.apps.2775.example.opentlc.com': user0X
-Password for 'http://user0X@git.apps.2775.example.opentlc.com': redhat01
+Username for 'http://git.apps.0bf3.example.opentlc.com': user0X
+Password for 'http://user0X@git.apps.0bf3.example.opentlc.com': redhat01
 Counting objects: 6, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
 Writing objects: 100% (4/4), 390 bytes | 0 bytes/s, done.
 Total 4 (delta 0), reused 0 (delta 0)
-To http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
+To http://git.apps.0bf3.example.opentlc.com/user0X/proyecto01.git
    3025dfd..8c74aae  master -> master
 ```
 Valide que la informacion se creo de manera correcta sobre el GIT
@@ -164,7 +164,7 @@ You can add applications to this project with the 'new-app' command. For example
 
 to build a new example application in Ruby.
 
-[user0X@bastion proyecto01]$ oc new-app php~http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git
+[user0X@bastion proyecto01]$ oc new-app php~http://git.apps.0bf3.example.opentlc.com/user0X/proyecto01.git
 --> Found image 8e01e80 (2 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
 
     Apache 2.4 with PHP 7.1
@@ -173,7 +173,7 @@ to build a new example application in Ruby.
 
     Tags: builder, php, php71, rh-php71
 
-    * A source build using source code from http://git.apps.2775.example.opentlc.com/user0X/proyecto01.git will be created
+    * A source build using source code from http://git.apps.0bf3.example.opentlc.com/user0X/proyecto01.git will be created
       * The resulting image will be pushed to image stream tag "proyecto01:latest"
       * Use 'start-build' to trigger a new build
     * This image will be deployed in deployment config "proyecto01"
@@ -209,12 +209,12 @@ route.route.openshift.io/proyecto01 exposed
 
 [user0X@bastion proyecto01]$ oc get route
 NAME         HOST/PORT                                         PATH      SERVICES     PORT       TERMINATION   WILDCARD
-proyecto01   proyecto01-git-14.apps.2775.example.opentlc.com             proyecto01   8080-tcp                 None
+proyecto01   proyecto01-git-14.apps.0bf3.example.opentlc.com             proyecto01   8080-tcp                 None
 ```
 
 Teniendo en cuenta que conocer la ruta de publicacion, a traves de la herramienta cURL haga una peticio a su pagina
 ```
-[user0X@bastion proyecto01]$ curl http://proyecto01-git-14.apps.2775.example.opentlc.com
+[user0X@bastion proyecto01]$ curl http://proyecto01-git-14.apps.0bf3.example.opentlc.com
 <h1>Esta es la pagina web de Jose Manuel Calvo</h1>
 ```
 Ingrese desde el navegador web la ruta
@@ -224,7 +224,7 @@ Ingrese desde el navegador web la ruta
 
 Valide los recursos desde la consola Web    
 
-https://loadbalancer.2775.example.opentlc.com/
+https://loadbalancer.0bf3.example.opentlc.com/
 
 
 # Nota Importante

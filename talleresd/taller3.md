@@ -120,7 +120,7 @@ En la especificación anterior, el Pod inicialmente reclamará 100 milicores y 2
 
 1. Ingrese a la terminal de la maquina bastion con su usuario de terminal
 ```
-[localhost ~]$ ssh user0X@bastion.2775.example.opentlc.com
+[localhost ~]$ ssh user0X@bastion.0bf3.example.opentlc.com
 ```
 
 

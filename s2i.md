@@ -24,7 +24,7 @@ Instalar los paquetes
 
 2. Ingrese a la terminal de la maquina bastion con su usuario de terminal
 ```
-[localhost ~]$ ssh user0X@bastion.2775.example.opentlc.com
+[localhost ~]$ ssh user0X@bastion.0bf3.example.opentlc.com
 ```
 
 3. Cree la estrucrtura de datos de S2I (source to image)

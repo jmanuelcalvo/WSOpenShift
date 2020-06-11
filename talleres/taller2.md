@@ -371,6 +371,8 @@ secret/database-secret created
 ```
 [user01@bastion ~]$ oc delete all --all
 ...
+>>> NOTA:
+> Tenga en cuenta que el delete all no elimina los PVC, en caso que desee eliminar los pvc y volverlos a crear lo puede hacer con el comando oc delete pvc 
 ...
 
 [user01@bastion ~]$ cat << EOF > mysql-secret.yml

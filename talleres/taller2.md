@@ -39,7 +39,7 @@ Taller de datos persistentes para las aplicaciones utilizando NFS
 NOTA: Antes de inciar este taller, verifique que tenga un proyecto creado, de lo contrario, cree uno nuevo
 
 ```
-oc new-project project01-storage
+oc new-project project0X-storage
 ```
 
 # Adicionar Volumen a un pod existente
@@ -84,8 +84,8 @@ data01    Bound     pv7       5Gi        RWO                           2s
 4. Montar el nuevo PVC sobre un contenedor existente
 Asegurese que tenga aplicaciones previamente creadas, en caso de que no, cree una
 ```
-[user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=app2
-[user01@bastion ~]$ oc set volume dc/app2 --add --type=persistentVolumeClaim --claim-name=data01 --mount-path=/data2
+[user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=appX
+[user01@bastion ~]$ oc set volume dc/appX --add --type=persistentVolumeClaim --claim-name=data01 --mount-path=/data2
 ```
 
 5. Verificar que el nuevo pod tenga la carpeta montada

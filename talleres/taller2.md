@@ -112,7 +112,7 @@ tmpfs                                           3.9G     0  3.9G   0% /sys/firmw
 
 # Adicionar Volumenn a una aplicacion nueva
 
-1. Cree un archivo llamado data01.yml y defina el tipo de almacenamiento 
+1. Cree un archivo llamado data02.yml y defina el tipo de almacenamiento 
 ```
 [user01@bastion ~]$ cat << EOF > data02.yml
 apiVersion: v1

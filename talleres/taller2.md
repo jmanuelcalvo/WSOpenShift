@@ -269,8 +269,9 @@ Bye
 $ exit
 
 ```
-8. Verifique que los datos persisten
+8. Verifique que los datos persisten luego de elimiar el pod
 ```
+[user01@bastion ~]$ oc delete pod mysql-685958c648-zftrv
 [user01@bastion ~]$ oc get pod
 NAME                     READY     STATUS      RESTARTS   AGE
 app2-1-build             0/1       Completed   0          5h

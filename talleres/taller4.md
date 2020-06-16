@@ -137,6 +137,6 @@ CONTAINER ID        IMAGE                 COMMAND                  CREATED      
 ```
 parar el servicio
 ```
-[root@bastion user01]# docker stop jmanuel-apache
+[user01@bastion ~]$ sudo docker stop jmanuel-apache
 jmanuel-apache
 ```

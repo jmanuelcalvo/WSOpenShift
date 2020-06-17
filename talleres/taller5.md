@@ -17,9 +17,9 @@ Existe un procedimiento que se puede utilizar para realizar copias de seguridad 
 Backup de un proyecto entero.
 Valide el proyecto en el que se encuentra actualmente
 ```
-[user01@bastion ~]$ oc new-project jmanuel-backup
+[user01@bastion ~]$ oc new-project user0X-backup
 [user01@bastion ~]$ oc project
-Using project "jmanuel-backup" on server "https://loadbalancer.1b84.example.opentlc.com:443".
+Using project "user0X-backup" on server "https://loadbalancer.1b84.example.opentlc.com:443".
 ```
 Cree una nueva aplicacion
 ```
@@ -79,14 +79,14 @@ Para restaurar un proyecto, debe volver a crear todo el proyecto y todos los obj
 
 Elimine el proyecto
 ```
-[user01@bastion backup]$ oc delete project jmanuel-backup
-project.project.openshift.io "jmanuel-backup" deleted
+[user01@bastion backup]$ oc delete project user0X-backup
+project.project.openshift.io "user0X-backup" deleted
 ```
 Cree nuevamente el proyecto 
 ###NOTA: El nombre del proyecto debe ser igual al anterior
 ```
-[user01@bastion backup]$ oc new-project  jmanuel-backup
-Already on project "jmanuel-backup" on server "https://loadbalancer.1b84.example.opentlc.com:443".
+[user01@bastion backup]$ oc new-project  user0X-backup
+Already on project "user0X-backup" on server "https://loadbalancer.1b84.example.opentlc.com:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -129,5 +129,5 @@ Para validar que el proyecto se restauro de forma correcta, valide la ruta con e
 ```
 
 ```
-[user10@bastion backup]$ curl -k https://backup-jmanuel-backup.apps.b91b.example.opentlc.com
+[user10@bastion backup]$ curl -k https://backup-user0X-backup.apps.b91b.example.opentlc.com
 ```

@@ -24,6 +24,7 @@ Using project "jmanuel-backup" on server "https://loadbalancer.1b84.example.open
 Cree una nueva aplicacion
 ```
 [user01@bastion ~]$ oc new-app php~https://github.com/jmanuelcalvo/app.git --name=backup
+[user10@bastion backup]$ oc expose  svc backup
 ```
 
 Cree una carpeta donde almacenara los backups
@@ -122,4 +123,13 @@ En nuestro caso, la aplicacion fue creada a partir de un proceso del build, por 
 
 ```
 [user10@bastion backup]$ oc start-build backup
+```
+
+Para validar que el proyecto se restauro de forma correcta, valide la ruta con el comando e intente conectarse desde el navegador o con el cliente cURL
+```
+[user10@bastion backup]$ oc get route
+```
+
+```
+[user10@bastion backup]$ curl -k https://backup-jmanuel-backup.apps.b91b.example.opentlc.com
 ```

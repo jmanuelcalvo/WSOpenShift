@@ -117,3 +117,9 @@ backup-1-build   0/1       Completed   0          6m
 backup-1-sstcd   1/1       Running     0          5m
 
 ```
+
+En nuestro caso, la aplicacion fue creada a partir de un proceso del build, por lo que se debe indicar al OpenShift que cree una nueva imagen a partir del proceso S2I
+
+```
+[user10@bastion backup]$ oc start-build backup
+```

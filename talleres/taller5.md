@@ -63,7 +63,7 @@ Para las imagenes con PHP la carpeta de datos es
 Para las imagenes con MySQL la carpeta de datos es:
 /var/lib/mysql/data
 ```
-[user01@bastion backup]$ oc rsh my-wordpress-site-1-gxxlh
+[user01@bastion backup]$ oc rsh backup-1-sstcd
 sh-4.2$ pwd
 /opt/app-root/src
 
@@ -72,8 +72,6 @@ sh-4.2$ pwd
 Descargue a la carpeta local los datos a traves de rsync
 ```
 [user01@bastion backup]$ oc rsync backup-1-sstcd:/opt/app-root/src .
-[user01@bastion backup]$ oc rsync my-wordpress-site-db-1-dcph9:/var/lib/mysql/data .
-
 ```
 
 ## Project Restore

@@ -216,17 +216,24 @@ De esta forma se alisto el servidor para este ultimo taller
 
 
 # Tarea
-Animese a crear un archivo con contenido web en el servidor: loadbalancer.1b84.internal sobre la carpeta /var/www/html/users/ con su nombre .html (ej jmanuel.html) sobre un playbook, utilice los modulos:
+Animese a crear un archivo con contenido web en el servidor: loadbalancer.1b84.internal sobre la carpeta /var/www/html/users/ con su nombre .html (ej user0X.html) sobre un playbook, utilice los modulos:
 
 * copy 
 * template
 * file
 
 y una vez ejecute su playbook la forma de validar que su contenido quedo creado sera:
+
+Desde el interior del SSH
 ```
-[user01@bastion ~]$ elinks  http://loadbalancer.b91b.internal:81/users/jmanuel.html
+[user01@bastion ~]$ elinks  http://loadbalancer.b91b.internal:81/users/user0X.html
 ```
 o 
 ```
-[user01@bastion ~]$ curl  http://loadbalancer.b91b.internal:81/users/jmanuel.html
+[user01@bastion ~]$ curl  http://loadbalancer.b91b.internal:81/users/user0X.html
 ```
+
+
+o desde su navegador web
+
+http://loadbalancer.b91b.example.opentlc.com:81//users/user0X.html

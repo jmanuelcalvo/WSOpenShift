@@ -224,9 +224,9 @@ Animese a crear un archivo con contenido web en el servidor: loadbalancer.1b84.i
 
 y una vez ejecute su playbook la forma de validar que su contenido quedo creado sera:
 ```
-[user01@bastion ~]$ elinks  http://loadbalancer.1b84.internal:81/users/jmanuel.html
+[user01@bastion ~]$ elinks  http://loadbalancer.b91b.internal:81/users/jmanuel.html
 ```
 o 
 ```
-[user01@bastion ~]$ curl  http://loadbalancer.1b84.internal:81/users/jmanuel.html
+[user01@bastion ~]$ curl  http://loadbalancer.b91b.internal:81/users/jmanuel.html
 ```

@@ -11,20 +11,20 @@ Creacion de archivos de inventario agrupando servidores en masters, infra, apps,
 ```
 [user01@bastion ~]$ cat << EOF > hosts
 [masters]
-master1.1b84.internal
-master2.1b84.internal
-master3.1b84.internal
+master1.b91b.internal
+master2.b91b.internal
+master3.b91b.internal
 [infra]
-infranode1.1b84.internal
-infranode2.1b84.internal
+infranode1.b91b.internal
+infranode2.b91b.internal
 [apps]
-node1.1b84.internal
-node2.1b84.internal
-node3.1b84.internal
+node1.b91b.internal
+node2.b91b.internal
+node3.b91b.internal
 [nfs]
-support1.1b84.internal
+support1.b91b.internal
 [loadbalancer]
-loadbalancer.1b84.internal
+loadbalancer.b91b.internal
 EOF
 ```
 
@@ -42,16 +42,16 @@ EOF
 ```
 [user01@bastion ~]$ ansible all -i hosts  --list-hosts
   hosts (10):
-    infranode1.1b84.internal
-    infranode2.1b84.internal
-    support1.1b84.internal
-    node1.1b84.internal
-    node2.1b84.internal
-    node3.1b84.internal
-    loadbalancer.1b84.internal
-    master1.1b84.internal
-    master2.1b84.internal
-    master3.1b84.internal
+    infranode1.b91b.internal
+    infranode2.b91b.internal
+    support1.b91b.internal
+    node1.b91b.internal
+    node2.b91b.internal
+    node3.b91b.internal
+    loadbalancer.b91b.internal
+    master1.b91b.internal
+    master2.b91b.internal
+    master3.b91b.internal
 ```
 
 ## Comandos Ad-hoc usando Modulos

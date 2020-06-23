@@ -99,7 +99,7 @@ A diferencia de los comandos ad-hoc, un usuario puede crear un libro de jugadas 
 
 ```
 
-[user01@bastion ~]$ cat << copiar.yml > hosts
+[user01@bastion ~]$ cat << EOF > copiar.yml
 ---
 - name: Mi primer playbook
   hosts: masters

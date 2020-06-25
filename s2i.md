@@ -204,7 +204,7 @@ Este script se encarga de que cuando el contenedor inicie, llame al siguiente sc
 Cree el script run que iniciara el servicio
 
 ```
-[user19@bastion s2i-test0X]$ cat run
+[user19@bastion s2i-test0X]$ cat << EOF >  run
 #!/bin/bash
 
 # Enable SCL Apache HTTPD server package.
@@ -214,6 +214,7 @@ source scl_source enable httpd24
 # Ensure we run the Apache HTTPD server as process ID 1 and in foreground.
 
 exec httpd -DFOREGROUND
+EOF
 ```
 
 Indique cual es el comando de inicio de servicio de http

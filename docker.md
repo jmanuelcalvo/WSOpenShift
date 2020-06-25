@@ -77,8 +77,8 @@ EOF
 ```
 [user0X@bastion ~]$ sudo docker exec -it app0X bash
 exit
-docker stop app0X
-docker rm app0X
+[user0X@bastion ~]$ docker stop app0X
+[user0X@bastion ~]$ docker rm app0X
 ```
 
 10. En este momento las imagen se encuentra en el cache de su maquina local, publique su imagen de contenedor en su servidor de registro
@@ -94,7 +94,7 @@ En caso de contar realizar las pruebas con un servidor de registro alterno, indi
 
 ```
 [user0X@bastion ~]$ sudo docker login docker.io
-[user0X@bastion ~]$ dsudo ocker push docker.io/docker-repo/app0X
+[user0X@bastion ~]$ sudo docker push docker.io/docker-repo/app0X
 ```
 Valide en el portal web de su servidor de registro o hub.docker.com que la nueva imagen se encuentre creada
 

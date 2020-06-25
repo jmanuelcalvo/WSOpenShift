@@ -50,7 +50,7 @@ RUN echo "Hello from the httpd container!" > /var/www/html/index.html
 EXPOSE 8080
 
 CMD  ["httpd", "-D", "FOREGROUND"]
-EOF
+
 ```
 
 ***NOTA1*** : Es importante que el contenedor al momento de su ejecucion llame al comando CMD el cual garantiza cual va a ser el proceso de inicio del servicio, en caso que este parametro no se encuentre seteado, la ejecucion del contenedor va a fallar al momento del deploy dentro de OpenShift.

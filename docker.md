@@ -88,7 +88,7 @@ NOTA:
 ```
 [user0X@bastion ~]$ cat /etc/docker/daemon.json
 {
-"insecure-registries" : [ "docker-registry-default.apps.2775.example.opentlc.com", "docker.io" ]
+"insecure-registries" : [ "docker-registry-default.apps.$GUID.example.opentlc.com", "docker.io" ]
 ```
 En caso de contar realizar las pruebas con un servidor de registro alterno, indique por favor al facilitador para adicionarlo en la lista de servidores de registro autoriados
 
@@ -115,9 +115,9 @@ Valide en el portal web del Gogs los archivos de su repositorio
 12. Loguese al OpenShift e intente desplegar la aplicacion a partir de un contenedor
 
 ```
-[user0X@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
+[user0X@bastion ~]$ oc login -u user0X https://loadbalancer.$GUID.internal:443
 [user0X@bastion ~]$ oc new-project app0X
-Now using project "app0X" on server "https://loadbalancer.2775.internal:443".
+Now using project "app0X" on server "https://loadbalancer.$GUID.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -149,7 +149,7 @@ Using project "app01".
 Ahora ejecute una contenedor en OpenShift desde dockerhub
 
 ```
-[user0X@bastion ~]$ oc new-app --name app01 --insecure-registry --docker-image="docker.io/docker-repo/app01:latest"
+[user0X@bastion ~]$ oc new-app --name app01 --insecure-registry --docker-image="docker.io/docker-repo/app0X:latest"
 --> Found Docker image 5d8ddbd (2 hours old) from docker.io for "docker.io/docker-repo/app01:latest"
 
     * An image stream tag will be created as "app01:latest" that will track this image

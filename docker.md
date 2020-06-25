@@ -70,12 +70,12 @@ EOF
 
 8. Realícele las pruebas locales
 ```
-[user0X@bastion ~]$ docker run -d -p 80XX:8080 --name=app0X docker.io/docker-repo/app01
+[user0X@bastion ~]$ sudo docker run -d -p 80XX:8080 --name=app0X docker.io/docker-repo/app01
 ```
 
 9. Ingrese al contenedor y valide que todo esta funcionando de la forma deseada
 ```
-[user0X@bastion ~]$ docker exec -it app0X bash
+[user0X@bastion ~]$ sudo docker exec -it app0X bash
 exit
 docker stop app0X
 docker rm app0X
@@ -93,8 +93,8 @@ NOTA:
 En caso de contar realizar las pruebas con un servidor de registro alterno, indique por favor al facilitador para adicionarlo en la lista de servidores de registro autoriados
 
 ```
-[user0X@bastion ~]$ docker login docker.io
-[user0X@bastion ~]$ docker push docker.io/docker-repo/app01
+[user0X@bastion ~]$ sudo docker login docker.io
+[user0X@bastion ~]$ dsudo ocker push docker.io/docker-repo/app0X
 ```
 Valide en el portal web de su servidor de registro o hub.docker.com que la nueva imagen se encuentre creada
 

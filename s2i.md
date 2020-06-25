@@ -35,6 +35,7 @@ s2i create image_name directory
 **NOTA** La estructura que se crea con S2I la carpeta bin no cuenta con permisos de ejecucion, por lo que muy probablemente haga que la imagen **FALLE** al momento de ejecutar el comando **run** no por el comando si no por los permisos de la carpeta
 
 ```
+[user19@bastion ~]$ mv s2i-test0X/s2i/bin/  s2i-test0X/.s2i/bin/ 
 [user19@bastion ~]$ chmod  -R 775 s2i-test0X/.s2i/bin/ 
 ```
 
@@ -237,7 +238,7 @@ test:
 Dentro de la carpeta s2i-test0X ejecute el comando **make**
 
 ```
-[user19@bastion s2i-test0X]$ make
+[user19@bastion s2i-test0X]$ sudo make
 docker build -t s2i-test0X .
 Sending build context to Docker daemon 17.92 kB
 Step 1/15 : FROM centos:centos7

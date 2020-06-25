@@ -44,7 +44,7 @@ LABEL description="A basic Apache container on RHEL 7"
 RUN yum -y install -y httpd && \
     yum clean all && \
     sed 's/^Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf.1 && \
-    cp /etc/httpd/conf/httpd.conf.1 /etc/httpd/conf/httpd.conf \
+    cp /etc/httpd/conf/httpd.conf.1 /etc/httpd/conf/httpd.conf
 RUN echo "Hello from the httpd container!" > /var/www/html/index.html
 
 EXPOSE 8080

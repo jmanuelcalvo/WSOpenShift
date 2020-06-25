@@ -26,9 +26,9 @@ O si ya cuenta con una en GitHub github.com
 
 4. Dentro de la maquina bastion descargue su repositorio
 ```
-[user0X@bastion ~]$ ssh user0X@bastion.2775.example.opentlc.com.     -    password redhat01
-[user0X@bastion ~]$ git clone http://gogs.apps.2775.example.opentlc.com/jmanuel/app01.git
-[user0X@bastion ~]$ cd app01
+[user0X@bastion ~]$ ssh user0X@bastion.b91b.example.opentlc.com     -    password redhat01
+[user0X@bastion ~]$ git clone http://gogs.apps.$GUID.example.opentlc.com/user0X/app0X.git
+[user0X@bastion ~]$ cd app0X
 ```
 
 5. Cree una archivo Dockerfile con el contenido del software que desea instalar, reemplace los datos del **MAINTAINER** por su nombre y comando **Hello** por su mensaje personalizado
@@ -45,7 +45,7 @@ RUN yum -y install -y httpd && \
     yum clean all && \
     sed 's/^Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf.1 && \
     cp /etc/httpd/conf/httpd.conf.1 /etc/httpd/conf/httpd.conf \
-    echo "Hello from the httpd container!" > /var/www/html/index.html
+RUN echo "Hello from the httpd container!" > /var/www/html/index.html
 
 EXPOSE 8080
 
@@ -60,12 +60,12 @@ EOF
 
 6. Compile su imagen de contenedor
 ```
-[user0X@bastion ~]$ docker build -t docker.io/docker-repo/app01 .
+[user0X@bastion ~]$ sudo docker build -t docker.io/docker-repo/app01 .
 ```
 
 7. Valide que esta image quedo creada correctamente
 ```
-[user0X@bastion ~]$ docker images
+[user0X@bastion ~]$ sudo docker images
 ```
 
 8. Realícele las pruebas locales

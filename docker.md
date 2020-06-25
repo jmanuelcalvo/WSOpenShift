@@ -34,7 +34,7 @@ O si ya cuenta con una en GitHub github.com
 5. Cree una archivo Dockerfile con el contenido del software que desea instalar, reemplace los datos del **MAINTAINER** por su nombre y comando **Hello** por su mensaje personalizado
 
 ```
-[user0X@bastion ~]$ cat << EOF > Dockerfile
+[user0X@bastion ~]$ vi Dockerfile
 FROM centos:7
 
 MAINTAINER Jose Manuel Calvo <jcalvo@redhat.com>
@@ -44,7 +44,7 @@ LABEL description="A basic Apache container on RHEL 7"
 RUN yum -y install -y httpd && \
     yum clean all && \
     sed 's/^Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf.1 && \
-    cp /etc/httpd/conf/httpd.conf.1 /etc/httpd/conf/httpd.conf
+    cp /etc/httpd/conf/httpd.conf.1 /etc/httpd/conf/httpd.conf \
     echo "Hello from the httpd container!" > /var/www/html/index.html
 
 EXPOSE 8080

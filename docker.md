@@ -77,8 +77,8 @@ EOF
 ```
 [user0X@bastion ~]$ sudo docker exec -it app0X bash
 exit
-[user0X@bastion ~]$ docker stop app0X
-[user0X@bastion ~]$ docker rm app0X
+[user0X@bastion ~]$ sudo docker stop app0X
+[user0X@bastion ~]$ sudo docker rm app0X
 ```
 
 10. En este momento las imagen se encuentra en el cache de su maquina local, publique su imagen de contenedor en su servidor de registro
@@ -103,6 +103,8 @@ Valide en el portal web de su servidor de registro o hub.docker.com que la nueva
 
 11. No olvide también guardar los cambios de su imagen Dockerfile en el repositorio de git
 ```
+[user10@bastion ~]$ git config --global user.email "jcalvo@redhat.com"
+[user10@bastion ~]$ git config --global user.name "Jose Manuel Calvo"
 [user0X@bastion ~]$ git add Dockerfile
 [user0X@bastion ~]$ git commit -m "Primera version de archivo Dockerfile"
 [user0X@bastion ~]$ git push

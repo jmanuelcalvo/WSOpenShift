@@ -262,7 +262,7 @@ Este comando genera una nueva imagen de Docker
 
 
 ```
-[user19@bastion s2i-test0X]$ docker images
+[user19@bastion s2i-test0X]$ sudo docker images
 REPOSITORY                                                                     TAG                 IMAGE ID            CREATED              SIZE
 s2i-test0X                                                                     latest              026a39defc60        About a minute ago   260 MB
 ```
@@ -272,7 +272,7 @@ s2i-test0X                                                                     l
 
 ```
 [user0X@bastion s2i-test0X]$ echo "Codigo" > test/test-app/index.html
-[user19@bastion s2i-test0X]$ s2i build test/test-app s2i-test0X s2i-test0X
+[user19@bastion s2i-test0X]$ sudo s2i build test/test-app s2i-test0X s2i-test0X
 I1217 13:54:35.910867 00892 install.go:251] Using "assemble" installed from "image:///opt/app-root/s2i/bin/assemble"
 I1217 13:54:35.910970 00892 install.go:251] Using "run" installed from "image:///opt/app-root/s2i/bin/run"
 I1217 13:54:35.910991 00892 install.go:251] Using "save-artifacts" installed from "image:///opt/app-root/s2i/bin/save-artifacts"
@@ -281,7 +281,7 @@ I1217 13:54:35.910991 00892 install.go:251] Using "save-artifacts" installed fro
 ```
 Ejecutar el contenedor y validar por dentro el codigo
 ```
-[user0X@bastion s2i-test]$ docker run -it -p 80XX:8080 s2i-test0X bash
+[user0X@bastion s2i-test]$ sudo docker run -it -p 80XX:8080 s2i-test0X bash
 bash-4.2$ pwd
 /opt/app-root
 bash-4.2$ ls
@@ -295,16 +295,16 @@ bash-4.2$ exit
 
 
 ```
-[user19@bastion s2i-test0X]$ docker tag s2i-test0X docker.io/jmanuelcalvo/s2i-test0X:latest
+[user19@bastion s2i-test0X]$ sudo docker tag s2i-test0X docker.io/jmanuelcalvo/s2i-test0X:latest
 ```
 Recuerde estar logueado en Docker
 ```
-[user19@bastion s2i-test0X]$ docker login docker.io
+[user19@bastion s2i-test0X]$ sudo docker login docker.io
 Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
 Username: jmanuelcalvo
 Password:
 Login Succeeded
-[user19@bastion s2i-test0X]$ docker push docker.io/jmanuelcalvo/s2i-test0X:latest
+[user19@bastion s2i-test0X]$ sudo docker push docker.io/jmanuelcalvo/s2i-test0X:latest
 The push refers to a repository [docker.io/jmanuelcalvo/s2i-test0X]
 737b54fff43f: Pushed
 d72a99aa43e7: Pushed
@@ -320,13 +320,13 @@ Garantice que este logueado sobre OpenShift y sobre el proyecto que desea import
 **NOTA:** Recuerde que en caso de querer que la imagen sea visualizada por todos los proyectos y usuarios de OpenShift, la imagen se debe importar en el  proyecto/namespace openshift.
 
 ```
-[root@bastion ~]$ oc login -u user0X https://loadbalancer.2775.internal:443
+[root@bastion ~]$ oc login -u user0X https://loadbalancer.b91b.internal:443
 
 [user0X@bastion ~]$ oc whoami
 user19
 
 [user19@bastion s2i-test0X]$ oc new-project s2i-test0X
-Now using project "s2i-test0X" on server "https://loadbalancer.2775.internal:443".
+Now using project "s2i-test0X" on server "https://loadbalancer.b91b.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 

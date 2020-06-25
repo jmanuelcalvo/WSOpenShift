@@ -132,7 +132,7 @@ NOTA: esto **NO** es lo mas recomendado, en los siguientes ejercicios se revisar
 
 Logueese como usuario admin y permita la creacion de contenedore dentro de OpenShift como usuario root
 ```
-[user0X@bastion ~]$ oc login -u admin1 -p redhat01
+[user0X@bastion ~]$ oc login -u admin -p redhat01
 
 [user0X@bastion ~]$ oc adm policy add-scc-to-user anyuid -z default
 

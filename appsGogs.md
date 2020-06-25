@@ -42,7 +42,7 @@ template.template.openshift.io/gogs created
 
 ![Ref](img/gogs2.png)
 
-http://git.apps.2775.example.opentlc.com/
+git.apps.XXXX.example.opentlc.com  -----  El nombre de dominio no debe llevar http
 
 * Por ultimo, debe concer cual es su dominio Wildcard, ya que este debe ser asociado en los parametros de configuracion
 

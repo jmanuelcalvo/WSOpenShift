@@ -7,7 +7,7 @@
 
 2. Valide que tenga una cuenta en un servidor de repositorios git
 
-http://git.apps.2775.example.opentlc.com/
+http://git.apps.b91b.example.opentlc.com/
 
 * user01  - redhat01
 * user02  - redhat01

@@ -215,6 +215,9 @@ source scl_source enable httpd24
 
 exec httpd -DFOREGROUND
 EOF
+
+[user19@bastion s2i-test0X]$ chmod 777 run
+
 ```
 
 Indique cual es el comando de inicio de servicio de http

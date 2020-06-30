@@ -143,7 +143,7 @@ Cree el archivo httpd.conf con el siguiente contenido
 
 
 ```
-[user19@bastion s2i-test0X]$ cat << EOF > httpd.conf
+[user19@bastion s2i-test0X]$ vim httpd.conf
 DefaultRuntimeDir ${HOME}
 
 PidFile ${HOME}/httpd.pid
@@ -155,7 +155,7 @@ DocumentRoot /opt/app-root/htdocs
     Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
     Require method GET POST OPTIONS
 </Directory>
-EOF
+
 ```
 
 ## Scripts de S2I
@@ -194,13 +194,13 @@ Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente e
 **.s2i/bin/run** Este script es llamado de forma automatica una vez la imagen sea ejecutada como contenedor, este script es quien debe inciar el servicio, similar al CMD dentro del los archivos Dockerfile
 
 ```
-[user19@bastion s2i-test0X]$ cat << EOF > .s2i/bin/run
+[user19@bastion s2i-test0X]$ vim .s2i/bin/run
 #!/bin/bash
 
 set -eo pipefail
 
 exec ${HOME}/run
-EOF
+
 
 ```
 Este script se encarga de que cuando el contenedor inicie, llame al siguiente script que cuenta con la linea de inicio de apache, Este doble llamado de script de inicio sucede por que es necesario que el contenedor una vez este en ejecucion cargue unas variables de la libreria de SCL y luego ejecute el apache.

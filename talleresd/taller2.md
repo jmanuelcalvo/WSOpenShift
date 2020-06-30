@@ -30,7 +30,7 @@ Lo que hace al repositorio de especial es que recuerda todos los cambios que alg
 
 * Desde la Consola Web cree un nuevo repositorio 
 
-http://git.apps.0bf3.example.opentlc.com 
+http://git.apps.0f40.example.opentlc.com/
 
 ![Ref](../img/repo1.png)
 
@@ -46,7 +46,7 @@ Copie el URL de su repositorio
 
 Vaya a la terminal y ejecute el siguiente comando
 ```
-[user0X@bastion ~]$ git clone http://git.apps.0bf3.example.opentlc.com/user0X/proyecto01.git
+[user0X@bastion ~]$ git clone http://git.apps.$GUID.example.opentlc.com/user0X/proyecto01.git
 Cloning into 'proyecto01'...
 remote: Counting objects: 4, done.
 remote: Compressing objects: 100% (3/3), done.

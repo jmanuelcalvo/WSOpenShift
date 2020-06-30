@@ -35,7 +35,7 @@ s2i create image_name directory
 **NOTA** La estructura que se crea con S2I la carpeta bin no cuenta con permisos de ejecucion, por lo que muy probablemente haga que la imagen **FALLE** al momento de ejecutar el comando **run** no por el comando si no por los permisos de la carpeta
 
 ```
-[user19@bastion ~]$ mv s2i-test0X/s2i/bin/  s2i-test0X/.s2i/bin/ 
+[user19@bastion ~]$ mv s2i-test0X/s2i/  s2i-test0X/.s2i/
 [user19@bastion ~]$ chmod  -R 775 s2i-test0X/.s2i/bin/ 
 ```
 
@@ -143,7 +143,7 @@ Cree el archivo httpd.conf con el siguiente contenido
 
 
 ```
-[user19@bastion s2i-test0X]$ vim httpd.conf
+[user19@bastion s2i-test0X]$ cat << EOF > httpd.conf
 DefaultRuntimeDir ${HOME}
 
 PidFile ${HOME}/httpd.pid
@@ -155,6 +155,7 @@ DocumentRoot /opt/app-root/htdocs
     Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
     Require method GET POST OPTIONS
 </Directory>
+EOF
 ```
 
 ## Scripts de S2I
@@ -164,12 +165,12 @@ La construccion de imagenes con s2i cuenta con 3 scripts especiales que son:
 **.s2i/bin/assemble** Este script se encarga de inyectar los datos desde una fuente a una ruta especifica del contenedor
 
 ```
-[user19@bastion s2i-test0X]$ vim .s2i/bin/assemble
+[user19@bastion s2i-test0X]$  cat << EOF > .s2i/bin/assemble
 #!/bin/bash
 
 set -eo pipefail
 
-echo "---> Copying source files"
+echo "---> Copiando archivos de origen"
 
 rm -rf /tmp/src/.git*
 rm -rf /tmp/src/.s2i*
@@ -178,9 +179,10 @@ cp -Rf /tmp/src/. /opt/app-root/htdocs/
 
 rm -rf /tmp/src
 
-echo "---> Fix permissions on source files"
+echo "---> Corregir permisos en archivos de origen"
 
 chmod -Rf g+w /opt/app-root/htdocs || true
+EOF
 ````
 
 **NOTA** Presete especial atencion a la linea que realiza el copiado de la informacion a la carpeta de datos del apache **/opt/app-root/htdocs/**
@@ -192,12 +194,14 @@ Cuando esta imagen es utilizada en OpenShift el git clone con el codigo fuente e
 **.s2i/bin/run** Este script es llamado de forma automatica una vez la imagen sea ejecutada como contenedor, este script es quien debe inciar el servicio, similar al CMD dentro del los archivos Dockerfile
 
 ```
-[user19@bastion s2i-test0X]$ cat .s2i/bin/run
+[user19@bastion s2i-test0X]$ cat << EOF > .s2i/bin/run
 #!/bin/bash
 
 set -eo pipefail
 
 exec ${HOME}/run
+EOF
+
 ```
 Este script se encarga de que cuando el contenedor inicie, llame al siguiente script que cuenta con la linea de inicio de apache, Este doble llamado de script de inicio sucede por que es necesario que el contenedor una vez este en ejecucion cargue unas variables de la libreria de SCL y luego ejecute el apache.
 

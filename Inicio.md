@@ -21,13 +21,13 @@ Las contraseñas de los usuarios tanto por SSH como por consola seran redhat01
 
 ## Por Navegador
 ```
-https://loadbalancer.b91b.example.opentlc.com/
+https://loadbalancer.0f40.example.opentlc.com/
 ```
 
 ## Acceso por SSH a la maquina Bastion
 ```
-ssh user0X@bastion.b91b.example.opentlc.com
-oc login https://loadbalancer.b91b.internal:443 -u user0X -p redhat01
+ssh user0X@bastion.0f40.example.opentlc.com
+oc login https://loadbalancer.$GUID.internal:443 -u user0X -p redhat01
 ```
 
 

@@ -126,7 +126,7 @@ En la especificación anterior, el Pod inicialmente reclamará 100 milicores y 2
 
 2. Garantice que esta logueado en el cluter de Openshift como su admin1
 ```
-root@bastion ~]$ oc login -u admin1 https://loadbalancer.2775.internal:443
+root@bastion ~]$ oc login -u admin https://loadbalancer.$GUID.internal:443
 ```
 
 3. Valide los nodos del cluters y sus recursos

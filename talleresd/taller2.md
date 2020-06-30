@@ -143,7 +143,7 @@ Animese a crear una nueva aplicacion con su nuevo codigo fuente desde la consola
 
 * Desde la consola
 ```
-[user0X@bastion proyecto01]$ oc login https://loadbalancer.2775.internal:443 -u user0X -p redhat01
+[user0X@bastion proyecto01]$ oc login https://loadbalancer.$GUID.internal:443 -u user0X -p redhat01
 The server uses a certificate signed by an unknown authority.
 You can bypass the certificate check, but any data you send to the server could be intercepted by others.
 Use insecure connections? (y/n): y

@@ -124,7 +124,7 @@ Tenga en cuenta que para los ejercicios, debe cambiar el nombre del usuario user
 
 Logueese sobre el cluster con su usuario
 ```
-[user0X@bastion ~]$ oc login https://loadbalancer.5c12.internal:443 -u user0X -p redhat01
+[user0X@bastion ~]$ oc login https://loadbalancer.$GUID.internal:443 -u user0X -p redhat01
 ```
 
 Cree un nuevo proyecto

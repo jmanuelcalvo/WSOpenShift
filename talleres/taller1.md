@@ -36,7 +36,7 @@ oc delete project	     # Elimiar un proyecto y todo sus recursos
 
 ## Ejemplos
 ```
-oc login https://loadbalancer.2775.internal:443 -u user40 -p redhat01
+oc login https://loadbalancer.$GUID.internal:443 -u user40 -p redhat01
 oc new-project myapp
 oc project myapp
 oc delete project myapp

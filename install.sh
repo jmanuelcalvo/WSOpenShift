@@ -1,9 +1,9 @@
 #! /bin/bash
 # Instalacion de un OpenShift en OpenTLC
 
-GUID=5c12
-cp /etc/ansible/hosts /etc/ansible/hosts.default
-sed "s/2775/$GUID/g" hosts > /etc/ansible/hosts
+GUID=0f40
+#cp /etc/ansible/hosts /etc/ansible/hosts.default
+#sed "s/2775/$GUID/g" hosts > /etc/ansible/hosts
 
 echo "Validando que las maquinas este OK"
 ansible all -m ping
@@ -110,3 +110,11 @@ done;
 cat /root/pvs/* | oc create -f -
 
 oc adm policy add-cluster-role-to-user cluster-admin admin
+
+yum -y install docker
+systemctl enable docker --now
+
+for i in {1..9}; do usermod -aG wheel user0$i; done
+for i in {10..20}; do usermod -aG wheel user$i; done
+
+echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' >> /etc/sudoers.d/docker

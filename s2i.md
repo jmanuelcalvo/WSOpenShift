@@ -24,7 +24,7 @@ Instalar los paquetes
 
 2. Ingrese a la terminal de la maquina bastion con su usuario de terminal
 ```
-[localhost ~]$ ssh user0X@bastion.0bf3.example.opentlc.com
+[localhost ~]$ ssh user0X@bastion.0f40.example.opentlc.com
 ```
 
 3. Cree la estrucrtura de datos de S2I (source to image)
@@ -324,13 +324,13 @@ Garantice que este logueado sobre OpenShift y sobre el proyecto que desea import
 **NOTA:** Recuerde que en caso de querer que la imagen sea visualizada por todos los proyectos y usuarios de OpenShift, la imagen se debe importar en el  proyecto/namespace openshift.
 
 ```
-[root@bastion ~]$ oc login -u user0X https://loadbalancer.b91b.internal:443
+[root@bastion ~]$ oc login -u user0X https://loadbalancer.$GUID.internal:443
 
 [user0X@bastion ~]$ oc whoami
 user19
 
 [user19@bastion s2i-test0X]$ oc new-project s2i-test0X
-Now using project "s2i-test0X" on server "https://loadbalancer.b91b.internal:443".
+Now using project "s2i-test0X" on server "https://loadbalancer.0f40.internal:443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 

@@ -120,7 +120,7 @@ En la especificación anterior, el Pod inicialmente reclamará 100 milicores y 2
 
 1. Ingrese a la terminal de la maquina bastion con su usuario de terminal
 ```
-[localhost ~]$ ssh user0X@bastion.0bf3.example.opentlc.com
+[localhost ~]$ ssh user0X@bastion.$GUID.example.opentlc.com
 ```
 
 
@@ -146,21 +146,21 @@ node3.2775.internal        Ready     compute   19h       v1.11.0+d4cacc0
 Verifique los recursos usados por uno o todos los nodos de aplicaciones
 
 ```
-[user0X@bastion ~]$ oc describe node node1.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node1.$GUID.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
   --------  --------      ------
   cpu       310m (15%)    220m (11%)
 
-[user0X@bastion ~]$ oc describe node node2.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node2.$GUID.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
   --------  --------      ------
   cpu       310m (15%)    220m (11%)
 
-[user0X@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node3.$GUID.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits
@@ -192,7 +192,7 @@ app0X-1-build   0/1       Completed   0          45s       10.1.14.51   node1.27
 Identifique en que nodo se enxuentra corriendo la aplicacion (en el ejemplo nodo3) y valida el uso de recursos nuevamente y comparelo con las salidas anteriores.
 
 ```
-[user0X@bastion ~]$ oc describe node node3.2775.internal | grep -A 4 Allocated
+[user0X@bastion ~]$ oc describe node node3.$GUID.internal | grep -A 4 Allocated
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource  Requests      Limits

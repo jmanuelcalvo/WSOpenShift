@@ -8,27 +8,28 @@ El proyecto llamado `openshift-infra` el cual esta compuesto por 3 componentes:
 * Hawkular
 * Cassandra 
 
-![Ref](../img/metricas01 .png)
+![Ref](../img/metricas01.png)
+
 
 
 El agente kubelet expone métricas que Heapster puede recopilar y almacenar en back-end, Hawkular Metrics actua como un motor de métricas que almacena los datos de forma persistente en una base de datos Cassandra
 
 Cuando se ingresa las primera veces a la interfase web de OpenShift se podra visualizar un mensaje como este: an error ocurred getting metrics
 
-![Ref](../img/metricas02 .png)
+![Ref](../img/metricas02.png)
 
 Esto se debe a que el componente Hawkular esta desplegado por HTTPS con un certificado autofirmado, para ello se debe aceptar el certificado digital en el navegador de la siguiente forma:
 
-![Ref](../img/metricas03 .png)
+![Ref](../img/metricas03.png)
 
-![Ref](../img/metricas04 .png)
+![Ref](../img/metricas04.png)
 
 y una vez aceptado el certificado deberiamos visualizar el logo del proyecto Hawkular
 
-![Ref](../img/metricas05 .png)
+![Ref](../img/metricas05.png)
 
 De ser asi, se debe volver a la interfase web de OpenShift y recargar la interfase (F5) y ahora se deberia poder conocer la informacion de uso de los contenedores de una forma visual
 
-![Ref](../img/metricas05 .png)
+![Ref](../img/metricas06.png)
 
 

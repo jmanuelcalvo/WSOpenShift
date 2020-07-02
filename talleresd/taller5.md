@@ -32,4 +32,12 @@ De ser asi, se debe volver a la interfase web de OpenShift y recargar la interfa
 
 ![Ref](../img/metricas06.png)
 
+Tambien se puede obtener informacion mas detallada ingresando directamente dentro del pod en la pestaña de metricas
 
+![Ref](../img/metricas07.png)
+
+> Nota
+>
+> Para mayor informacion: https://docs.openshift.com/container-platform/3.11/install_config/cluster_metrics.html
+
+# Metricas del cluster 

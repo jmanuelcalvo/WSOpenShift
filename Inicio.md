@@ -74,6 +74,9 @@ Jose Manuel Calvo I
 
 [Taller 4](talleresd/taller4.md) - Configuracion de Rutas - Estrategias de despliegues avanzadas
 
+[Taller 5](talleresd/taller5.md) - Monitoreo y Logs
+
+
 
 ------------
 # Varios  

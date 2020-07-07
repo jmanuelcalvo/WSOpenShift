@@ -76,6 +76,8 @@ Jose Manuel Calvo I
 
 [Taller 5](talleresd/taller5.md) - Monitoreo y Logs
 
+[Taller 6](https://github.com/dudash/openshiftexamples-autoscaling) - Autoescalamiento
+
 
 
 ------------

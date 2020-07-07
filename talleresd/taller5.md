@@ -41,3 +41,11 @@ Tambien se puede obtener informacion mas detallada ingresando directamente dentr
 > Para mayor informacion: https://docs.openshift.com/container-platform/3.11/install_config/cluster_metrics.html
 
 # Metricas del cluster 
+
+
+
+# Taller
+
+1. Ingrese desde la interfase e intente visualizar las metricas de cada uno de los pods
+
+2. 

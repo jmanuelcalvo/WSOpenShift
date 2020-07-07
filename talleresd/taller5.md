@@ -59,9 +59,9 @@ https://kibana.apps.0f40.example.opentlc.com/
 ![Ref](../img/metricas09.png)
 
 
-## Para mayor informacion 
-
-https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logging.html
+> Nota
+>
+> Para mayor informacion: https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logging.html
 
 
 https://loadbalancer.0f40.example.opentlc.com/
@@ -70,12 +70,34 @@ https://loadbalancer.0f40.example.opentlc.com/
 # Monitoreo del Cluster
 El proyecto llamado `openshift-monitoring` OpenShift Container Platform tambien se entrega con un stack de monitoreo preconfigurada y de actualización automática que se basa en el proyecto de código abierto Prometheus y su ecosistema más amplio. Proporciona monitoreo de los componentes del clúster y se envía con un conjunto de alertas para notificar inmediatamente al administrador del clúster sobre cualquier problema que ocurra y un conjunto de paneles de Grafana.
 
+En el corazón del stack de monitoreo se encuentra el Operador de Monitoreo del Clúster de OpenShift (CMO), que vigila los componentes y recursos de monitoreo desplegados, y asegura que estén siempre actualizados. El Operador Prometheus (PO) crea, configura y administra las instancias de Prometheus y Alertmanager. También genera automáticamente configuraciones de destino de monitoreo basadas en consultas familiares de etiquetas de Kubernetes. Además de Prometheus y Alertmanager, OpenShift Container Platform Monitoring también incluye nodo-exporter y kube-state-metrics. Node-exporter es un agente implementado en cada nodo para recopilar métricas al respecto. El agente exportador kube-state-metrics convierte los objetos de Kubernetes en métricas consumibles por Prometheus.
+
 ![Ref](../img/metricas10.png)
 
 https://grafana-openshift-monitoring.apps.0f40.example.opentlc.com/
+
+![Ref](../img/metricas11.png)
+
+> Nota
+>
+> Para mayor informacion: https://docs.openshift.com/container-platform/3.11/install_config/prometheus_cluster_monitoring.html
+
+
+# Administracion del Cluster
+Por ultimo el proyecto `openshift-console` permite ingresar a la parte admistrativa del cluster, donde se podran visualizar datos relacionados directamente con el cluster, tales como consumo de los nodos, administracion de los volumenes persistente, manejo de operadores entre otros.
+
+![Ref](../img/metricas12.png)
+
+
+
 
 # Taller
 
 1. Ingrese desde la interfase e intente visualizar las metricas de cada uno de los pods
 
 2. Ingrese al url de kibana y valide los servicios de logs recolectados
+
+3. Ingrese al url de Grafana y revise los dashboards por defecto
+
+4. Ingrese al portal administrativo de cluster como usuario admin
+

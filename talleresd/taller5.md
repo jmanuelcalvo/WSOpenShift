@@ -40,12 +40,42 @@ Tambien se puede obtener informacion mas detallada ingresando directamente dentr
 >
 > Para mayor informacion: https://docs.openshift.com/container-platform/3.11/install_config/cluster_metrics.html
 
-# Metricas del cluster 
+# Servicio de Logs del Cluster
+
+El proyecto llamado `openshift-logging` es otra los proyectos desgledados sobre los nodos de infra, este proyecto tambien es conocido como EFK por sus multiples componentes (elasticsearch, fluentd y Kubana) los cuales se encargan de la recolexion de logs (fluentd) para ser enviados a un motor de búsqueda y análisis de para todo tipo de datos, en este caso logs (elasticsearch) y permitir visualizarlos a traves de un portal web (kibana)
+
+Como administrador de clúster de OpenShift Container Platform, puede implementar el stack EFK para agregar registros para una gama de servicios de OpenShift Container Platform. 
+Los desarrolladores de aplicaciones pueden ver los registros de los proyectos para los que tienen acceso de visualización. el stack EFK agrega registros de hosts y aplicaciones, ya sea que provengan de múltiples contenedores o incluso de pods eliminados. OpenShift cuenta con un stack de EFK lista para OpenShift y se compone de: 
+Elasticsearch (ES): un almacén de objetos donde se almacenan todos los registros. 
+Fluentd: Reúne registros de nodos y los alimenta a Elasticsearch. 
+Kibana: una interfaz de usuario web para Elasticsearch.
+
+![Ref](../img/metricas08.png)
+
+```
+https://kibana.apps.0f40.example.opentlc.com/
+```
+
+![Ref](../img/metricas09.png)
 
 
+## Para mayor informacion 
+
+https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logging.html
+
+
+https://loadbalancer.0f40.example.opentlc.com/
+
+
+# Monitoreo del Cluster
+El proyecto llamado `openshift-monitoring` OpenShift Container Platform tambien se entrega con un stack de monitoreo preconfigurada y de actualización automática que se basa en el proyecto de código abierto Prometheus y su ecosistema más amplio. Proporciona monitoreo de los componentes del clúster y se envía con un conjunto de alertas para notificar inmediatamente al administrador del clúster sobre cualquier problema que ocurra y un conjunto de paneles de Grafana.
+
+![Ref](../img/metricas10.png)
+
+https://grafana-openshift-monitoring.apps.0f40.example.opentlc.com/
 
 # Taller
 
 1. Ingrese desde la interfase e intente visualizar las metricas de cada uno de los pods
 
-2. 
+2. Ingrese al url de kibana y valide los servicios de logs recolectados

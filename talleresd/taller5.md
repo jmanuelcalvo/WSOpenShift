@@ -93,6 +93,12 @@ Por ultimo el proyecto `openshift-console` permite ingresar a la parte admistrat
 
 # Taller
 
+Para realizar estos talleres, es requerido ingresar a los portales con el usuario `admin` y la contraseña `redhat01` para obtener mayor informacion
+
+> Nota:
+>
+> Sientase libre de realizar las pruebas que desee, ya que este es un ambiente de laboratorio
+
 1. Ingrese desde la interfase e intente visualizar las metricas de cada uno de los pods
 
 2. Ingrese al url de kibana y valide los servicios de logs recolectados
